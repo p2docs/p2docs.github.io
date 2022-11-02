@@ -1,0 +1,16 @@
+<nav id="breadcrumbs">
+<a href="/">Home</a>
+<%
+crumbs = html_path.split ?/
+crumbs.shift
+crumbs.each_with_index do |pth,i|
+    @out << %Q< / >
+    unless crumbs[i] == "index.html"
+        href = "/"+crumbs[0..i].join(?/)+"/"
+        haveidx = PAGES.any?{|p|p.href_path==href}
+        @out << %Q<<a #{htmlattr("href",href)}>> if haveidx
+        @out << escape_html(pth)    
+        @out << %Q<</a>> if haveidx
+    end
+end%>
+</nav>

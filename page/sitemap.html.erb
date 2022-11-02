@@ -1,0 +1,40 @@
+<h1>Sitemap</h1>
+<ul>
+<% 
+    level = 0
+    prevtop = nil
+    PAGES.sort_by(&:html_path).chunk{|page|File.dirname(page.html_path)}.each do |dir,pages|
+        splitdir = dir.split ?/
+        splitdir[0] = ?/
+        if level == splitdir.size && prevtop && prevtop != splitdir.last
+            @out << "</ul></li>"
+            level -= 1
+        end
+        prevtop = splitdir.last
+        #p dir,pages.map(&:html_path),splitdir
+        while level < splitdir.size
+            @out << "<li>"
+            index = PAGES.find{|p|p.html_path == File.join(splitdir[0..level],"index.html")}
+            if index
+                @out << %Q<<a #{htmlattr("href",index.href_path)}>#{escape_html(index.href_path)}</a> - #{escape_html(index.title)}>
+            else
+                @out << escape_html(splitdir.last)
+            end
+            @out << "<ul>"
+            level += 1
+        end
+        while level > splitdir.size
+            @out << "</ul></li>"
+            level -= 1
+        end
+        pages.each do |page|
+            next if page.html_path.end_with? '/index.html'
+            @out << %Q<<li><a #{htmlattr("href",page.href_path)}>#{escape_html(page.href_path)}</a> - #{escape_html(page.title)}</li>>
+        end
+    end
+    while level > 0
+        @out << "</ul></li>"
+        level -= 1
+    end
+%>
+</ul>

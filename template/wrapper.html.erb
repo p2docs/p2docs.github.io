@@ -1,0 +1,32 @@
+<!doctype html><html <%=htmlattr("lang",CONFIG[:site_language])%>><head><meta charset=utf-8>
+    <title><%=title%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Fix mobile browser stupidity -->
+    <%top_css_list(targ[0]).each do |file|%>
+    <link rel="stylesheet" <%=htmlattr('href',file)%>>
+    <%end%>
+    <%if @props['inline-css']%><style type="text/css"><%=render_inline_css%></style><%end%>
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="/iexplode.css">
+	    <script src="/common/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    <script src="/common/jquery-3.6.1.min.js"></script>
+    <script src="/common/fuse.js"></script>
+    <script src="/hjlist.js"></script>
+    <script src="/common/hyperjump.js"></script>
+</head><body>
+<nav id="topnav">
+    <img src="/common/reimu_smol.png" height="160" id="reimu">
+    <span id="logotext">Propeller Docs</span>
+</nav>
+<main <%=htmlattr("lang",@props["lang"])%>>
+<%#=breadcrumbs() unless @props["nobreadcrumbs"]%>
+<%=targ[0]%>
+</main>
+<footer>
+Propeller Docs by IRQsome Software. Just a little afflilliation with Parallax Inc.
+<br><a href="/">Go Home</a> <a href="/sitemap.html">Sitemap</a>
+</footer>
+</body></html>
+<%bottom_css_list(targ[0]).each do |file|%>
+<link rel="stylesheet" <%=htmlattr('href',file)%>>
+<%end%>

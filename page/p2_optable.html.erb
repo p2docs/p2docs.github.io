@@ -1,0 +1,59 @@
+<%#---
+title: Propeller 2 instruction table
+jump-toplevel: Table
+inline-css: |
+    #p2_optable {
+        overflow: scroll;
+        width: 100%;
+        height: 90vh;
+        margin: auto;
+        border: 2px solid;
+        border-color: #ddd #888 #888 #ddd;
+        table {
+            border: none;
+            table-layout: fixed;
+            max-width: none;
+            width: max-content;
+            overflow: visible;
+            td.op-syntax,th.op-syntax {
+                position:sticky;
+                left: 0px;
+                z-index:2;
+                background: inherit;
+            }
+            th.op-encoding {
+                width: 400px;
+            }
+            thead {
+                position: sticky;
+                top: 0px;
+                z-index:3;
+            }
+        }
+    }
+---%>
+
+<h1>Propeller 2 instruction table</h1>
+<%
+require 'csv'
+tab = CSV.new(File.read("data/p2ops.csv"),headers: %i[order syntax group encoding alias description shield time8cog time8hub time16cog time16hub regwr hubrw stackrw])
+header = tab.shift
+skip_columns = %i[order time16cog time16hub]
+%>
+
+<div id="p2_optable"><table>
+    <thead><tr>
+        <% header.each do |column,item|%>
+            <%next if skip_columns.include? column%>
+            <th class="op-<%=column%>"><%=escape_html(item,:text).gsub(?\n,'<br>')%></th>
+        <%end%>
+    </tr></thead>
+    <tbody>
+    <% tab.each do |row| %><tr>
+        <% row.each do |column,item| %>
+            <%next if skip_columns.include? column%>
+            <td class="op-<%=column%>"><%=escape_html(item.to_s,:text)%></td>
+        <%end%>
+    </tr><%end%>
+    </tbody>
+</table></div>

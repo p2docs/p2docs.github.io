@@ -24,7 +24,7 @@ jQuery(function() {
     $("body").append("<div id=\"hyperjump\"><h1>HyperJump!</h1><input autofocus autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></div>");
     $("body").on("keydown", function(event) {
         let hjActive = $("#hyperjump input").val != "";
-        if(event.keyCode == 16||event.keyCode==17||event.keyCode==18||event.ctrlKey) return; // Ignore modifiers
+        if(event.keyCode == 16||event.keyCode==17||event.keyCode==18||event.ctrlKey) return null; // Ignore modifiers
         else if (hjActive && event.keyCode == 38) { // arrow up
             if ($hjSelection > 0) {
                 updateSelHighlight($("#hjresults"),--$hjSelection);
@@ -37,7 +37,7 @@ jQuery(function() {
             }
             event.preventDefault();
         } else if (hjActive && event.keyCode == 13) { // enter
-            $("#hjresults a.hjrsel li").click();
+            $("#hjresults a.hjrsel li").trigger("click");
             event.preventDefault();
         } else if (hjActive && event.keyCode == 27) { // escape
             $("#hyperjump input").val("").trigger("input");
@@ -47,11 +47,12 @@ jQuery(function() {
         }
     })
     $("div#hyperjump").on("click", function(event){
-        // Clear search if background clicked
+        // Clear search if background or result clicked
         if (event.target == this) {
             $("#hyperjump input").val("").trigger("input");
         }
     })
+
     function updateSelHighlight(list,num) {
         list.children().removeClass("hjrsel").eq(num).addClass("hjrsel");
     }
@@ -68,7 +69,7 @@ jQuery(function() {
             let searchHeight = $(window).height() - list.position().top - 12;
             const itemHeight = 43; // As measured...
             let searchMax = Math.max(2,Math.floor(searchHeight/itemHeight));
-            console.log(searchHeight,searchMax);
+            //console.log(searchHeight,searchMax);
             const resultList = $hyperFuse.search(val,{limit: searchMax});
             resultList.forEach((res)=>{
                 const item = res.item;
@@ -79,6 +80,11 @@ jQuery(function() {
                 list.append("No results :(");
             }
             updateSelHighlight(list,$hjSelection);
+            $("#hjresults a").on("click", function(event){
+                console.log(event)
+                // Clear search if result clicked (fixes intra-page jump)
+                $("#hyperjump input").val("").trigger("input");
+            })
         }
     });
 });

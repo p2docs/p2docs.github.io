@@ -1,0 +1,41 @@
+make.exe|gcc.exe|mingw32-gcc.exe|bash.exe|as.exe|ld.exe|cc1.exe|cc1plus.exe|collect2.exe|mkdir.exe|ruby.exe|flexspin.exe|flextest.exe|git.exe
+
+make.exe|gcc.exe|mingw32-gcc.exe|bash.exe|as.exe|ld.exe|cc1.exe|cc1plus.exe|collect2.exe|mkdir.exe|ruby.exe|flexspin.exe|flextest.exe|git.exe|conhost.exe
+
+# This is a basic workflow to help you get started with Actions
+
+name: Build Page
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install stuff
+        run: |
+          apt-get install ruby rubygems
+          gem install bundler
+          bundler install
+      - name: Run SiteGen
+        run: bundler exec ruby sitegen.rb
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './out'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

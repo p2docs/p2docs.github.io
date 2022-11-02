@@ -18,8 +18,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install stuff
         run: |
-          apt-get install ruby rubygems
-          gem install bundler
+          sudo apt-get install ruby rubygems
+          sudo gem install bundler
           bundler install
       - name: Run SiteGen
         run: bundler exec ruby sitegen.rb

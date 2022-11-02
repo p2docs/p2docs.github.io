@@ -46,6 +46,12 @@ jQuery(function() {
             $("#hyperjump input").trigger("focus");
         }
     })
+    $("div#hyperjump").on("click", function(event){
+        // Clear search if background clicked
+        if (event.target == this) {
+            $("#hyperjump input").val("").trigger("input");
+        }
+    })
     function updateSelHighlight(list,num) {
         list.children().removeClass("hjrsel").eq(num).addClass("hjrsel");
     }

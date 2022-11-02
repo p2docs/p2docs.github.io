@@ -1,0 +1,29 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ffi (1.15.4-x64-mingw32)
+    front_matter_parser (1.0.1)
+    htmlcompressor (0.4.0)
+    kramdown (2.4.0)
+      rexml
+    rb-fsevent (0.11.0)
+    rb-inotify (0.10.1)
+      ffi (~> 1.0)
+    rexml (3.2.5)
+    sass (3.7.4)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  front_matter_parser
+  htmlcompressor
+  kramdown
+  sass
+
+BUNDLED WITH
+   2.1.4

@@ -68,6 +68,8 @@ ul,ol {
         left: 100px;
         font-size: 50px;
         color: #fff;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
         font-weight: bold;
         filter: drop-shadow(1px 1px 4px #000);
     }

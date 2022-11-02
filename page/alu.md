@@ -5,10 +5,10 @@ jump_toplevel: Instruction Category
 # Math and Logic Instructions
 
 ## ADD
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<%=p2instrinfo('add')%>
 
 ## SUB
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<%=p2instrinfo('sub')%>
 
 ## CMP
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

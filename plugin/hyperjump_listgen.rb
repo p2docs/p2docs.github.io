@@ -8,10 +8,11 @@ $finalize_hooks << lambda do
     items = Array.new();
 
     P2Opdata::P2Instructions.each do |instr|
+        next if instr.category == :empty
         items << {
             name: instr.name,
             type: "Instruction (#{P2Opdata::CATEGORIES[instr.category]})",
-            href: "/p2asm/#{instr.category}.html##{instr.name.downcase}",
+            href: "/#{instr.category}.html##{instr.name.downcase}",
         }
     end
 

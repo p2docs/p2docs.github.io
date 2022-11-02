@@ -65,7 +65,7 @@ def self.select_category(str)
 
 end
 
-P2InstEntry = Struct.new(:name,:dest,:source,:extra,:flags,:category,:alias,keyword_init: true)
+P2InstEntry = Struct.new(:name,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,keyword_init: true)
 
 P2Instructions = Array.new()
 
@@ -75,20 +75,39 @@ tab = CSV.new(
 )
 header = tab.shift
 
+def self.fixup_cycles(str)
+    str ||= "FAIL"
+    str = str.dup
+    str.gsub!('...','..') # .. is the correct syntax for inclusive range
+    if str.end_with? '*' # "+1 if unaligned" (should be explained in description)
+        str.gsub!(/ ?\*$/,'')
+        str.gsub!(/\d+$/){|n|((n.to_i)+1).to_s}
+    end
+    return str
+end
+
 tab.each do |row|
     categ = select_category(row[:group])
     next if categ.nil?
+    next if row[:alias] == 'alias'
     p row[:syntax] unless row[:syntax] =~ /^([\w<>]+)(?: +([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+))?)?)?(?: +({)?([A-Z\/]+)}?)?$/
     if $1 == "<empty>"
         categ = :empty
     end
+    name = $1
     flags = ($6||'').downcase.split(?/).map(&:to_sym)
-    flags << :none if $5 == '{' || flags.empty?
+    flags.unshift :none if $5 == '{' || flags.empty?
+
+    p row[:encoding] unless row[:encoding] =~ /^(\w{4}) (\w{7}) (\w)(\w)(\w) (\w{9}) (\w{9})$/
+
     P2Instructions << P2InstEntry.new(
-        name: $1,
+        name: name,
+        enctext: row[:encoding],
         flags: flags,
+        shield: row[:shield] == '✔',
         category: categ,
-        alias: row[:alias] == 'alias'
+        time_cog: fixup_cycles(row[:time8cog]),
+        time_hub: fixup_cycles(row[:time8hub]=="same" ? row[:time8cog] : row[:time8hub]),
     )
 end
 

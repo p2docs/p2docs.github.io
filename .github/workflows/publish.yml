@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get install ruby rubygems
           sudo gem install bundler
-          bundler install
+          sudo bundler install
       - name: Run SiteGen
         run: bundler exec ruby sitegen.rb
       - name: Setup Pages

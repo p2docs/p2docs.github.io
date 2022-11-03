@@ -30,6 +30,9 @@ inline-css: |
                 top: 0px;
                 z-index:3;
             }
+            a {
+                text-decoration: none;
+            }
         }
     }
 ---%>
@@ -53,7 +56,13 @@ skip_columns = %i[order time16cog time16hub]
     <% tab.each do |row| %><tr>
         <% row.each do |column,item| %>
             <%next if skip_columns.include? column%>
-            <td class="op-<%=column%>"><%=escape_html(item.to_s,:text)%></td>
+            <%itext = escape_html(item.to_s,:text)%>
+            <%if column == :syntax%>
+                <%itext =~ /^(\w+)/%>
+                <%op = P2Opdata::P2Instructions.find{|i|i.name==$1}%>
+                <%itext = "<a #{htmlattr('href',op.doc_href)}>#{itext}</a>" if op%>
+            <%end%>
+            <td class="op-<%=column%>"><%=itext%></td>
         <%end%>
     </tr><%end%>
     </tbody>

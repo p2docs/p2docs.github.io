@@ -90,7 +90,9 @@ def self.add_arg(array,str)
     return a
 end
 
-P2InstEntry = Struct.new(:name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,keyword_init: true) do
+P2InstEntry = Struct.new(
+    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,
+keyword_init: true) do
 
     def flagsyntax
         have_none = flags.include? :none
@@ -105,6 +107,10 @@ P2InstEntry = Struct.new(:name,:args,:flags,:category,:enctext,:alias,:time_cog,
 
     def argsyntax
         args.map{|s|ARGTYPES[s]}.join(?,)
+    end
+
+    def doc_href
+        "/#{category}.html##{name.downcase}"
     end
 
 end
@@ -145,6 +151,42 @@ tab.each do |row|
     add_arg(args,$3)
     add_arg(args,$4)
 
+    if args.include? :z_remap
+        zval = "Per zzzz"
+    elsif !flags.any?{|f|f=~/z/i}
+        zval = "---"
+    elsif row[:description] =~ / \*$/
+        zval = "Result == 0"
+    elsif row[:description] =~ /Z = (.+?)(?:[,.] *PC =.+)?$/
+        zval = $1.strip.chomp(?.).strip.gsub("Result","Result")
+    else
+        p name
+        zval = "???"
+    end
+
+    if args.include? :c_remap
+        cval = "Per cccc"
+    elsif name == "CMPSUB"
+        cval = "D >= S"
+    elsif name == "INCMOD"
+        cval = "D == S"
+    elsif name == "DECMOD"
+        cval = "D == 0"
+    elsif name =~ /FGES?/
+        cval = "D < S"
+    elsif name =~ /FLES?/
+        cval = "D > S"
+    elsif !flags.any?{|f|f=~/c/i}
+        cval = "---"
+    elsif row[:description] =~ /(?<!P)C(?:\/Z)? = (?!.*[^P]C =)(.+?)(?:[,.] *Z =.+)?(?: \*)?$/
+        cval = $1.strip.chomp(?.).strip
+    elsif !flags.include?(:wc) && row[:description] =~ /C,Z = /
+        cval = zval
+    else
+        p name
+        cval = "???"
+    end
+
     p row[:encoding] unless row[:encoding] =~ /^(\w{4}) (\w{7}) (\w)(\w)(\w) (\w{9}) (\w{9})$/
 
     P2Instructions << P2InstEntry.new(
@@ -152,6 +194,8 @@ tab.each do |row|
         args: args,
         enctext: row[:encoding],
         regwr: row[:regwr] || "none",
+        zval: zval,
+        cval: cval,
         flags: flags,
         shield: row[:shield] == '✔',
         category: categ,

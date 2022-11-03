@@ -1,6 +1,7 @@
 ---
 title: Branching Instructions
-jump_toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Branching Instructions
 

@@ -12,7 +12,7 @@ $finalize_hooks << lambda do
         items << {
             name: instr.name,
             type: "Instruction (#{P2Opdata::CATEGORIES[instr.category]})",
-            href: "/#{instr.category}.html##{instr.name.downcase}",
+            href: instr.doc_href,
         }
     end
 

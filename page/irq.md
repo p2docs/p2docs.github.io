@@ -2,6 +2,7 @@
 title: Interrupts
 hyperjump:
     -   type: Topic
+        hidden: IRQ
 ---
 # Interrupts
 

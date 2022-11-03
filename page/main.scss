@@ -142,7 +142,7 @@ h6 {
 h1,h2,h3,h4,h5,h6 {
     font-family: 'Parallax',monospace;
     &:target {
-        text-decoration: underline #900;
+        text-decoration: underline 4px #900;
     }
 }
 

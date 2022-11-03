@@ -36,7 +36,8 @@ inline-css: |
 
 <h1>Propeller 2 instruction table</h1>
 <%
-tab = P2Opdata::CSVDATA.dup
+#tab = P2Opdata::CSVDATA.dup
+tab = CSV.new(File.read("data/p2ops.csv"),headers: %i[order syntax group encoding alias description shield time8cog time8hub time16cog time16hub regwr hubrw stackrw])
 header = tab.shift
 skip_columns = %i[order time16cog time16hub]
 %>

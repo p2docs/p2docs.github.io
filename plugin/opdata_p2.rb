@@ -66,10 +66,48 @@ def self.select_category(str)
     else
         :misc
     end
-
 end
 
-P2InstEntry = Struct.new(:name,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,keyword_init: true)
+ARGTYPES = {
+    dest_either: '{#}D',
+    dest_reg: 'D',
+    src_either: '{#}S',
+    src_reg: 'S',
+    ptrexpr: '{#}S/P',
+    preg: 'PA/PB/PTRA/PTRB',
+    selector: '#N',
+    address: '#{\}A',
+    augment: '#n',
+    c_remap: 'c',
+    z_remap: 'z',
+}
+
+def self.add_arg(array,str)
+    return nil if str.nil? || str.empty?
+    a = ARGTYPES.key(str)
+    raise "unknown ARGTYPE #{str}" unless a
+    array << a
+    return a
+end
+
+P2InstEntry = Struct.new(:name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,keyword_init: true) do
+
+    def flagsyntax
+        have_none = flags.include? :none
+        if have_none && flags.size == 1
+            return ""
+        else
+            str = (flags - [:none]).join(?/)
+            str = '{' + str + '}' if have_none
+            return str
+        end
+    end
+
+    def argsyntax
+        args.map{|s|ARGTYPES[s]}.join(?,)
+    end
+
+end
 
 P2Instructions = Array.new()
 
@@ -94,18 +132,23 @@ tab.each do |row|
     categ = select_category(row[:group])
     next if categ.nil?
     next if row[:alias] == 'alias'
-    p row[:syntax] unless row[:syntax] =~ /^([\w<>]+)(?: +([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+))?)?)?(?: +({)?([A-Z\/]+)}?)?$/
+    p row[:syntax] unless row[:syntax] =~ /^([\w<>]+)(?: {1,6}([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+))?)?)?(?: +({)?([A-Z\/]+)}?)?$/
     if $1 == "<empty>"
         categ = :empty
     end
     name = $1
-    flags = ($6||'').downcase.split(?/).map(&:to_sym)
+    flags = ($6||'').upcase.split(?/).map(&:to_sym)
     flags.unshift :none if $5 == '{' || flags.empty?
+    args = []
+    add_arg(args,$2)
+    add_arg(args,$3)
+    add_arg(args,$4)
 
     p row[:encoding] unless row[:encoding] =~ /^(\w{4}) (\w{7}) (\w)(\w)(\w) (\w{9}) (\w{9})$/
 
     P2Instructions << P2InstEntry.new(
         name: name,
+        args: args,
         enctext: row[:encoding],
         flags: flags,
         shield: row[:shield] == '✔',

@@ -16,6 +16,7 @@
     font-weight: 300;
     font-style: normal;
     font-display: swap;
+    size-adjust: 125%;
 }
 
 
@@ -111,7 +112,7 @@ body>footer {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 2.2em;
 }
 article {
     h1 {
@@ -124,9 +125,22 @@ article {
     }
 }
 h2 {
+    font-size: 1.85em;
+}
+h3 {
     font-size: 1.5em;
 }
+h4 {
+    font-size: 1.3em;
+}
+h5 {
+    font-size: 1.2em;
+}
+h6 {
+    font-size: 1.1em;
+}
 h1,h2,h3,h4,h5,h6 {
+    font-family: 'Parallax',monospace;
     &:target {
         text-decoration: underline #900;
     }
@@ -193,7 +207,15 @@ tr {
 .p2instrinfo {
     table {
         font-family: 'Parallax',monospace;
-        font-size: 18px;
+        font-size: 14px;
+    }
+    h3 {
+        font-family: 'Parallax',monospace;
+        .args {
+            color: #666;
+        }
+        margin-bottom: 12px;
+        margin-top: 32px;
     }
 }
 
@@ -342,7 +364,7 @@ div#hyperjump {
         background: #222;
         border: none;
         outline:none;
-        font-size: 32px;
+        font-size: 28px;
         font-family: 'Parallax',monospace;
         font-weight: bold;
         padding: 12px;
@@ -353,7 +375,7 @@ div#hyperjump {
         margin: 12px 0 0 0;
         padding: 0 10px;
         font-family: 'Parallax',monospace;
-        font-size: 20px;
+        font-size: 16px;
         a {
             text-decoration: none;
         }

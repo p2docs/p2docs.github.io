@@ -49,7 +49,7 @@ ul,ol {
     }
 }
 
-#topnav {
+#sitelogo {
     position: relative;
     max-width: 1280px;
     width: 100%;
@@ -74,6 +74,17 @@ ul,ol {
         -webkit-print-color-adjust: exact;
         font-weight: bold;
         filter: drop-shadow(1px 1px 4px #000);
+    }
+}
+
+#cornernav {
+    position: relative;
+    display: contents;
+    #forkme {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        filter: drop-shadow(1px 4px 4px #000);
     }
 }
 

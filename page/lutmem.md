@@ -1,6 +1,7 @@
 ---
 title: LUT Memory
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # LUT Memory

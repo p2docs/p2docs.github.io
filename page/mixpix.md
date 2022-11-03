@@ -1,6 +1,7 @@
 ---
 title: Pixel Mixer
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # Pixel Mixer

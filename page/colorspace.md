@@ -1,6 +1,7 @@
 ---
 title: Color Space Converter
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Color Space Converter
 

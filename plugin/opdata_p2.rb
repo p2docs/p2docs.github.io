@@ -90,7 +90,7 @@ def self.add_arg(array,str)
     return a
 end
 
-P2InstEntry = Struct.new(:name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,keyword_init: true) do
+P2InstEntry = Struct.new(:name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,keyword_init: true) do
 
     def flagsyntax
         have_none = flags.include? :none
@@ -111,10 +111,11 @@ end
 
 P2Instructions = Array.new()
 
-tab = CSV.new(
+CSVDATA = CSV.new(
     File.read("data/p2ops.csv").gsub(?\u{A0},' '), # Stupid NBSPs
     headers: %i[order syntax group encoding alias description shield time8cog time8hub time16cog time16hub regwr hubrw stackrw]
-)
+).freeze
+tab = CSVDATA.dup
 header = tab.shift
 
 def self.fixup_cycles(str)
@@ -150,6 +151,7 @@ tab.each do |row|
         name: name,
         args: args,
         enctext: row[:encoding],
+        regwr: row[:regwr] || "none",
         flags: flags,
         shield: row[:shield] == '✔',
         category: categ,

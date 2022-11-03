@@ -1,6 +1,7 @@
 <%#---
 title: Propeller 2 instruction table
-jump-toplevel: Table
+hyperjump:
+    -   type: Table
 inline-css: |
     #p2_optable {
         overflow: scroll;
@@ -35,8 +36,7 @@ inline-css: |
 
 <h1>Propeller 2 instruction table</h1>
 <%
-require 'csv'
-tab = CSV.new(File.read("data/p2ops.csv"),headers: %i[order syntax group encoding alias description shield time8cog time8hub time16cog time16hub regwr hubrw stackrw])
+tab = P2Opdata::CSVDATA.dup
 header = tab.shift
 skip_columns = %i[order time16cog time16hub]
 %>

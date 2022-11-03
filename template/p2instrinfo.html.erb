@@ -12,6 +12,7 @@ raise "untabled op #{targ[0].upcase}" unless op
         <thead>
             <th>Encoding</th>
             <th>Valid flags</th>
+            <th>Register<br>Written</th>
             <th>Cycles<br>(cogexec)</th>
             <th>Cycles<br>(hubexec)</th>
             <th>IRQ<br>Shield</th>
@@ -19,6 +20,7 @@ raise "untabled op #{targ[0].upcase}" unless op
         <tbody>
             <td><%=op.enctext%></td>
             <td><%=op.flags.join ?/%></td>
+            <td><%=op.regwr%></td>
             <td><%=op.time_cog%></td>
             <td><%=op.time_hub%></td>
             <td><%=op.shield ? "<strong>Yes</strong>" : "No"%></td>

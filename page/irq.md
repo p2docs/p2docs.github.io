@@ -1,6 +1,7 @@
 ---
 title: Interrupts
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Interrupts
 

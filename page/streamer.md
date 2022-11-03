@@ -1,6 +1,7 @@
 ---
 title: Streamer
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Streamer
 

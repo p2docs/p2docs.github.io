@@ -1,6 +1,7 @@
 ---
 title: Propeller 2 Assembly Symbols
-jump-toplevel: Overview
+hyperjump:
+    -   type: Overview
 ---
 
 # P2 Assembly Symbols

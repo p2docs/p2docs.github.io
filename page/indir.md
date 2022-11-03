@@ -1,6 +1,7 @@
 ---
 title: Register Indirection
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # Register Indirection

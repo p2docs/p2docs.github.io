@@ -1,6 +1,8 @@
 ---
 title: Reimu Hakurei
-jump-toplevel: Mysterious Shrine Maiden
+hyperjump:
+    -   type: Mysterious Shrine Maiden
+        hidden: Fumo
 ---
 
 <img src="/common/reimu_trans.png" title="Fumo? Fumo.">

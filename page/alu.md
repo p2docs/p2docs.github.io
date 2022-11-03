@@ -1,6 +1,7 @@
 ---
 title: Math and Logic Instructions
-jump_toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Math and Logic Instructions
 

@@ -1,6 +1,7 @@
 ---
 title: Miscellaneous Instructions
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # Miscellaneous Instructions

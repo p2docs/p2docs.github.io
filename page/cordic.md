@@ -1,6 +1,7 @@
 ---
 title: CORDIC Coprocessor
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # CORDIC Coprocessor
 

@@ -1,6 +1,7 @@
 ---
 title: I/O Pins
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # I/O Pins

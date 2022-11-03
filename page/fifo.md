@@ -1,6 +1,7 @@
 ---
 title: Hub FIFO
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Hub FIFO
 

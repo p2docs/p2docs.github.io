@@ -123,7 +123,7 @@ body>footer {
 }
 
 h1 {
-    font-size: 2.2em;
+    font-size: 2.4em;
 }
 article {
     h1 {
@@ -187,6 +187,8 @@ table {
     border: 2px solid;
     border-color: #ddd #888 #888 #ddd;
     border-spacing: 0px;
+    font-family: 'Parallax',monospace;
+    font-size: 14px;
     @supports (width:fit-content) {
         display: block;
         width: fit-content;
@@ -216,12 +218,7 @@ tr {
 }
 
 .p2instrinfo {
-    table {
-        font-family: 'Parallax',monospace;
-        font-size: 14px;
-    }
     h3 {
-        font-family: 'Parallax',monospace;
         .args {
             color: #666;
         }

@@ -16,6 +16,8 @@ let $hyperFuse = new Fuse($hyperJumpList,{
     keys: [
         {name:"name",weight:1},
         {name:"type",weight:0.3},
+        {name:"href",weight:0.5},
+        {name:"hidden",weight:1},
     ],
 });
 var $hjSelection = 0;

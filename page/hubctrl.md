@@ -1,6 +1,7 @@
 ---
 title: Hub Control
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 
 # Hub Control

@@ -17,12 +17,21 @@ $finalize_hooks << lambda do
     end
 
     PAGES.each do |page|
-        if page.props["jump-toplevel"]
-            items << {
-                name: page.title,
-                href: page.href_path,
-                type: page.props["jump-toplevel"],
-            }
+        if page.props['hyperjump']
+            page.props['hyperjump'].each do |item|
+                id = item['id']
+                name = item['name']
+                name = page.title if name.nil? && id.nil?
+                type = item['type']
+                hidden = item['hidden']
+                raise "malformed hyperjump in #{page.sourcepath}" unless name && type
+                items << {
+                    name: name,
+                    href: "#{page.href_path}#{"##{id}" if id}",
+                    type: type,
+                    hidden: hidden,
+                }
+            end
         end
     end
 

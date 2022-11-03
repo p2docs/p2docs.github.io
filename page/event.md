@@ -1,6 +1,7 @@
 ---
 title: Events
-jump-toplevel: Topic
+hyperjump:
+    -   type: Topic
 ---
 # Events
 

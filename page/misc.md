@@ -23,7 +23,7 @@ jump-toplevel: Topic
 ## Other
 
 <%=p2instrinfo('nop')%>
-Special case: Encoded the same as `ROL 0,0` would be.
+Special case: Encoded the same as `_RET_ ROR 0,0` would be.
 <%=p2instrinfo('getct')%>
 <%=p2instrinfo('waitx')%>
 <%=p2instrinfo('getrnd')%>

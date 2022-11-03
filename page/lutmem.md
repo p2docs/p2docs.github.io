@@ -1,5 +1,5 @@
 ---
-title: Hub Memory
+title: LUT Memory
 jump-toplevel: Topic
 ---
 

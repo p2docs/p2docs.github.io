@@ -1,4 +1,4 @@
 <a 
-    <%="class=\"fail_link\"" unless targ[0].nil? || PAGES.any?{|pg|pg.href_path == targ[0]}%>
+    <%="class=\"fail_link\"" unless targ[0].nil? || PAGES.any?{|pg|pg.href_path == targ[0].sub(/#\w+$/,'')}%>
     <%=htmlattr('href',targ[0])%>
 ><%=targ[1]%></a>

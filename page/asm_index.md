@@ -1,15 +1,24 @@
 ---
-title: Propeller 2 instruction table
+title: Propeller 2 Assembly Symbols
+jump-toplevel: Overview
 ---
 
-# P2 Assembly elements
+# P2 Assembly Symbols
 
 ## Instructions
 
-### Math and Logic
-
-<%=column_list(P2Opdata::P2Instructions.select{|i|i.category==:alu&&!i.alias}.sort_by(&:name).map{|i| [i.name,"/#{i.category}.html##{i.name.downcase}"] })%>
-
-### Branching
-
-<%=column_list(P2Opdata::P2Instructions.select{|i|i.category==:branch&&!i.alias}.sort_by(&:name).map{|i| [i.name,"/#{i.category}.html##{i.name.downcase}"] })%>
+<%=p2instr_categlist :alu%>
+<%=p2instr_categlist :indir%>
+<%=p2instr_categlist :lutmem%>
+<%=p2instr_categlist :hubmem%>
+<%=p2instr_categlist :fifo%>
+<%=p2instr_categlist :branch%>
+<%=p2instr_categlist :cordic%>
+<%=p2instr_categlist :pin%>
+<%=p2instr_categlist :streamer%>
+<%=p2instr_categlist :colorspace%>
+<%=p2instr_categlist :event%>
+<%=p2instr_categlist :irq%>
+<%=p2instr_categlist :mixpix%>
+<%=p2instr_categlist :hubctrl%>
+<%=p2instr_categlist :misc%>

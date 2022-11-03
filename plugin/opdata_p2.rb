@@ -13,8 +13,8 @@ CATEGORIES = {
     cordic: "CORDIC",
     indir: "Register Indirection",
     mixpix: "Pixel Mixer",
-    hubmem: "Hub RAM",
-    lutmem: "LUT RAM",
+    hubmem: "Hub Memory",
+    lutmem: "LUT Memory",
     fifo: "Hub FIFO",
     pin: "Pins",
     modcz: "MODCZ Operand",
@@ -23,9 +23,11 @@ CATEGORIES = {
     event: "Events",
     irq: "Interrupts",
     branch: "Branching",
-    ctrl: "Hub Control",
+    hubctrl: "Hub Control",
     empty: "Empty opcode",
 }
+
+EVENTS = %w[int ct1 ct2 ct3 se1 se2 se3 se4 pat fbw xmt xfi xro xrl atn qmt].freeze
 
 def self.select_category(str)
     case str
@@ -43,6 +45,8 @@ def self.select_category(str)
         :fifo
     when /Streamer/
         :streamer
+    when /Events - Branch/
+        :branch
     when /Events/
         :event
     when /Interrupts/
@@ -56,7 +60,7 @@ def self.select_category(str)
     when /Branch/
         :branch
     when /Hub Control/
-        :ctrl
+        :hubctrl
     when /MODCZ Operand/,/Instruction Prefix/
         nil # Doesn't count as instruction
     else

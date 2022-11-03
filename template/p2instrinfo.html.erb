@@ -1,17 +1,27 @@
 <%
 op = P2Opdata::P2Instructions.find{|i|i.name==targ[0].upcase}
+raise "untabled op #{targ[0].upcase}" unless op
+@props[:page_got_dem_instrs_alright] ||= Set.new
+@props[:page_got_dem_instrs_alright].add op.name
 %>
-<table>
-    <thead>
-        <th>Encoding</th>
-        <th>Valid flags</th>
-        <th>Clocks (cog)</th>
-        <th>Clocks (hub)</th>
-    </thead>
-    <tbody>
-        <td><%=op.enctext%></td>
-        <td><%=op.flags.join ?/%></td>
-        <td><%=op.time_cog%></td>
-        <td><%=op.time_hub%></td>
-    </tbody>
-</table>
+<div class="p2instrinfo">
+    <%if kwarg[:title]!=false%>
+        <h3 <%=htmlattr('id',op.name.downcase)%>><%=op.name%></h3>
+    <%end%>
+    <table class>
+        <thead>
+            <th>Encoding</th>
+            <th>Valid flags</th>
+            <th>Cycles<br>(cogexec)</th>
+            <th>Clocks<br>(hubexec)</th>
+            <th>IRQ<br>Shield</th>
+        </thead>
+        <tbody>
+            <td><%=op.enctext%></td>
+            <td><%=op.flags.join ?/%></td>
+            <td><%=op.time_cog%></td>
+            <td><%=op.time_hub%></td>
+            <td><%=op.shield ? "<strong>Yes</strong>" : "No"%></td>
+        </tbody>
+    </table>
+</div>

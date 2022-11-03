@@ -7,11 +7,21 @@ jump-toplevel: Topic
 Make maffs go brr.
 
 
-## QMUL
+## Result retrieval
+
+<%=p2instrinfo('getqx')%>
+<%=p2instrinfo('getqy')%>
+
+## Commands
+
+<%=p2instrinfo('qrotate')%>
+<%=p2instrinfo('qvector')%>
 <%=p2instrinfo('qmul')%>
+<%=p2instrinfo('qdiv')%>
+<%=p2instrinfo('qfrac')%>
+<%=p2instrinfo('qsqrt')%>
+<%=p2instrinfo('qlog')%>
+<%=p2instrinfo('qexp')%>
 
-## GETQX
-<%=p2instrinfo('getqx')%>
 
-## GETQY
-<%=p2instrinfo('getqx')%>
+<%p2instr_checkall :cordic%>

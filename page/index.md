@@ -1,7 +1,7 @@
 ---
 title: Propeller Documentation
 ---
-# IRQsoft Propeller Docs
+# IRQsoft Propeller 2 Docs
 
 <img src="/common/construction.gif" alt="This site is under construction.">
 

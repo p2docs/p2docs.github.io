@@ -385,7 +385,7 @@ div#hyperjump {
     #hjresults {
         width: 700px;
         list-style-type: none;
-        margin: 12px 0 0 0;
+        margin: 12px 0;
         padding: 0 10px;
         font-family: 'Parallax',monospace;
         font-size: 16px;
@@ -402,6 +402,10 @@ div#hyperjump {
                 color: #fff;
                 font-weight: bold;
             }
+        }
+        li:hover {
+            background: #1187;
+            box-shadow: 0 0 6px 1px #55f;
         }
         .hjrsel>li {
             background: #11f7;

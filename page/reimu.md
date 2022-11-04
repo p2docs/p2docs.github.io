@@ -2,7 +2,7 @@
 title: Reimu Hakurei
 hyperjump:
     -   type: Mysterious Shrine Maiden
-        hidden: Fumo
+        hidden: "Fumo            ᗜ_ᗜ"
 ---
 
 <img src="/common/reimu_trans.png" title="Fumo? Fumo.">

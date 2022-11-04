@@ -53,7 +53,7 @@ The following instructions can **set Q**:
 - [RDLUT](lutmem.html#rdlut): Q is set to data read from lookup memory.
 - [GETXACC](streamer.html#getxacc): Q is set to the Goertzel sine accumulator value.
 - [CRCNIB](alu.html#crcnib): Q is shifted left by 4 bits.
-- [COGINIT](hubctrl.html#coginit)/[QDIV](cordic.html#qdiv)/[QFRAC](cordic.html#qfrac)/[QROTATE](cordic.html#qrotate): Q is set to 0 if executed with cleared "SETQ Flag"
+- [COGINIT](hubctrl.html#coginit)/[QDIV](cordic.html#qdiv)/[QFRAC](cordic.html#qfrac)/[QROTATE](cordic.html#qrotate): Q is set to 0 if executed without SETQ
 
 The current Q value can be read (ab)using [MUXQ](alu.html#muxq) as such:
 

@@ -6,7 +6,7 @@ inline-css: |
     #p2_optable {
         overflow: scroll;
         width: 100%;
-        height: 90vh;
+        height: calc(100vh - 260px);
         margin: auto;
         border: 2px solid;
         border-color: #ddd #888 #888 #ddd;
@@ -36,8 +36,6 @@ inline-css: |
         }
     }
 ---%>
-
-<h1>Propeller 2 instruction table</h1>
 <%
 #tab = P2Opdata::CSVDATA.dup
 tab = CSV.new(File.read("data/p2ops.csv"),headers: %i[order syntax group encoding alias description shield time8cog time8hub time16cog time16hub regwr hubrw stackrw])

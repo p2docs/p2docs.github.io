@@ -6,7 +6,7 @@ raise "untabled op #{targ[0].upcase}" unless op
 %>
 <div class="p2instrinfo">
     <%if kwarg[:title]!=false%>
-        <h3 <%=htmlattr('id',op.name.downcase)%>><%if op.setq%><span class="setq">{ <%=op.setq>=2 ? "SETQ/SETQ2" : "SETQ"%> {#}D }</span><br><%end%><%=op.name%> <span class="args"><%=op.argsyntax%></span><%if op.shortdesc%><span class="desc"> - <%=op.shortdesc%></span><%end%></h3>
+        <h3 <%=htmlattr('id',op.name.downcase)%>><%if op.setq%><span class="setq">{ <%=op.setq>=2 ? "SETQ/SETQ2" : "SETQ"%> {#}Q }</span><br><%end%><%=op.name%> <span class="args"><%=op.argsyntax%></span><%if op.shortdesc%><span class="desc"> - <%=op.shortdesc%></span><%end%></h3>
     <%end%>
     <table class>
         <thead>

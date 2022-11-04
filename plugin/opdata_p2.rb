@@ -4,6 +4,7 @@
 # P2 Opcode data extractor
 
 require 'csv'
+require 'yaml'
 
 module P2Opdata
 
@@ -91,7 +92,7 @@ def self.add_arg(array,str)
 end
 
 P2InstEntry = Struct.new(
-    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,
+    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,:shortdesc,
 keyword_init: true) do
 
     def flagsyntax
@@ -116,6 +117,8 @@ keyword_init: true) do
 end
 
 P2Instructions = Array.new()
+
+SHORTDESCS = YAML.load(File.read("data/shortdesc.yml"))
 
 CSVDATA = CSV.new(
     File.read("data/p2ops.csv").gsub(?\u{A0},' '), # Stupid NBSPs
@@ -221,6 +224,7 @@ tab.each do |row|
         time_hub: fixup_cycles(row[:time8hub]=="same" ? row[:time8cog] : row[:time8hub]),
         opc_main: (openc =~ /^[01]+$/) ? openc.to_i(2) : nil,
         opc_s: (openc =~ /^[01]+$/) ? senc.to_i(2) : nil,
+        shortdesc: SHORTDESCS[name],
     )
 end
 

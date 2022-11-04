@@ -114,10 +114,10 @@ Not very helpful...
 ---
 
 <%=p2instrinfo('not')%>
-<%=p2instrinfo('decod')%>
-<%=p2instrinfo('encod')%>
-<%=p2instrinfo('bmask')%>
 <%=p2instrinfo('ones')%>
+<%=p2instrinfo('encod')%>
+<%=p2instrinfo('decod')%>
+<%=p2instrinfo('bmask')%>
 
 ---
 

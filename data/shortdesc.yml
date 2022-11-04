@@ -1,0 +1,64 @@
+NOP: Do nothing
+MOV: Move data
+MOVBYTS: Swizzle bytes in register
+SETS: Set S field
+SETD: Set D field
+SETR: Set R field
+LOC: Load address
+ROR: Rotate bits right
+ROL: Rotate bits left
+SHR: Shift bits right
+SHL: Shift bits left
+SAR: Shift arithmetic right
+SAL: Rarely useful
+RCR: Rotate carry right
+RCL: Rotate carry left
+SIGNX: Sign-extend
+ZEROX: Zero-extend
+ONES: Population count
+ENCOD: Find highest set bit
+DECOD: Get Nth power of 2
+BMASK: Get Nth power of 2, minus 1
+ADD: Unsigned add
+ADDS: Signed add
+ADDX: Unsigned add with carry
+ADDSX: Signed add with carry
+SUB: Unsigned subtract
+SUBS: Signed subtract
+SUBX: Unsigned subtract with borrow
+SUBSX: Signed subtract with borrow
+SUBR: Reverse subtract
+CMP: Unsigned compare
+CMPS: Signed compare
+CMPX: Unsigned compare with borrow
+CMPSX: Signed compare with borrow
+CMPR: Reverse compare
+CMPSUB: Compare and subtract
+ABS: Absolute value
+NEG: Negate value
+MUL: Unsigned 16-bit multiply
+MULS: Signed 16-bit multiply
+REV: Reverse bits
+SPLITB: Split nibble bits into bytes
+MERGEB: Merge bytes into nibbles
+SPLITW: Split odd/even bits into high/low words
+MERGEW: Merge high/low words into odd/even bits
+RGBSQZ: Convert RGB24 to RGB16
+RGBEXP: Convert RGB16 to RGB24
+TEST: Test bit pattern
+TESTN: Test bit pattern (negative)
+NOT: Bitwise NOT
+AND: Bitwise AND
+ANDN: Bitwise AND (negative)
+OR: Bitwise OR
+XOR: Bitwise XOR
+TESTB: Test bit
+TESTBN: Test bit (negative)
+BITL: Clear bit(s)
+BITH: Set bit(s)
+BITNOT: Toggle bit(s)
+BITRND: Randomize bit(s)
+BITC: Set bit(s) to C
+BITNC: Set bit(s) to !C
+BITZ: Set bit(s) to Z
+BITNZ: Set bit(s) to !Z

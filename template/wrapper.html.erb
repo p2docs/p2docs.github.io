@@ -10,10 +10,12 @@
         <link rel="stylesheet" href="/iexplode.css">
 	    <script src="/common/html5shiv-printshiv.min.js"></script>
     <![endif]-->
-    <script src="/common/jquery-3.6.1.min.js"></script>
-    <script src="/common/fuse.js"></script>
-    <script src="/hjlist.js"></script>
-    <script src="/common/hyperjump.js"></script>
+    <script defer src="/common/jquery-3.6.1.min.js"></script>
+    <script defer src="/common/fuse.js"></script>
+    <script defer src="/hjlist.js"></script>
+    <script defer src="/common/hyperjump.js"></script>
+    <script defer src="/common/katex/katex.min.js"></script>
+    <script defer src="/common/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
 </head><body>
 <div id="sitelogo">
     <img src="/common/reimu_smol.png" height="160" id="reimu" load="lazy" decode="async">
@@ -34,3 +36,4 @@ Propeller 2 Online Documentation by IRQsome Software. Just a little afflilliatio
 <%bottom_css_list(targ[0]).each do |file|%>
 <link rel="stylesheet" <%=htmlattr('href',file)%>>
 <%end%>
+<link rel="stylesheet" href="/common/katex/katex.min.css">

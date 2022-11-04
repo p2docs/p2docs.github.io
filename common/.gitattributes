@@ -1,3 +1,4 @@
 jquery* linguist-vendored
 fuse* linguist-vendored
 html5shiv* linguist-vendored
+katex/** linguist-vendored

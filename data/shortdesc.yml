@@ -125,3 +125,7 @@ WRNZ: Get !Z into register
 SETQ: Set Q Register and flag
 SETQ2: Set Q Register and alternate flag
 XORO32: Generate pseudo-random number
+NEGC: Negate if C
+NEGNC: Negate if !C
+NEGZ: Negate if Z
+NEGNZ: Negate if !Z

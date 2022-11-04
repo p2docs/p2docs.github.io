@@ -92,7 +92,7 @@ def self.add_arg(array,str)
 end
 
 P2InstEntry = Struct.new(
-    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,:shortdesc,
+    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,:shortdesc,:setq,
 keyword_init: true) do
 
     def flagsyntax
@@ -205,6 +205,11 @@ tab.each do |row|
         cval = "???"
     end
 
+    setq = nil
+
+    setq = 1 if row[:description] =~ /setq/i
+    setq = 2 if row[:description] =~ /setq2/i
+
     p row[:encoding] unless row[:encoding] =~ /^(\w{4}) (\w{7}) (\w)(\w)(\w) (\w{9}) (\w{9})$/
     openc = $2
     denc = $6
@@ -225,6 +230,7 @@ tab.each do |row|
         opc_main: (openc =~ /^[01]+$/) ? openc.to_i(2) : nil,
         opc_s: (openc =~ /^[01]+$/) ? senc.to_i(2) : nil,
         shortdesc: SHORTDESCS[name],
+        setq: setq,
     )
 end
 

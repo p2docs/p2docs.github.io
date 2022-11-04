@@ -18,7 +18,7 @@ ZEROX: Zero-extend
 ONES: Population count
 ENCOD: Find highest set bit
 DECOD: Get Nth power of 2
-BMASK: Get Nth power of 2, minus 1
+BMASK: Get mask of lower N bits
 ADD: Unsigned add
 ADDS: Signed add
 ADDX: Unsigned add with carry

@@ -309,10 +309,57 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 ---
 
 <%=p2instrinfo('not')%>
+NOT performs a bitwise NOT (inverting all bits) of the value in **S**ource and stores the result into **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag value is replaced by the inverse of either S[31].
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result (of !**S**ource) equals zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('ones')%>
+ONES tallies the number of high bits of **S**ource, or **D**estination, and stores the count into **D**estination. This is also known as a "Population Count" ("popcount") function.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the count is odd, or is cleared (0) if it is even.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if not zero.
+
 <%=p2instrinfo('encod')%>
+ENCOD stores the bit position value (0—31) of the top-most high bit (1) of **S**ource into **D**estination. If the value to encode is all zeroes, the resulting **D**estination will be 0 - use the **WC** or **WCZ** effect and check the resulting C flag to distinguish between the cases of **S**ource == 1 vs. **S**ource == 0.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if **S**ource was not zero, or is cleared (0) if it was zero.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if not zero.
+
+- A long of `%00000000_00000000_00000000_00000001` encodes to 0.
+- A long of `%00000000_00000000_00000000_00100000` encodes to 5.
+- A long of `%00000000_00000000_10000001_01000000` encodes to 15.
+- A long of `%00000000_00000000_00000000_00000000` encodes to 0 with optional C cleared to 0.
+
+ENCOD is the complement of [DECOD](#decod).
+
+
 <%=p2instrinfo('decod')%>
+DECOD generates a 32-bit value with just one bit high, corresponding to **S**ource[4:0] (0—31) and stores
+that result in **D**estination.
+
+In effect, **D**estination becomes `1 << value` via the DECOD instruction; where value is **S**ource[4:0].
+
+- A value of 0 generates `%00000000_00000000_00000000_00000001`.
+- A value of 5 generates `%00000000_00000000_00000000_00100000`.
+- A value of 15 generates `%00000000_00000000_10000000_00000000`.
+
+DECOD is the complement of [ENCOD](#encod)
+
 <%=p2instrinfo('bmask')%>
+BMASK generates an LSB-justified bit mask (all ones) of **S**ource[4:0]+1 bits and stores it in **D**estination. The size
+value, specified by **S**ource[4:0], is in the range 0—31 to generate 1 to 32 bits of bit mask.
+
+In effect, **D**estination becomes (%10 << size) - 1 via the BMASK instruction.
+
+- A size value of 0 generates a bit mask of `%00000000_00000000_00000000_00000001`.
+- A size value of 5 generates a bit mask of `%00000000_00000000_00000000_00111111`.
+- A size value of 15 generates a bit mask of `%00000000_00000000_11111111_11111111`.
+
+A bit mask is often useful in bitwise operations (AND, OR, XOR) to filter out or affect special groups of bits.
 
 ---
 

@@ -40,7 +40,7 @@ inline-css: |
                     <td colspan=2><a href="/alu.html">ROLNIB</a></td>
                 <%else%>
                     <%ops = P2Opdata::P2Instructions.select{|op|yield(op)==i}%>
-                    <td><%=ops.map{|op|"<a #{htmlattr('href',op.doc_href)}>#{op.name}</a>"}.join("/\u{200b}")%></td>
+                    <td><%=ops.map{|op|"<a #{htmlattr('href',op.doc_href)}>#{escape_html(op.name,:text)}</a>"}.join("/\u{200b}")%></td>
                 <%end%>
             <%end%>
         <%end%>

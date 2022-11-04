@@ -8,7 +8,7 @@ require 'kramdown'
 require 'front_matter_parser'
 require 'sass'
 
-IMAGE_EXTENSIONS = %w[jpg jpeg png gif]
+IMAGE_EXTENSIONS = %w[jpg jpeg png gif ico]
 
 # Stolen from https://www.cookieshq.co.uk/posts/how-to-run-erb-blocks-inside-static-markdown-pages-ruby-on-rails
 class Kramdown::Parser::KramdownWithErb < Kramdown::Parser::Kramdown

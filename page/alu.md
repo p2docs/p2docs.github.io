@@ -239,13 +239,72 @@ non-zero.
 
 
 <%=p2instrinfo('rol')%>
+ROL rotates **D**estination's binary value left by **S**ource places (0–31 bits). All MSBs rotated out are moved into the new LSBs.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the value of the last bit rotated out (effectively C = result bit "0") if **S**ource is 1–31, or to **D**estination[31] if **S**ource is 0.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is
+non-zero. Since no bits are lost by this operation, the result will only be zero if **D**estination started at zero.
+
 <%=p2instrinfo('ror')%>
+ROR rotates **D**estination's binary value right by **S**ource places (0–31 bits). All LSBs rotated out are moved into the new MSBs.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the value of the last bit rotated out (effectively C = result bit "31") if **S**ource is 1–31, or to **D**estination[0] if **S**ource is 0.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is
+non-zero. Since no bits are lost by this operation, the result will only be zero if **D**estination started at zero.
+
 <%=p2instrinfo('rcl')%>
+RCL shifts **D**estination's binary value left by **S**ource places (0–31 bits) and sets the new LSBs to C.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the value of the last bit shifted out if **S**ource is 1–31, or to
+**D**estination[31] if **S**ource is 0.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is
+non-zero.
+
 <%=p2instrinfo('rcr')%>
+RCR shifts **D**estination's binary value right by **S**ource places (0–31 bits) and sets the new MSBs to C.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the value of the last bit shifted out if **S**ource is 1–31, or to
+**D**estination[0] if **S**ource is 0.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is
+non-zero.
+
 <%=p2instrinfo('rczl')%>
+RCZL shifts **D**estination's binary value left by two places and sets **D**estination[1] to C and **D**estination[0] to Z.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the original **D**estination[31] state.
+
+If the **WZ** or **WCZ** effect is specified, the Z is flag is updated to the original **D**estination[30] state.
+
 <%=p2instrinfo('rczr')%>
+RCZR shifts **D**estination's binary value right by two places and sets **D**estination[31] to C and **D**estination[30] to Z.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the original **D**estination[1] state.
+
+If the **WZ** or **WCZ** effect is specified, the Z is flag is updated to the original **D**estination[0] state.
+
 <%=p2instrinfo('signx')%>
+SIGNX fills the bits of **D**estination, _above_ the bit indicated by **S**ource[4:0], with the value of that identified bit; i.e. sign-extending the value. This is handy when converting encoded or received signed values from a small bit width to a large bit with; i.e. 32 bits.
+
+**Note:** To extend an N-bit value, **S**ource[4:0] has to be **N-1**. **(TODO: Clarify this in a less confusing way)**
+
+If the **WC** or **WCZ** effect is specified, the C flag is set to the result's MSB value.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('zerox')%>
+ZEROX fills the bits of **D**estination, _above_ the bit indicated by **S**ource[4:0], with zeroes; i.e. zero-extending the value. This is handy when converting encoded or received unsigned values from a small bit width to a large bit with; i.e. 32 bits.
+
+**Note:** To extend an N-bit value, **S**ource[4:0] has to be **N-1**. **(TODO: Clarify this in a less confusing way)**
+
+If the **WC** or **WCZ** effect is specified, the C flag is set to the result's MSB value. This is always zero unless **S**ource[4:0] == 31.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
+
 
 ---
 
@@ -258,6 +317,9 @@ non-zero.
 ---
 
 <%=p2instrinfo('rev')%>
+REV performs a bitwise reverse (bits 31:0 -> bits 0:31) of the value in **D**estination and stores the result back into **D**estination.
+This is useful for processing binary data in a different MSB/LSB order than it is transmitted with.
+
 <%=p2instrinfo('splitb')%>
 <img src="P2_instruction_SPLITB_MERGEB.png">
 <%=p2instrinfo('mergeb')%>
@@ -298,7 +360,12 @@ non-zero.
 <%=p2instrinfo('muxnc')%>
 <%=p2instrinfo('muxz')%>
 <%=p2instrinfo('muxnz')%>
+
 <%=p2instrinfo('muxq')%>
+MUXQ copies all bits from **S**ource corresponding to high (1) bits of **Q** into the corresponding bits of **D**estination. All other **D**estination bits are left as-is.
+
+The Q value from the last [SETQ](misc.html#setq) is always used, regardless of whether it directly precedes MUXQ (i.e. whether the "SETQ Flag" is set) or not.
+
 <%=p2instrinfo('muxnits')%>
 <%=p2instrinfo('muxnibs')%>
 

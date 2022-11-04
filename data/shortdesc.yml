@@ -112,3 +112,7 @@ FGE: Limit minimum (unsigned)
 FGES: Limit minimum (signed)
 FLE: Limit maximum (unsigned)
 FLES: Limit maximum (signed)
+SEUSSF: Scramble bits (forward)
+SEUSSR: Scramble bits (reverse)
+RCZL: Rotate flags left
+RCZR: Rotate flags right

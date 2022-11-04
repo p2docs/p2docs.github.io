@@ -155,7 +155,11 @@ tab.each do |row|
         zval = "Per zzzz"
     elsif !flags.any?{|f|f=~/z/i}
         zval = "---"
-    elsif row[:description] =~ / \*$/
+    elsif name =~ /^POLL(\w+)/
+        zval = "#{$1} event occured"
+    elsif name == "GETBRK"
+        zval = "head hurts"
+    elsif row[:description] =~ / \*(?: +Prior.+)?$/
         zval = "Result == 0"
     elsif row[:description] =~ /Z = (.+?)(?:[,.] *PC =.+)?$/
         zval = $1.strip.chomp(?.).strip.gsub("Result","Result")
@@ -163,6 +167,8 @@ tab.each do |row|
         p name
         zval = "???"
     end
+
+    regwr= row[:regwr] || "none"
 
     if args.include? :c_remap
         cval = "Per cccc"
@@ -172,13 +178,22 @@ tab.each do |row|
         cval = "D == S"
     elsif name == "DECMOD"
         cval = "D == 0"
-    elsif name =~ /FGES?/
+    elsif name == "LOCKTRY"
+        cval = "1 if got LOCK"
+    elsif name == "LOCKREL"
+        cval = "LOCK status"
+        regwr = "D if reg and WC" # Table mistake
+    elsif name == "GETBRK"
+        cval = "owie ouch"
+    elsif name =~ /^FGE/
         cval = "D < S"
-    elsif name =~ /FLES?/
+    elsif name =~ /^FLE/
         cval = "D > S"
+    elsif name =~ /^POLL(\w+)/
+        cval = "#{$1} event occured"
     elsif !flags.any?{|f|f=~/c/i}
         cval = "---"
-    elsif row[:description] =~ /(?<!P)C(?:\/Z)? = (?!.*[^P]C =)(.+?)(?:[,.] *Z =.+)?(?: \*)?$/
+    elsif row[:description] =~ /(?<!P)C(?:\/Z)? = (?!.*[^P]C =)(.+?)(?:[,.] *Z =.+)?(?: \*(?: +Prior.+)?)?$/
         cval = $1.strip.chomp(?.).strip
     elsif !flags.include?(:wc) && row[:description] =~ /C,Z = /
         cval = zval
@@ -196,7 +211,7 @@ tab.each do |row|
         name: name,
         args: args,
         enctext: row[:encoding],
-        regwr: row[:regwr] || "none",
+        regwr: regwr,
         zval: zval,
         cval: cval,
         flags: flags,

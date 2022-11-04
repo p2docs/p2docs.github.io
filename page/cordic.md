@@ -46,7 +46,7 @@ QROTATE instructs the CORDIC coprocessor to rotate a signed 2D vector by the [bi
 
 When it is done, GETQX/GETQY will return the X'/Y' of the rotated vector, respectively.
 
-Mathematically, 2D rotation can be defined as such:
+Mathematically, it performs this operation:
 
 $$
 \begin{align*}
@@ -55,7 +55,7 @@ QY \approx D sin(S) + Q cos(S)
 \end{align*}
 $$
 
-Thus, if Y=0 (as happens when SETQ is not used), QROTATE can be used to compute sine/cosine pairs at a scale given by X. i.e.
+Thus, if Q=0 (as happens when SETQ is not used), QROTATE can be used to compute sine/cosine pairs at a scale given by D. i.e.
 
 ~~~
     '' Compute sine/cosine for theta, 32 bit precision.

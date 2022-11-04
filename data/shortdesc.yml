@@ -89,3 +89,20 @@ QMUL: Unsigned 32-bit multiply
 QDIV: Unsigned divide
 QFRAC: Unsigned divide (fractional)
 QSQRT: Square root
+QLOG: Fixed-point logarithm
+QEXP: Fixed-point exponent
+QROTATE: Rotate 2D vector
+QVECTOR: Angle and length of 2D vector
+AUGD: "Augment next #D immediate"
+AUGS: "Augment next #S immediate"
+GETCT: Get global cycle counter
+WAITX: Wait X cycles
+GETRND: Get random number
+PUSH: Push long on internal stack
+POP: Pop long off internal stack
+ADDPIX: Add colors
+MULPIX: Multiply colors
+BLNPIX: Blend between colors
+MIXPIX: Generic color mixing operation
+SETPIV: Set blend factor
+SETPIX: Configure MIXPIX

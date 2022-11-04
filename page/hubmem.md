@@ -2,6 +2,14 @@
 title: Hub Memory
 hyperjump:
     -   type: Topic
+        hidden: Hub RAM
+    -   id: timing
+        name: Hub Memory Timing
+        type: Topic
+    -   id: block-transfers
+        name: Block Transfers
+        type: Topic
+        hidden: setq rdlong setq wrlong
     -   id: pointer-expressions
         name: Pointer Expressions
         type: Topic
@@ -11,11 +19,22 @@ hyperjump:
 # Hub Memory
 <img class="float-right" src="p2-hub-ram-interface.gif">
 
+**TODO: I suck at writing these**
+
+The Propeller 2 features 512 kiB of "Hub RAM" that is shared between all cogs. The architecture allows for up to 1024 kiB, but this additional space is unused in the current chip. Hub RAM is addressed in bytes, but an entire long (4 aligned bytes) can be read or written at once.
+
+To facilitate the sharing of the memory, a round-robin access scheme is used. On each cycle, each cog has the potential to access a different "slice" of memory, consisting of all addresses where `(A>>2)&7 == N`. On the following cycle, the access windows "rotate" and each cog has access to the logically following slice.
+
+## Block Transfers
+
+TODO
+
+
 ## Pointer Expressions
 
 TODO: Say something
 
-|Encoding |Syntax        |Used Address      |Post-Modify        |
+|Encoding |Syntax        |Accessed Address  |Post-Modify        |
 |---------|--------------|------------------|-------------------|
 |1x0000000|PTRx          |PTRx              |                   |
 |1x0iiiiii|PTRx[INDEX6]  |PTRx + INDEX*SCALE|                   |
@@ -31,6 +50,16 @@ TODO: Say something
 - `SCALE` is 1 for BYTE and LUT operations, 2 for WORD operations and 4 for LONG operations. When using an augmented operand (##/AUGS), SCALE is always 1.
 - The index value for `PTRx[INDEX6]` (denoted `iiiiii`) is a 6-bit value and can thus can range from -32 to 31.
 - The index value for inc/dec expressions (denoted `0NNNN` or `1nnnn`) is a 5-bit signed value with a special case wherein 0 means 16. It can thus range from 1 to 16 in either positive or negative direction.
+
+## Timing
+
+Reading from Hub RAM takes at least **9 cycles**. Writing to Hub RAM takes at least **3 cycles**.
+
+Up to 7 cycles are added to wait for relevant slice's access slot.
+
+An additional cycle is added if the access crosses a long boundary. (i.e. any unaligned long access or a word access to the last byte of a long).
+
+**TODO: Examples of optimal timing (research involved)**
 
 
 <%=floatclear%>

@@ -159,7 +159,7 @@ tab.each do |row|
     elsif !flags.any?{|f|f=~/z/i}
         zval = "---"
     elsif name =~ /^POLL(\w+)/
-        zval = "#{$1} event occured"
+        zval = "#{$1} event occurred"
     elsif name == "GETBRK"
         zval = "head hurts"
     elsif row[:description] =~ / \*(?: +Prior.+)?$/

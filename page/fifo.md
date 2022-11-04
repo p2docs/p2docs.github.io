@@ -5,6 +5,10 @@ hyperjump:
 ---
 # Hub FIFO
 
+Each Cog possesses a FIFO (First-In-First-Out) queue that can be used to read or write sequential data from/to [Hub RAM](hubmem.html).
+
+It can either be used to feed the [Streamer](streamer.html), to execute code from Hub RAM (HubExec) or manually using the RFxxxx and WRxxxx instructions.
+
 ## Control Instructions
 
 <%=p2instrinfo('rdfast')%>

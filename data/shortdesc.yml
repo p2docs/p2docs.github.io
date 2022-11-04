@@ -62,3 +62,30 @@ BITC: Set bit(s) to C
 BITNC: Set bit(s) to !C
 BITZ: Set bit(s) to Z
 BITNZ: Set bit(s) to !Z
+RDFAST: Start FIFO read
+WRFAST: Start FIFO write
+GETPTR: Get current FIFO position
+RFBYTE: Read byte from FIFO
+RFWORD: Read word from FIFO
+RFLONG: Read long from FIFO
+RFVAR: Read variable-length value from FIFO (unsigned)
+RFVARS: Read variable-length value from FIFO (signed)
+WFBYTE: Write byte to FIFO
+WFWORD: Write word to FIFO
+WFLONG: Write long to FIFO
+RDBYTE: Read byte from Hub
+RDWORD: Read word from Hub
+RDLONG: Read long from Hub
+WRBYTE: Write byte to Hub
+WRWORD: Write word to Hub
+WRLONG: Write long to Hub
+WMLONG: Write non-zero bytes to Hub
+RDLUT: Read long from LUT
+WRLUT: Write long to LUT
+SETLUTS: Configure LUT RAM
+GETQX: Get CORDIC result X
+GETQY: Get CORDIC result Y
+QMUL: Unsigned 32-bit multiply
+QDIV: Unsigned divide
+QFRAC: Unsigned divide (fractional)
+QSQRT: Square root

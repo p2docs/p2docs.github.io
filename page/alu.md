@@ -440,6 +440,33 @@ WRNZ writes the inverse state of Z (0 or 1) to **D**estination.
 
 <%=p2instrinfo('crcbit')%>
 <%=p2instrinfo('crcnib')%>
+
 <%=p2instrinfo('xoro32')%>
+XORO32 generates a pseudo-random number based on the seed value in **D**estination. The next seed value is written back into **D**estination and the generated pseudo-random number is substituted as the next instruction's **S**ource value.
+
+**D**estination's value should never be zero, since that causes the seed to stay zero.
+
+The algorithm used is xoroshiro32++, stepped twice to generate 2x16 bits of data. Since the state is only 32 bits, results and seeds map 1:1 to eachother. Ideal properties are only guaranteed if only the top or bottom 16 bits are used.
+
+A software implementation of the algorithm in Spin2:
+
+~~~
+CON
+    A = 13, B = 5, C = 10, D = 9
+PUB xoro32_soft(seed) : state,val
+  state, val.word[0] := xoro32_half(seed)
+  state, val.word[1] := xoro32_half(state)
+
+PRI xoro32_half(seed) : state,val
+  val.word[0] := rol16(seed.word[0]+seed.word[1],D)+seed.word[0]
+  state := seed
+  state.word[1] ^= state.word[0]
+  state.word[0] := rol16(state.word[0],A) ^ (state.word[1]<<B) ^ state.word[1]
+  state.word[1] := rol16(state.word[1],C)
+
+PRI rol16(val,amount) :r
+  val.word[1] := val.word[0]
+  return (val rol amount) zerox 15
+~~~
 
 <%p2instr_checkall :alu%>

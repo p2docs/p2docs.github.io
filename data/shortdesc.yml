@@ -116,3 +116,11 @@ SEUSSF: Scramble bits (forward)
 SEUSSR: Scramble bits (reverse)
 RCZL: Rotate flags left
 RCZR: Rotate flags right
+MUXNIBS: Copy non-zero nibbles
+MUXNITS: Copy non-zero bit pairs
+WRC: Get C into register
+WRNC: Get !C into register
+WRZ: Get Z into register
+WRNZ: Get !Z into register
+SETQ: Set Q Register and flag
+SETQ2: Set Q Register and alternate flag

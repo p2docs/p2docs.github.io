@@ -14,12 +14,10 @@ hyperjump:
 ## Q Register
 
 <%=p2instrinfo('setq')%>
-SETQ sets the hidden Q register to **D**estination and sets the "SETQ Flag". This flag modifies the behaviour of some instructions (usually involving the contents of the Q register) and becomes unset after it is used (**TODO**: Which instuctions clear/not-clear it?)
-
-[MUXQ](alu.html#muxq) uses the Q register regardless of the current value of the "SETQ Flag".
+SETQ sets [the hidden Q register](cog.html#q-register) to **D**estination and sets the "SETQ Flag". This flag modifies the behaviour of some instructions (usually involving the contents of the Q register) and becomes unset after it is used (**TODO**: Which instuctions clear/not-clear it?)
 
 <%=p2instrinfo('setq2')%>
-SETQ sets the hidden Q register to **D**estination and sets the "SETQ2 Flag". This is similar to regular [SETQ](#setq), but can invoke an alternate behaviour in some instructions (Most notably, to trigger LUT [Block Transfers](hubmem.html#block-transfers))
+SETQ sets [the hidden Q register](cog.html#q-register) to **D**estination and sets the "SETQ2 Flag". This is similar to regular [SETQ](#setq), but can invoke an alternate behaviour in some instructions (Most notably, to trigger LUT [Block Transfers](hubmem.html#block-transfers))
 
 **TODO: Research how SETQ2 affects instructions that are only documented to take SETQ**
 

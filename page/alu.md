@@ -362,20 +362,31 @@ This is useful for processing binary data in a different MSB/LSB order than it i
 <%=p2instrinfo('muxnz')%>
 
 <%=p2instrinfo('muxq')%>
-MUXQ copies all bits from **S**ource corresponding to high (1) bits of **Q** into the corresponding bits of **D**estination. All other **D**estination bits are left as-is.
+MUXQ copies all bits from **S**ource corresponding to high (1) bits of the [Q Register](cog.html#q-register) into the corresponding bits of **D**estination. All other **D**estination bits are left as-is.
 
-The Q value from the last [SETQ](misc.html#setq) is always used, regardless of whether it directly precedes MUXQ (i.e. whether the "SETQ Flag" is set) or not.
+The current Q value is always used, regardless of whether MUXQ is directly preceded by SETQ (i.e. whether the "SETQ Flag" is set) or not.
+
+<%=p2instrinfo('muxnibs')%>
+MUXNIBS copies any non-zero nibbles from **S**ource into the corresponding nibbles of **D**estination and leaves the rest of **D**estination's nibbles as-is.
 
 <%=p2instrinfo('muxnits')%>
-<%=p2instrinfo('muxnibs')%>
+MUXNITS copies any non-zero bit pairs from **S**ource into the corresponding bit pairs of **D**estination and leaves the rest of **D**estination's bit pairs as-is.
 
 ## Flag manipulation
 
 <%=p2instrinfo('modcz')%>
+
 <%=p2instrinfo('wrc')%>
+WRC writes the state of C (0 or 1) to **D**estination.
+
 <%=p2instrinfo('wrnc')%>
+WRNC writes the inverse state of C (0 or 1) to **D**estination.
+
 <%=p2instrinfo('wrz')%>
+WRZ writes the state of Z (0 or 1) to **D**estination.
+
 <%=p2instrinfo('wrnz')%>
+WRNZ writes the inverse state of Z (0 or 1) to **D**estination.
 
 
 ## Other

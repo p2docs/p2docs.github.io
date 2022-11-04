@@ -20,7 +20,7 @@ CATEGORIES = {
     pin: "Pins",
     modcz: "MODCZ Operand",
     streamer: "Streamer",
-    colorspace: "Color Space Converter",
+    colorspace: "Colorspace Converter",
     event: "Events",
     irq: "Interrupts",
     branch: "Branching",

@@ -6,6 +6,8 @@ hyperjump:
 
 # Miscellaneous Instructions
 
+**TODO: Move some of this to cog.md ?**
+
 ## Internal Stack
 
 <%=p2instrinfo('push')%>

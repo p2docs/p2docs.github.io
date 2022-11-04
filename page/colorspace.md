@@ -1,9 +1,9 @@
 ---
-title: Color Space Converter
+title: Colorspace Converter
 hyperjump:
     -   type: Topic
 ---
-# Color Space Converter
+# Colorspace Converter
 
 Make color go brr.
 

@@ -1,0 +1,24 @@
+<%#---
+title: Comment reformatifier
+---%>
+<h1>Comment reformatifier</h1>
+
+<textarea id="ref-input" rows="10" cols="80"></textarea>
+<textarea id="ref-output" rows="10" cols="80" readonly></textarea>
+
+<script>
+jQuery(function() {
+    $("#ref-input").on('input',(event) => {
+        $("#ref-output").val($(event.target).val()
+            //.replace(/([A-Z]+)/,"**$1**")
+            .replace(/Src or Dest/g,'Src')
+            .replace(/Src/g,'**S**ource')
+            .replace(/Dest/g,'**D**estination')
+            .replace(/(?<!\*)WCZ/g,'**WCZ**')
+            .replace(/(?<!\*)WC/g,'**WC**')
+            .replace(/(?<!\*)WZ/g,'**WZ**')
+            .replace(/(?<=\w)— /g," - ")
+        );
+    })
+});
+</script>

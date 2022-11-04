@@ -45,7 +45,9 @@ jQuery(function() {
             $("#hyperjump input").val("").trigger("input");
             event.preventDefault();
         } else {
-            $("#hyperjump input").trigger("focus");
+            if (document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
+                $("#hyperjump input").trigger("focus");
+            }
         }
     })
     $("div#hyperjump").on("click", function(event){

@@ -1,5 +1,5 @@
 NOP: Do nothing
-MOV: Move data
+MOV: Move value
 MOVBYTS: Swizzle bytes in register
 SETS: Set S field
 SETD: Set D field
@@ -106,3 +106,9 @@ BLNPIX: Blend between colors
 MIXPIX: Generic color mixing operation
 SETPIV: Set blend factor
 SETPIX: Configure MIXPIX
+INCMOD: Increment with modulus
+DECMOD: Decrement with modulus
+FGE: Limit minimum (unsigned)
+FGES: Limit minimum (signed)
+FLE: Limit maximum (unsigned)
+FLES: Limit maximum (signed)

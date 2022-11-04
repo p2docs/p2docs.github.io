@@ -1,0 +1,58 @@
+<%#---
+title: Propeller 2 opcode matrix
+hyperjump:
+    -   type: Table
+inline-css: |
+    .opmatrix {
+        table-layout: fixed;
+        td {
+            width: 160px;
+        }
+    }
+---%>
+
+<% def self.print_matrix(colbits,rowbits,main_hacks) %>
+    <table class="opmatrix">
+    <tr>
+        <th></th>
+        <%(1<<colbits).times do |col|%>
+            <th><%="%s%0*b" % [?x*rowbits,colbits,col]%></th>
+        <%end%>
+    </tr>
+    <%(1<<rowbits).times do |row|%><tr>
+        <th><%="%0*b%s" % [rowbits,row,?x*colbits]%></th>
+        <%(1<<colbits).times do |col|%>
+            <%i = col+(row<<colbits)%>
+            <%if main_hacks && i >= 0b1110_000%>
+                <td <%=htmlattr('colspan',[1<<colbits,8].min)%>><%=i >= 0b1111_000 ? "<a href=\"/misc.html#augd\">AUGD</a>" : "<a href=\"/misc.html#augs\">AUGS</a>"%></td>
+                <%break%>
+            <%elsif main_hacks && i==0b1101011%>
+                <td><a href="#1101011-sub">1101011 Sub-Opcodes</a></td>
+            <%else%>
+                <%if main_hacks && i>>1 == 0b100000%>
+                    <%next if i.odd?%>
+                    <td colspan=2><a href="/alu.html">SETNIB</a></td>
+                <%elsif main_hacks && i>>1 == 0b100001%>
+                    <%next if i.odd?%>
+                    <td colspan=2><a href="/alu.html">GETNIB</a></td>
+                <%elsif main_hacks && i>>1 == 0b100010%>
+                    <%next if i.odd?%>
+                    <td colspan=2><a href="/alu.html">ROLNIB</a></td>
+                <%else%>
+                    <%ops = P2Opdata::P2Instructions.select{|op|yield(op)==i}%>
+                    <td><%=ops.map{|op|"<a #{htmlattr('href',op.doc_href)}>#{op.name}</a>"}.join("/\u{200b}")%></td>
+                <%end%>
+            <%end%>
+        <%end%>
+    </tr><%end%>
+    </table>
+<%end%>
+
+<h1>P2 Opcode matrix</h1>
+
+<% print_matrix(3,4,true,&:opc_main)%>
+
+<h2 id="1101011-sub">1101011 Sub-Opcodes</h2>
+<% print_matrix(3,5,false){|op|op.opc_main==0b1101011 && op.opc_s}%>
+
+

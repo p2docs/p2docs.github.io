@@ -91,7 +91,7 @@ def self.add_arg(array,str)
 end
 
 P2InstEntry = Struct.new(
-    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,
+    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,
 keyword_init: true) do
 
     def flagsyntax
@@ -188,6 +188,9 @@ tab.each do |row|
     end
 
     p row[:encoding] unless row[:encoding] =~ /^(\w{4}) (\w{7}) (\w)(\w)(\w) (\w{9}) (\w{9})$/
+    openc = $2
+    denc = $6
+    senc = $7
 
     P2Instructions << P2InstEntry.new(
         name: name,
@@ -201,6 +204,8 @@ tab.each do |row|
         category: categ,
         time_cog: fixup_cycles(row[:time8cog]),
         time_hub: fixup_cycles(row[:time8hub]=="same" ? row[:time8cog] : row[:time8hub]),
+        opc_main: (openc =~ /^[01]+$/) ? openc.to_i(2) : nil,
+        opc_s: (openc =~ /^[01]+$/) ? senc.to_i(2) : nil,
     )
 end
 

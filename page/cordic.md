@@ -68,7 +68,7 @@ Thus, if Q=0 (as happens when SETQ is not used), QROTATE can be used to compute 
 This is also the same operation as converting a polar vector (length/angle) into a carthesian(X/Y) one:
 
 ~~~
-    '' Convert polar to carhesian
+    '' Convert polar to carthesian
     QROTATE length,angle
     ' Can do other stuff while waiting
     GETQX x

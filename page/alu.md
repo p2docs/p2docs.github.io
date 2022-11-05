@@ -452,7 +452,7 @@ XORO32 generates a pseudo-random number based on the seed value in **D**estinati
 
 **D**estination's value should never be zero, since that causes the seed to stay zero.
 
-The algorithm used is xoroshiro32++, stepped twice to generate 2x16 bits of data. Due to this, some 32-bit number are never generated. Ideal properties are only guaranteed if only the top or bottom 16 bits of the generated number are used. Any subset of bits from either the upper or lower half are also equidistributed.
+The algorithm used is xoroshiro32++, stepped twice to generate 2x16 bits of data. Due to this, some 32-bit numbers are never generated. Ideal properties are only guaranteed if only the top or bottom 16 bits of the generated number are used. Any subset of bits from either the upper or lower half are also equidistributed.
 
 A software implementation of the algorithm in Spin2:
 

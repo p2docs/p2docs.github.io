@@ -129,3 +129,14 @@ NEGC: Negate if C
 NEGNC: Negate if !C
 NEGZ: Negate if Z
 NEGNZ: Negate if !Z
+ALTS: Indirect source
+ALTD: Indirect destination
+ALTR: Indirect result
+ALTB: Indirect bit
+ALTGN: Indirect GETNIB
+ALTGB: Indirect GETBYTE
+ALTGW: Indirect GETWORD
+ALTSN: Indirect SETNIB
+ALTSB: Indirect SETBYTE
+ALTSW: Indirect SETWORD
+ALTI: Complex indirect

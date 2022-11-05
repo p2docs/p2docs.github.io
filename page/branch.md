@@ -46,7 +46,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is restored from bit 30
 <%=p2instrinfo('callb-d',joininstr:true)%>
 
 <%=p2instrinfo('reta')%>
-RETA decrements **PTRA** by 4, reads an address from the new **PTRA** and jumps to that address
+RETA decrements **PTRA** by 4, reads an address from the new **PTRA** and jumps to that address.
 
 If the **WC** or **WCZ** effect is specified, the C flag is restored from bit 31 of the return address.
 

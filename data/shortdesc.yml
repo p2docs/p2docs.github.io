@@ -54,6 +54,20 @@ OR: Bitwise OR
 XOR: Bitwise XOR
 TESTB: Test bit
 TESTBN: Test bit (negative)
+TESTB-AND: Test bit (AND with current flag)
+TESTBN-AND: Test bit (negative, AND with current flag)
+TESTB-OR: Test bit (OR with current flag)
+TESTBN-OR: Test bit (negative, OR with current flag)
+TESTB-XOR: Test bit (XOR with current flag)
+TESTBN-XOR: Test bit (negative, XOR with current flag)
+TESTP: Test pin
+TESTPN: Test pin (negative)
+TESTP-AND: Test pin (AND with current flag)
+TESTPN-AND: Test pin (negative, AND with current flag)
+TESTP-OR: Test pin (OR with current flag)
+TESTPN-OR: Test pin (negative, OR with current flag)
+TESTP-XOR: Test pin (XOR with current flag)
+TESTPN-XOR: Test pin (negative, XOR with current flag)
 BITL: Clear bit(s)
 BITH: Set bit(s)
 BITNOT: Toggle bit(s)
@@ -140,7 +154,8 @@ ALTSN: Indirect SETNIB
 ALTSB: Indirect SETBYTE
 ALTSW: Indirect SETWORD
 ALTI: Complex indirect
-JMP: Jump
+JMP-A: Jump
+JMP-D: Jump (indirect)
 JMPREL: Jump relative
 RET: Return from subroutine
 TJZ: Test and jump if zero

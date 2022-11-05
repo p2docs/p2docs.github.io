@@ -221,13 +221,17 @@ tab.each do |row|
     elsif name == "CALLD"
         extra = args[1] == :address ? "(A)" : "(S)"
         search_prefer = args[0] == :address
+    elsif name =~ /^TEST[BP]N?$/
+        extra = '('+flags[0].to_s.chop+')' unless flags.include? :WZ
     else
         extra = nil
         search_prefer = nil
     end
 
+    id = [name,extra].compact.join('-').downcase.gsub(/[^A-Za-z0-9\-]/,'')
+
     P2Instructions << P2InstEntry.new(
-        id: [name,extra].compact.join('-').downcase.gsub(/[^A-Za-z0-9\-]/,''),
+        id: id,
         name: name,
         extra: extra,
         search_prefer: search_prefer,
@@ -243,7 +247,7 @@ tab.each do |row|
         time_hub: fixup_cycles(row[:time8hub]=="same" ? row[:time8cog] : row[:time8hub]),
         opc_main: (openc =~ /^[01]+$/) ? openc.to_i(2) : nil,
         opc_s: (openc =~ /^[01]+$/) ? senc.to_i(2) : nil,
-        shortdesc: SHORTDESCS[name],
+        shortdesc: SHORTDESCS[id.upcase],
         setq: setq,
     )
 end

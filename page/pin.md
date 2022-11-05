@@ -6,6 +6,14 @@ hyperjump:
 
 # I/O Pins
 
+**TODO**
+
+
+## Diagram
+<img src="pin-diagram.png">
+
+**TODO: Transparent version**
+
 ## I/O Instructions
 <%=p2instrinfo('drvl')%>
 <%=p2instrinfo('drvh')%>
@@ -45,7 +53,14 @@ hyperjump:
 
 
 <%=p2instrinfo('testp')%>
-<%=p2instrinfo('testpn')%>
+<%=p2instrinfo('testpn',joininstr:true)%>
+<%=p2instrinfo('testp-and',joininstr:true)%>
+<%=p2instrinfo('testpn-and',joininstr:true)%>
+<%=p2instrinfo('testp-or',joininstr:true)%>
+<%=p2instrinfo('testpn-or',joininstr:true)%>
+<%=p2instrinfo('testp-xor',joininstr:true)%>
+<%=p2instrinfo('testpn-xor',joininstr:true)%>
+
 
 
 ## Smart Pin Instructions

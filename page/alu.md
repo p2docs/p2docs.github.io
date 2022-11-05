@@ -397,7 +397,13 @@ This is useful for processing binary data in a different MSB/LSB order than it i
 ---
 
 <%=p2instrinfo('testb')%>
-<%=p2instrinfo('testbn')%>
+<%=p2instrinfo('testbn',joininstr:true)%>
+<%=p2instrinfo('testb-and',joininstr:true)%>
+<%=p2instrinfo('testbn-and',joininstr:true)%>
+<%=p2instrinfo('testb-or',joininstr:true)%>
+<%=p2instrinfo('testbn-or',joininstr:true)%>
+<%=p2instrinfo('testb-xor',joininstr:true)%>
+<%=p2instrinfo('testbn-xor',joininstr:true)%>
 <%=p2instrinfo('bitl')%>
 <%=p2instrinfo('bith')%>
 <%=p2instrinfo('bitnot')%>

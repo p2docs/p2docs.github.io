@@ -435,6 +435,12 @@ MUXNITS copies any non-zero bit pairs from **S**ource into the corresponding bit
 
 <%=p2instrinfo('modcz')%>
 
+<%=p2instrinfo('modc')%>
+MODC is an alias for [MODCZ](#modcz) without the Z parameter.
+
+<%=p2instrinfo('modz')%>
+MODZ is an alias for [MODCZ](#modcz) without the C parameter.
+
 <%=p2instrinfo('wrc')%>
 WRC writes the state of C (0 or 1) to **D**estination.
 

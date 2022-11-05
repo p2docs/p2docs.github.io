@@ -141,18 +141,21 @@ end
 tab.each do |row|
     categ = select_category(row[:group])
     next if categ.nil?
-    next if row[:alias] == 'alias'
     p row[:syntax] unless row[:syntax] =~ /^([\w<>]+)(?: {1,6}([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+)(?:,?([{#}\w\/\\]+))?)?)?(?: +({)?([A-Z\/]+)}?)?$/
     if $1 == "<empty>"
         categ = :empty
     end
     name = $1
+    next if row[:alias] == 'alias' && P2Instructions.any?{|i|i.name==name}
+
     flags = ($6||'').upcase.split(?/).map(&:to_sym)
     flags.unshift :none if $5 == '{' || flags.empty?
     args = []
     add_arg(args,$2)
     add_arg(args,$3)
     add_arg(args,$4)
+
+    categ = :irq if name =~ /^RE[TS]I[0-3]$/
 
     if args.include? :z_remap
         zval = "Per zzzz"

@@ -75,5 +75,18 @@ An additional cycle is added if the access crosses a long boundary. (i.e. any un
 <%=p2instrinfo('wmlong')%>
 Very spicy!
 
+## Alias Instructions
+
+<%=p2instrinfo('pusha')%>
+PUSHA is an alias for [WRLONG {#}D,**PTRA++**](#wrlong).
+
+<%=p2instrinfo('pushb')%>
+PUSHB is an alias for [WRLONG {#}D,**PTRB++**](#wrlong).
+
+<%=p2instrinfo('popa')%>
+POPA is an alias for [RDLONG D,**--PTRA**](#rdlong).
+
+<%=p2instrinfo('popb')%>
+POPB is an alias for [RDLONG D,**--PTRB**](#rdlong).
 
 <%p2instr_checkall :hubmem%>

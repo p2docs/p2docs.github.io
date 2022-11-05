@@ -73,6 +73,9 @@ hyperjump:
 <%=p2instrinfo('rdpin')%>
 <%=p2instrinfo('rqpin')%>
 
+<%=p2instrinfo('akpin')%>
+AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**
+
 
 ## Other
 

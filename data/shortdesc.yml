@@ -171,3 +171,11 @@ DJF: Decrement and jump if borrow
 DJNF: Decrement and jump if no borrow
 IJZ: Increment and jump if zero
 IJNZ: Increment and jump if not zero
+RETI0: Return from Debug Interrupt
+RETI1: Return from Interrupt 1
+RETI2: Return from Interrupt 2
+RETI3: Return from Interrupt 3
+RESI0: Resume from Debug Interrupt
+RESI1: Resume from Interrupt 1
+RESI2: Resume from Interrupt 2
+RESI3: Resume from Interrupt 3

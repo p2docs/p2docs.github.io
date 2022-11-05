@@ -37,3 +37,10 @@ Just start typing and be taken to the object of your intrigue! In theory anyways
 
 
 <img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif">
+
+## Recent changes
+
+As per git commit history...
+
+<%=recent_commits(5)%>
+

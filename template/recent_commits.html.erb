@@ -1,0 +1,13 @@
+<%require 'date'%>
+<%commits = `git log -5 --pretty=format:"%H %ad %s" --date=iso-strict`.split(?\n)%>
+<ul>
+<%commits.each do |c|%>
+    <%
+        next unless c =~ /([0-9a-f]+) ([\w\-\:\+]+) (.+)/
+        hash = $1
+        date = DateTime.parse($2);
+        message = $3
+    %>
+    <li><i><%=date.strftime('%B %-d %Y, %H:%M')%></i>: <a href="https://github.com/p2docs/p2docs.github.io/commit/<%=hash%>"><%=escape_html(message,:text)%></a></li>
+<%end%>
+</ul>

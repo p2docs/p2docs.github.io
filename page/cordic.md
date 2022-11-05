@@ -81,8 +81,8 @@ QROTATE instructs the CORDIC coprocessor to convert a carthesian vector (X/Y) in
 Mathematically:
 
 $$
-QX \approx \sqrt{D^2+S^2}\\\
-QY \approx atan2(S,D)
+QX \approx atan2(S,D)\\\
+QY \approx \sqrt{D^2+S^2}
 $$
 
 <%=p2instrinfo('qmul')%>

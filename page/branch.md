@@ -7,7 +7,8 @@ hyperjump:
 
 ## Basic Branches
 
-<%=p2instrinfo('jmp')%>
+<%=p2instrinfo('jmp-a')%>
+<%=p2instrinfo('jmp-d')%>
 **TODO: THERE ARE MULTIPLE DESTINCT JMP OPCODES**
 
 <%=p2instrinfo('jmprel')%>
@@ -24,18 +25,20 @@ hyperjump:
 
 ## Internal Stack Calls
 
-<%=p2instrinfo('call')%>
-**TODO: THERE ARE MULTIPLE DESTINCT CALL OPCODES**
-<%=p2instrinfo('ret')%>
+<%=p2instrinfo('call-a')%>
+<%=p2instrinfo('call-d')%>
+<%=p2instrinfo('calld-a')%>
+<%=p2instrinfo('calld-s')%>
 <%=p2instrinfo('callpa')%>
 <%=p2instrinfo('callpb')%>
-<%=p2instrinfo('calld')%>
-**TODO: THERE ARE MULTIPLE DESTINCT CALLD OPCODES**
+<%=p2instrinfo('ret')%>
 
 ## External Stack Calls
 
-<%=p2instrinfo('calla')%>
-<%=p2instrinfo('callb')%>
+<%=p2instrinfo('calla-a')%>
+<%=p2instrinfo('calla-d')%>
+<%=p2instrinfo('callb-a')%>
+<%=p2instrinfo('callb-d')%>
 <%=p2instrinfo('reta')%>
 <%=p2instrinfo('retb')%>
 

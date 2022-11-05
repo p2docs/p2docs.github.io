@@ -15,6 +15,7 @@
 let $hyperFuse = new Fuse($hyperJumpList,{
     keys: [
         {name:"name",weight:1},
+        {name:"extra",weight:0.5},
         {name:"type",weight:0.2},
         {name:"href",weight:0.5},
         {name:"hidden",weight:1.5},
@@ -78,7 +79,10 @@ jQuery(function() {
             resultList.forEach((res)=>{
                 const item = res.item;
                 //console.log(res);
-                list.append("<a href=\""+item.href+"\"><li><span class=\"hjrt\">"+item.name+"</span> - "+item.type+"</li></a>");
+                let result = "<span class=\"hjrt\">"+item.name+"</span>";
+                if (item.extra) result += " <span class=\"hjrte\">"+item.extra+"</span>";
+                if (item.type) result += " - "+item.type;
+                list.append("<a href=\""+item.href+"\"><li>"+result+"</li></a>");
             });
             if (resultList.length == 0) {
                 list.append("No results :(");

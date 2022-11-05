@@ -1,6 +1,6 @@
 <%# This template just checks that all instructions of a category are covered on the current page%>
 <%
     P2Opdata::P2Instructions
-        .select{|i|i.category==targ[0] && !@props[:page_got_dem_instrs_alright].include?(i.name.upcase)}
+        .select{|i|i.category==targ[0] && !@props[:page_got_dem_instrs_alright].include?(i)}
         .each{|i|puts "Warning: Missing #{i.name.upcase}"}
 %>

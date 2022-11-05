@@ -92,7 +92,7 @@ def self.add_arg(array,str)
 end
 
 P2InstEntry = Struct.new(
-    :name,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,:shortdesc,:setq,
+    :id, :name, :extra,:search_prefer,:args,:flags,:category,:enctext,:alias,:time_cog,:time_hub,:shield,:regwr,:cval,:zval,:opc_main,:opc_s,:shortdesc,:setq,
 keyword_init: true) do
 
     def flagsyntax
@@ -111,7 +111,7 @@ keyword_init: true) do
     end
 
     def doc_href
-        "/#{category}.html##{name.downcase}"
+        "/#{category}.html##{id}"
     end
 
 end
@@ -215,8 +215,22 @@ tab.each do |row|
     denc = $6
     senc = $7
 
+    if name == "JMP" || name =~ /^CALL[AB]?$/
+        extra = args[0] == :address ? "A" : "D"
+        search_prefer = args[0] == :address
+    elsif name == "CALLD"
+        extra = args[1] == :address ? "A" : "S"
+        search_prefer = args[0] == :address
+    else
+        extra = nil
+        search_prefer = nil
+    end
+
     P2Instructions << P2InstEntry.new(
+        id: [name,extra].compact.join('-').downcase.gsub(/[^A-Za-z0-9\-]/,''),
         name: name,
+        extra: extra,
+        search_prefer: search_prefer,
         args: args,
         enctext: row[:encoding],
         regwr: regwr,

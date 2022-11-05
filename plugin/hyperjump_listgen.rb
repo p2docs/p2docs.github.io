@@ -11,8 +11,10 @@ $finalize_hooks << lambda do
         next if instr.category == :empty
         items << {
             name: instr.name,
+            extra: instr.extra,
             type: "Instruction (#{P2Opdata::CATEGORIES[instr.category]})",
             href: instr.doc_href,
+            hidden: instr.search_prefer ? instr.name : nil,
         }
     end
 

@@ -140,3 +140,6 @@ ALTSN: Indirect SETNIB
 ALTSB: Indirect SETBYTE
 ALTSW: Indirect SETWORD
 ALTI: Complex indirect
+JMP: Jump
+JMPREL: Jump relative
+RET: Return from subroutine

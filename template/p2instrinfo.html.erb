@@ -4,7 +4,7 @@ raise "untabled op #{targ[0]}" unless op
 @props[:page_got_dem_instrs_alright] ||= Set.new
 @props[:page_got_dem_instrs_alright].add op
 %>
-<div class="p2instrinfo">
+<div class="p2instrinfo<%=" joininstr" if kwarg[:joininstr]%>">
     <%if kwarg[:title]!=false%>
         <h3 <%=htmlattr('id',op.id)%>><%if op.setq%><span class="setq">{ <%=op.setq>=2 ? "SETQ/SETQ2" : "SETQ"%> {#}Q }</span><br><%end%><%=op.name%> <span class="args"><%=op.argsyntax%></span><%if op.shortdesc%><span class="desc"> - <%=op.shortdesc%></span><%end%></h3>
     <%end%>

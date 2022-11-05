@@ -42,5 +42,5 @@ Just start typing and be taken to the object of your intrigue! In theory anyways
 
 As per git commit history...
 
-<%=recent_commits(5)%>
+<%=recent_commits(6)%>
 

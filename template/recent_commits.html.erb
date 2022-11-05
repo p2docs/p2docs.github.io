@@ -1,5 +1,5 @@
 <%require 'date'%>
-<%commits = `git log -5 --pretty=format:"%H %ad %s" --date=iso-strict`.split(?\n)%>
+<%commits = `git log -#{targ[0].to_s 10} --pretty=format:"%H %ad %s" --date=iso-strict`.split(?\n)%>
 <ul>
 <%commits.each do |c|%>
     <%

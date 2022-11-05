@@ -7,7 +7,7 @@ title: Propeller Documentation
 
 ## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. pending) technology!
 
-Just start typing and be taken to the object of your intrigue! In theory anyways, in practice none of the content is created (yet?). Well, some are, kinda, try searching "CORDIC" or "Table".
+Just start typing and be taken to the object of your intrigue! In theory anyways, in practice a lot of the content isn't quite cooked yet.
 
 
 ## Overview
@@ -34,9 +34,6 @@ Just start typing and be taken to the object of your intrigue! In theory anyways
  - [Interrupts](irq.html)
  - [Hub Control](hubctrl.html)
  - [Miscellaneous Instructions](misc.html)
-
-
-You may also want to check out the [Instruction Table](p2_optable.html) or  or [Opcode Matrix](p2_opmatrix.html)...
 
 
 <img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif">

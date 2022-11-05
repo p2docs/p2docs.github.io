@@ -434,6 +434,34 @@ MUXNITS copies any non-zero bit pairs from **S**ource into the corresponding bit
 ## Flag manipulation
 
 <%=p2instrinfo('modcz')%>
+MODC, MODZ, or MODCZ sets or clears the C and/or Z flag based on the mode described by the given modifier symbols and the current state of the C and Z flags. The **WC**, **WZ**, and **WCZ** effects are required to affect the designated flag. **Note that it is possible to encode MODCZ without any effects, which is entirely pointless.**
+
+These flag modifier instructions allow code to preset flags to a desired state which may be required for entry into certain code routines, or to set a special state based on multiple events that are otherwise not possible to realize with a single instruction.
+
+The possible modifiers are:
+
+|Encoding|Primary Name|Alternate 1|Alternate 2|Description|
+|-|-|-|-|
+|%0000|_CLR|||Always clear flag|
+|%0001|_NC_AND_NZ|_NZ_AND_NC|_GT|Set flag if C=0 AND Z=0|
+|%0010|_NC_AND_Z|_Z_AND_NC||Set flag if C=0 AND Z=1|
+|%0011|_NC||_GE|Set flag if C=0|
+|%0100|_C_AND_NZ|_NZ_AND_C||Set flag if C=1 AND Z=0|
+|%0101|_NZ||_NE|Set flag if Z=0|
+|%0110|_C_NE_Z|_Z_NE_C||Set flag if C!=Z|
+|%0111|_NC_OR_NZ|_NZ_OR_NC||Set flag if C=0 OR Z=0|
+|%1000|_C_AND_Z|_Z_AND_C||Set flag if C=1 AND Z=1|
+|%1001|_C_EQ_Z|_Z_EQ_C||Set flag if C=Z|
+|%1010|_Z||_E|Set flag if Z=1|
+|%1011|_NC_OR_Z|_Z_OR_NC||Set flag if C=0 OR Z=1|
+|%1100|_C||_LT|Set flag if C=1|
+|%1101|_C_OR_NZ|_NZ_OR_C||Set flag if C=1 OR Z=0|
+|%1110|_C_OR_Z|_Z_OR_C||Set flag if C=1 OR Z=1|
+|%1111|_SET|||Always set flag|
+
+Note the logical nature of the encoding: The new state of the flag is the [C,Z]th bit of the encoding. **TODO express more clearly**
+
+Thus, every modifier with one bit set is an "x AND y" type (only one of four possible states sets the flag), every modifier with 3 bits set is an "x OR y" type (all _but_ one state sets the flag).
 
 <%=p2instrinfo('modc')%>
 MODC is an alias for [MODCZ](#modcz) without the Z parameter.

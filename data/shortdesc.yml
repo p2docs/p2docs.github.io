@@ -143,3 +143,16 @@ ALTI: Complex indirect
 JMP: Jump
 JMPREL: Jump relative
 RET: Return from subroutine
+TJZ: Test and jump if zero
+TJNZ: Test and jump if not zero
+TJF: Test and jump if full
+TJNF: Test and jump if not full
+TJS: Test and jump if negative
+TJNS: Test and jump if positive
+TJV: Test and jump if signed overflow occurred
+DJZ: Decrement and jump if zero
+DJNZ: Decrement and jump if not zero
+DJF: Decrement and jump if borrow
+DJNF: Decrement and jump if no borrow
+IJZ: Increment and jump if zero
+IJNZ: Increment and jump if not zero

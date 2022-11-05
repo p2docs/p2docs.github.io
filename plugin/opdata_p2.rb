@@ -216,10 +216,10 @@ tab.each do |row|
     senc = $7
 
     if name == "JMP" || name =~ /^CALL[AB]?$/
-        extra = args[0] == :address ? "A" : "D"
+        extra = args[0] == :address ? "(A)" : "(D)"
         search_prefer = args[0] == :address
     elsif name == "CALLD"
-        extra = args[1] == :address ? "A" : "S"
+        extra = args[1] == :address ? "(A)" : "(S)"
         search_prefer = args[0] == :address
     else
         extra = nil

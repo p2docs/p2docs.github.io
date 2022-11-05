@@ -10,8 +10,8 @@ hyperjump:
 All pixel mixer operations perform the following math:
 
 $$
-\newcommand{\DMIX}{\operatorname{DMIX}}
-\newcommand{\SMIX}{\operatorname{SMIX}}
+\newcommand{\DMIX}{\mathit{DMIX}}
+\newcommand{\SMIX}{\mathit{SMIX}}
 D'[31:24] \approx \min\left({{D[31:24] *\DMIX+S[31:24] *\SMIX+255}\over 256},255\right) \\
 D'[23:16] \approx \min\left({{D[23:16] *\DMIX+S[23:16] *\SMIX+255}\over 256},255\right) \\
 D'[15:08] \approx \min\left({{D[15:08] *\DMIX+S[15:08] *\SMIX+255}\over 256},255\right) \\

@@ -50,7 +50,7 @@ Mathematically, it performs this operation:
 
 $$
 \begin{align*}
-QX \approx D cos(S) - Q sin(S)\\\
+QX \approx D cos(S) - Q sin(S)\\
 QY \approx D sin(S) + Q cos(S)
 \end{align*}
 $$
@@ -81,7 +81,7 @@ QROTATE instructs the CORDIC coprocessor to convert a carthesian vector (X/Y) in
 Mathematically:
 
 $$
-QX \approx atan2(S,D)\\\
+QX \approx atan2(S,D)\\
 QY \approx \sqrt{D^2+S^2}
 $$
 
@@ -109,7 +109,7 @@ When it is done, **GETQX** will return the result, rounded down. **? TODO verify
 QLOG instructs the CORDIC coprocessor to compute the base-2 logarithm of the unsigned 32-bit number in **D**estination. When it is done, **GETQX** returns the logarithm, in 5.27 fixed-point format (i.e. the top five bits containing the whole part).
 
 $$
-QX \approx 2^{27}log2(D)
+QX \approx 2^{27}(\log _{2} D)
 $$
 
 

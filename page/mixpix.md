@@ -27,6 +27,12 @@ wherein SMIX and DMIX depend on the instruction:
 |BLNPIX|255 - PIV|PIV|
 |MIXPIX|PIX[5:3] = %000 -> 0<br>PIX[5:3] = %001 -> 255<br>PIX[5:3] = %010 -> PIV<br>PIX[5:3] = %011 -> 255 - PIV<br>PIX[5:3] = %100 -> S[byte]<br>PIX[5:3] = %101 -> 255 - S[byte]<br>PIX[5:3] = %110 -> D[byte]<br>PIX[5:3] = %111 -> 255 - D[byte]|PIX[2:0] = %000 -> 0<br>PIX[2:0] = %001 -> 255<br>PIX[2:0] = %010 -> PIV<br>PIX[2:0] = %011 -> 255 - PIV<br>PIX[2:0] = %100 -> S[byte]<br>PIX[2:0] = %101 -> 255 - S[byte]<br>PIX[2:0] = %110 -> D[byte]<br>PIX[2:0] = %111 -> 255 - D[byte]|
 
+The equivalent SETPIX value for ADDPIX is `%001_001`.
+
+The equivalent SETPIX value for MULPIX is `%100_000`.
+
+The equivalent SETPIX value for BLNPIX is `%011_010`.
+
 ## Instructions
 
 <%=p2instrinfo('addpix')%>

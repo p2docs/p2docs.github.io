@@ -459,7 +459,7 @@ The possible modifiers are:
 |%1110|_C_OR_Z|_Z_OR_C||Set flag if C=1 OR Z=1|
 |%1111|_SET|||Always set flag|
 
-Note the logical nature of the encoding: The new state of the flag is the [C,Z]th bit of the encoding. **TODO express more clearly**
+Note the logical nature of the encoding: Each bit in the modifier corrosponds to one possible state of \[C,Z\].
 
 Thus, every modifier with one bit set is an "x AND y" type (only one of four possible states sets the flag), every modifier with 3 bits set is an "x OR y" type (all _but_ one state sets the flag).
 

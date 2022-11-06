@@ -20,7 +20,7 @@ non-zero.
 MOVBYTS swizzles the bytes of **D**estination based on bottom 8 bits in **S**ource. Each bit pair in **S**ource[7:0] corrosponds to one byte slot of the result and selects which of the input bytes will appear there. It is useful to use base-4 literals (`%%0123`) with MOVBYTS, since each digit corrosponds to one bit pair.
 
 - `MOVBYTS D,#%%3210` leaves D as-is.
-- `MOVBYTS D,#%%0123` reverses the bytes of D.
+- `MOVBYTS D,#%%0123` reverses the bytes of D ("endian swap").
 - `MOVBYTS D,#%%0000` will copy the lowest byte into all four slots
 
 <%=p2instrinfo('loc')%>
@@ -490,7 +490,26 @@ WRNZ writes the inverse state of Z (0 or 1) to **D**estination.
 ## Other
 
 <%=p2instrinfo('crcbit')%>
+CRCBIT feeds one bit, taken from the C flag, into the CRC checksum in **D**estination, using the polynomial given in **S**ource.
+
+`CRCBIT D,S` is equivalent to the following sequence (except that CRCBIT does not change the C flag):
+
+~~~
+        TESTB  D,#0 xorc
+        SHR    D,#1
+   if_c XOR    D,S
+~~~
+
 <%=p2instrinfo('crcnib')%>
+CRCNIB feeds one nibble, taken from the top 4 bits of the [Q Register](cog.html#q-register), into the CRC checksum in **D**estination, using the polynomial given in **S**ource. The top bit of Q is processed first. Afterwards, Q is shifted left by 4 bits.
+
+To process an entire long, the following sequence can be used:
+
+~~~
+        SETQ  value
+        REP   #1,#8
+        CRCNIB checksum,polynomial
+~~~
 
 <%=p2instrinfo('xoro32')%>
 XORO32 generates a pseudo-random number based on the seed value in **D**estination. The next seed value is written back into **D**estination and the generated pseudo-random number is substituted as the next instruction's **S**ource value.

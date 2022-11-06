@@ -183,3 +183,5 @@ SKIP: Slow-Skip instruction pattern
 SKIPF: Fast-Skip instruction pattern
 EXECF: Jump and Fast-Skip instruction pattern
 REP: Repeat block
+CRCBIT: Advance CRC (one bit)
+CRCNIB: Advance CRC (four bits)

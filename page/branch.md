@@ -15,13 +15,15 @@ hyperjump:
 ## Instruction Skipping
 
 <%=p2instrinfo('skip')%>
-SKIP causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corresponds to the instruction immediately following SKIP and bit 31 corresponds to the 32nd instruction following SKIP).
+SKIP allows any of the next 32 instructions to be skipped if the corresponding bit is set (=1) in **D**estination. Bit 0 controls skipping for the first instruction after SKIP and bit 31 the 32nd. **D**estination is loaded into an internal shift register, changing it while SKIP is active has no effect.
 
 The skipped instructions are treated similarly to ones whose `if_*` condition check isn't met, i.e. they take 2 cycles to execute and _do_ consume any [ALTx-type instruction](indir.html) preceding them.
 
-Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction (or [interrupt](irq.html)) suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack. A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
+A call (or [interrupt](irq.html)) suspends skipping until after the corresponding return. Nested calls are allowed up to a depth of eight (matching the size of the internal stack). Skipping continues after a jump and any remaining skip bits apply whether or not a conditional jump is made.
 
-Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
+Skipping cannot be nested; SKIP ends any active or suspended skip sequence and starts a new one. `SKIP #0` can be used to end skipping earlier than normal. SKIP does not work inside interrupt service routines (**TODO CONFIRM**).
+
+Note that **AUGS and AUGD are separate instructions**, e.g. `WRLONG ##1234, ##4568` consumes three skip bits. A subroutine call consumes only one skip bit for the entire routine.
 
 For example:
 
@@ -47,13 +49,9 @@ subroutine
 **TODO: Research what happens if skip is executed when another SKIP is still active (or suspended)**
 
 <%=p2instrinfo('skipf')%>
-SKIPF causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corresponds to the instruction immediately following SKIPF and bit 31 corresponds to the 32nd instruction following SKIPF).
+SKIPF allows any of the next 32 instructions to be skipped if the corresponding bit is set (=1) in **D**estination. Bit 0 controls skipping for the first instruction after SKIPF and bit 31 the 32nd. **D**estination is loaded into an internal shift register, changing it while SKIPF is active has no effect.
 
-Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction (or [interrupt](irq.html)) suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack. A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
-
-Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
-
-SKIPF is different to [SKIP](#skip) in that it can completely eliminate instructions from the pipeline. The skipped instructions take zero cycles to execute and _don't_ consume any [ALTx-type instruction](indir.html) preceding them. This works by incrementing PC by more than one instruction at a time.
+SKIPF works similarly to [SKIP](#skip), but differs in that it can completely eliminate instructions from the pipeline. The skipped instructions take zero cycles to execute and _don't_ consume any [ALTx-type instruction](indir.html) preceding them. This works by incrementing PC by more than one instruction at a time.
 
 However, this instruction has some **severe limitations/oddities**:
 
@@ -123,7 +121,7 @@ The assembler supports a special syntax `@end_label` to automatically calculate 
 .loop
         ' equivalent without special syntax:
         rep #3,#5
-        add x,##1234 ' AUGS/AUDG count as extra instructions!
+        add x,##1234 ' AUGS/AUGD count as extra instructions!
         wrlong x,ptra++
 ~~~
 

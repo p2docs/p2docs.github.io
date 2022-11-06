@@ -129,8 +129,6 @@ Note: if **D**estination is zero, REP does nothing.
 
 <%=p2instrinfo('call-a')%>
 <%=p2instrinfo('call-d',joininstr:true)%>
-<%=p2instrinfo('calld-a')%>
-<%=p2instrinfo('calld-s',joininstr:true)%>
 <%=p2instrinfo('callpa')%>
 <%=p2instrinfo('callpb')%>
 
@@ -161,6 +159,11 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is restored from bit 30
 
 <%=p2instrinfo('retb')%>
 See [RETA](#reta), but substitute **PTRA** with **PTRB**.
+
+## Coroutine calls
+
+<%=p2instrinfo('calld-a')%>
+<%=p2instrinfo('calld-s',joininstr:true)%>
 
 ## Conditional branch addressing
 

@@ -55,7 +55,7 @@ However, this instruction has some **severe limitations/oddities**:
 
  - It can only be used when executing from Cog or LUT memory. If it is used when executing from Hub memory, it acts as a normal [SKIP](#skip).
  - Only 7 instructions can be fast-skipped at once. The 8th instruction will be skipped normally (i.e. takes 2 cycles and consumes ALTx).
- - The first instruction after SKIPF can not be fast-skipped. If its bit is set, it is skipped normally (see above)
+ - The first instruction after SKIPF cannot be fast-skipped. If its bit is set, it is skipped normally (see above)
  - Relative addressing should not be used for subroutine calls if the instruction after the call should be skipped (explicitly specify absolute addressing by writing `#\label` instead of `#label`). (**TODO: What happens if this is violated?**)
  - Absolute addressing (both direct immediates and indirect jumps through a register) should not be used for (non-call) branches where the first instruction after the branch should be skipped. (**TODO: What happens if this is violated?**)
 
@@ -104,7 +104,7 @@ REP causes the following block of instructions (whose length is provided in **D*
 
 Looping with REP is faster than using a normal branch instruction (such as [DJNZ](#djnz)): If executing from Cog or LUT memory, the jump back to the top of the REP block is fully pipelined and thus instant. **0 cycles**! **TODO hubexec timing**
 
-REP loops **can not be nested!** Also, any jump or call instruction will cancel the REP effect (this can be used to exit the loop early!).
+REP loops **cannot be nested!** Also, any jump or call instruction will cancel the REP effect (this can be used to exit the loop early!).
 
 The last instruction in the REP loop should not be a relative-addressed jump or call, since the PC will already have looped back to the top by the time the target address is computed.
 

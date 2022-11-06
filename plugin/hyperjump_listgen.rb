@@ -18,6 +18,16 @@ $finalize_hooks << lambda do
         }
     end
 
+    P2Opdata::P2SmartModes.each do |mode|
+        items << {
+            name: mode.name,
+            #extra: mode.extra,
+            type: "Smart Pin Mode",
+            href: mode.doc_href,
+            #nudge: mode.search_prefer ? mode.name : nil,
+        }
+    end
+
     PAGES.each do |page|
         if page.props['hyperjump']
             page.props['hyperjump'].each do |item|

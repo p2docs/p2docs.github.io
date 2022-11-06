@@ -8,7 +8,7 @@ hyperjump:
 ## Basic Branches
 
 <%=p2instrinfo('jmp-a')%>
-<%=p2instrinfo('jmp-d',joininstr:true)%>
+<%=p2instrinfo('jmp-d',joinup:true)%>
 
 <%=p2instrinfo('jmprel')%>
 
@@ -128,7 +128,7 @@ Note: if **D**estination is zero, REP does nothing.
 ## Internal Stack Calls
 
 <%=p2instrinfo('call-a')%>
-<%=p2instrinfo('call-d',joininstr:true)%>
+<%=p2instrinfo('call-d',joinup:true)%>
 <%=p2instrinfo('callpa')%>
 <%=p2instrinfo('callpb')%>
 
@@ -144,9 +144,9 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is restored from bit 30
 ## External Stack Calls
 
 <%=p2instrinfo('calla-a')%>
-<%=p2instrinfo('calla-d',joininstr:true)%>
+<%=p2instrinfo('calla-d',joinup:true)%>
 <%=p2instrinfo('callb-a')%>
-<%=p2instrinfo('callb-d',joininstr:true)%>
+<%=p2instrinfo('callb-d',joinup:true)%>
 
 <%=p2instrinfo('reta')%>
 RETA decrements **PTRA** by 4, reads an address from the new **PTRA** and jumps to that address.
@@ -163,7 +163,7 @@ See [RETA](#reta), but substitute **PTRA** with **PTRB**.
 ## Coroutine calls
 
 <%=p2instrinfo('calld-a')%>
-<%=p2instrinfo('calld-s',joininstr:true)%>
+<%=p2instrinfo('calld-s',joinup:true)%>
 
 ## Conditional branch addressing
 
@@ -256,8 +256,8 @@ See [Conditional branch addressing](#conditional-branch-addressing) for details 
 ## Branch on Event
 
 <% P2Opdata::EVENTS.each_with_index do |ev,i| %>
-<%=p2instrinfo("j#{ev}",joininstr:i!=0)%>
-<%=p2instrinfo("jn#{ev}",joininstr:true)%>
+<%=p2instrinfo("j#{ev}",joinup:i!=0)%>
+<%=p2instrinfo("jn#{ev}",joinup:true)%>
 <%end%>
 
 See [Events](event.html) for more info.

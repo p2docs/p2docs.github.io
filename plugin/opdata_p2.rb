@@ -255,5 +255,59 @@ tab.each do |row|
     )
 end
 
+P2SmartEntry = Struct.new(:name,:number,:shortdesc) do
+    def id
+        return @id if @id
+        return @id = name.downcase.gsub('_','-')
+    end
+    def doc_href
+        "/pin.html##{id}"
+    end
+end
+
+P2SmartModes = [
+    P2SmartEntry["P_NORMAL",0b00000,"Dumb pin mode"],
+    P2SmartEntry["P_REPOSITORY",0b00001,"Long repository"],
+    P2SmartEntry["P_DAC_NOISE",0b00001,"DAC Noise"],
+    P2SmartEntry["P_DAC_DITHER_RND",0b00010,"DAC 16-bit random dither"],
+    P2SmartEntry["P_DAC_DITHER_PWM",0b00011,"DAC 16-bit PWM dither"],
+
+    P2SmartEntry["P_PULSE",0b00100,"Pulse/cycle output"],
+    P2SmartEntry["P_TRANSITION",0b00101,"Transition output"],
+    P2SmartEntry["P_NCO_FREQ",0b00110,"NCO frequency output"],
+    P2SmartEntry["P_NCO_DUTY",0b00111,"NCO duty output"],
+
+    P2SmartEntry["P_PWM_TRIANGLE",0b01000,"PWM triangle output"],
+    P2SmartEntry["P_PWM_SAWTOOTH",0b01001,"PWM sawtooth output"],
+    P2SmartEntry["P_PWM_SMPS",0b01010,"PWM switch-mode power supply I/O"],
+    P2SmartEntry["P_QUADRATURE",0b01011,"A-B quadrature encoder input"],
+
+    P2SmartEntry["P_REG_UP",0b01100,"Inc on A-rise when B-high"],
+    P2SmartEntry["P_REG_UP_DOWN",0b01101,"Inc on A-rise when B-high, dec on A-rise when B-low"],
+    P2SmartEntry["P_COUNT_RISES",0b01110,"Inc on A-rise, optionally dec on B-rise"],
+    P2SmartEntry["P_COUNT_HIGHS",0b01111,"Inc on A-high, optionally dec on B-high"],
+
+    P2SmartEntry["P_STATE_TICKS",0b10000,"For A-low and A-high states, count ticks"],
+    P2SmartEntry["P_HIGH_TICKS",0b10001,"For A-high states, count ticks"],
+    P2SmartEntry["P_EVENTS_TICKS",0b10010,"For X A-highs/rises/edges, count ticks / Timeout on X ticks of no A-high/rise/edge"],
+    P2SmartEntry["P_PERIODS_TICKS",0b10011,"For X periods of A, count ticks"],
+
+    
+    P2SmartEntry["P_PERIODS_HIGHS",0b10100,"For X periods of A, count highs"],
+    P2SmartEntry["P_COUNTER_TICKS",0b10101,"For periods of A in X+ ticks, count ticks"],
+    P2SmartEntry["P_COUNTER_HIGHS",0b10110,"For periods of A in X+ ticks, count highs"],
+    P2SmartEntry["P_COUNTER_PERIODS",0b10111,"For periods of A in X+ ticks, count periods"],
+
+    P2SmartEntry["P_ADC",0b11000,"ADC sample/filter/capture, internally clocked"],
+    P2SmartEntry["P_ADC_EXT",0b11001,"ADC sample/filter/capture, externally clocked"],
+    P2SmartEntry["P_ADC_SCOPE",0b11010,"ADC scope with trigger"],
+    P2SmartEntry["P_USB_PAIR",0b11011,"USB pin pair"],
+
+    P2SmartEntry["P_SYNC_TX",0b11100,"Synchronous serial transmit"],
+    P2SmartEntry["P_SYNC_RX",0b11101,"Synchronous serial receive"],
+    P2SmartEntry["P_ASYNC_TX",0b11110,"Asynchronous serial transmit"],
+    P2SmartEntry["P_ASYNC_RX",0b11111,"Asynchronous serial receive"],
+]
+
 end
 

@@ -1,0 +1,11 @@
+<%
+mode = targ[0].is_a?(P2Opdata::P2SmartEntry) ? targ[0] : P2Opdata::P2SmartModes.find{|i|i.id==targ[0]}
+raise "untabled mode #{targ[0]}" unless mode
+#@props[:page_got_dem_instrs_alright] ||= Set.new
+#@props[:page_got_dem_instrs_alright].add op
+%>
+<div class="p2smartinfo<%=" joinup" if kwarg[:joinup]%>">
+    <%if kwarg[:title]!=false%>
+        <h3 <%=htmlattr('id',mode.id)%>><%=mode.name%> <span class="modenum"><%="(%%%05b)"%mode.number%></span> <%if mode.shortdesc%><span class="desc"> - <%=mode.shortdesc%></span><%end%></h3>
+    <%end%>
+</div>

@@ -227,7 +227,6 @@ tr {
             font-size: 0.7em;
         }
         .desc {
-            //color: #444;
             font-size: 0.7em;
         }
         .setq {
@@ -239,7 +238,21 @@ tr {
         margin-bottom: 12px;
         margin-top: 32px;
     }
-    &.joininstr h3 {
+    &.joinup h3 {
+        margin-top: 8px;
+    }
+}
+.p2smartinfo {
+    h3 {
+        .modenum {
+            color: #666;
+            font-size: 0.7em;
+        }
+        .desc {
+            font-size: 0.7em;
+        }
+    }
+    &.joinup h3 {
         margin-top: 8px;
     }
 }

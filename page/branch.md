@@ -17,7 +17,7 @@ hyperjump:
 <%=p2instrinfo('skip')%>
 SKIP causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corrosponds to the instruction immediately following SKIP and bit 31 corrosponds to the 32nd instruction following SKIP).
 
-The skipped instructions are treated similarly to ones whose `if_*` condition check isn't met, i.e. they take 2 cycles to execute and _do_ consume any [ALTx-type instruction](indirect.html) preceding them.
+The skipped instructions are treated similarly to ones whose `if_*` condition check isn't met, i.e. they take 2 cycles to execute and _do_ consume any [ALTx-type instruction](indir.html) preceding them.
 
 The skipping continues normally after branches, but any subroutine call (or [interrupt](irq.html)) will "suspend" the SKIP function and it will resume only after a return instruction. This also works with nested calls. However, any subroutine called while a SKIP sequence is suspended can not use SKIP/SKIPF itself (**TODO: What happens when you try?**).
 
@@ -53,7 +53,7 @@ The skipping continues normally after branches, but any subroutine call (or [int
 
 Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
 
-SKIPF is different to [SKIP](#skip) in that it can completely eliminate instructions from the pipeline. The skipped instructions take zero cycles to execute and _don't_ consume any [ALTx-type instruction](indirect.html) preceding them. This works by incrementing PC by more than one instruction at a time.
+SKIPF is different to [SKIP](#skip) in that it can completely eliminate instructions from the pipeline. The skipped instructions take zero cycles to execute and _don't_ consume any [ALTx-type instruction](indir.html) preceding them. This works by incrementing PC by more than one instruction at a time.
 
 However, this instruction has some **severe limitations/oddities**:
 

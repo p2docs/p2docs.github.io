@@ -23,11 +23,16 @@ inline-css: |
         <th><%="%0*b%s" % [rowbits,row,?x*colbits]%></th>
         <%(1<<colbits).times do |col|%>
             <%i = col+(row<<colbits)%>
-            <%if main_hacks && i >= 0b1110_000%>
-                <td <%=htmlattr('colspan',[1<<colbits,8].min)%>><%=i >= 0b1111_000 ? "<a href=\"/misc.html#augd\">AUGD</a>" : "<a href=\"/misc.html#augs\">AUGS</a>"%></td>
-                <%break%>
+            <%if main_hacks && i>>2 == 0b11111%>
+                <%next if (i&3)!=0%>
+                <td colspan=4><a href="/misc.html#augd">AUGD</a></td>
+            <%elsif main_hacks && i>>2 == 0b11110%>
+                <%next if (i&3)!=0%>
+                <td colspan=4><a href="/misc.html#augs">AUGS</a></td>
+            <%elsif main_hacks && i>>3 == 0b1110%>
+                <td><a href="<%=%w[branch.html#calld-a alu.html#loc][i[2]]%>"><%=%w[CALLD LOC][i[2]]%></a> (<%=%w[PA PB PTRA PTRB][i&3]%>)</td>
             <%elsif main_hacks && i==0b1101011%>
-                <td><a href="#1101011-sub">1101011 Sub-Opcodes</a></td>
+                <td><b><a href="#1101011-sub">1101011 Sub-Opcodes</a></b></td>
             <%else%>
                 <%if main_hacks && i>>1 == 0b100000%>
                     <%next if i.odd?%>

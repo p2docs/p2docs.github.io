@@ -19,7 +19,7 @@ SKIP causes the following 32 instructions to be conditionally skipped, based on 
 
 The skipped instructions are treated similarly to ones whose `if_*` condition check isn't met, i.e. they take 2 cycles to execute and _do_ consume any [ALTx-type instruction](indir.html) preceding them.
 
-Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack (**TODO Link**). A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
+Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction (or [interrupt](irq.html)) suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack. A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
 
 Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
 
@@ -49,7 +49,7 @@ subroutine
 <%=p2instrinfo('skipf')%>
 SKIPF causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corresponds to the instruction immediately following SKIPF and bit 31 corresponds to the 32nd instruction following SKIPF).
 
-Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack (**TODO Link**). A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
+Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction (or [interrupt](irq.html)) suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack. A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
 
 Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
 

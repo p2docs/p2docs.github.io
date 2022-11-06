@@ -14,7 +14,7 @@ $finalize_hooks << lambda do
             extra: instr.extra,
             type: "Instruction (#{P2Opdata::CATEGORIES[instr.category]})",
             href: instr.doc_href,
-            hidden: instr.search_prefer ? instr.name : nil,
+            nudge: instr.search_prefer ? instr.name : nil,
         }
     end
 

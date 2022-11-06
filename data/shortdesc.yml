@@ -179,3 +179,7 @@ RESI0: Resume from Debug Interrupt
 RESI1: Resume from Interrupt 1
 RESI2: Resume from Interrupt 2
 RESI3: Resume from Interrupt 3
+SKIP: Slow-Skip instruction pattern
+SKIPF: Fast-Skip instruction pattern
+EXECF: Jump and Fast-Skip instruction pattern
+REP: Repeat block

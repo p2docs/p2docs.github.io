@@ -15,11 +15,11 @@ hyperjump:
 ## Instruction Skipping
 
 <%=p2instrinfo('skip')%>
-SKIP causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corrosponds to the instruction immediately following SKIP and bit 31 corrosponds to the 32nd instruction following SKIP).
+SKIP causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corresponds to the instruction immediately following SKIP and bit 31 corresponds to the 32nd instruction following SKIP).
 
 The skipped instructions are treated similarly to ones whose `if_*` condition check isn't met, i.e. they take 2 cycles to execute and _do_ consume any [ALTx-type instruction](indir.html) preceding them.
 
-The skipping continues normally after branches, but any subroutine call (or [interrupt](irq.html)) will "suspend" the SKIP function and it will resume only after a return instruction. This also works with nested calls. However, any subroutine called while a SKIP sequence is suspended can not use SKIP/SKIPF itself (**TODO: What happens when you try?**).
+Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack (**TODO Link**). A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
 
 Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
 
@@ -47,9 +47,9 @@ subroutine
 **TODO: Research what happens if skip is executed when another SKIP is still active (or suspended)**
 
 <%=p2instrinfo('skipf')%>
-SKIPF causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corrosponds to the instruction immediately following SKIPF and bit 31 corrosponds to the 32nd instruction following SKIPF).
+SKIPF causes the following 32 instructions to be conditionally skipped, based on the bit pattern loaded from **D**estination (bit 0 corresponds to the instruction immediately following SKIPF and bit 31 corresponds to the 32nd instruction following SKIPF).
 
-The skipping continues normally after branches, but any subroutine call (or [interrupt](irq.html)) will "suspend" the SKIP function and it will resume only after a return instruction. This also works with nested calls. However, any subroutine called while a SKIP sequence is suspended can not use SKIP/SKIPF itself (**TODO: What happens when you try?**).
+Skipping continues after jump instructions and the same skip pattern applies whether or not a conditional jump is made. A call instruction suspends skipping until after the corresponding return instruction. Nested calls are allowed up to a level of eight, matching the size of the internal stack (**TODO Link**). A routine called from a skip sequence and any subroutines it calls consume only one skip bit. A SKIP/SKIPF/EXECF within the routine replaces the suspended skip sequence and starts a new one, which provides a way of ending skipping earlier than normal but otherwise should be avoided.
 
 Note that [AUGS](misc.html#augs) and [AUGD](misc.html#augd) count as instructions! So `WRLONG ##1234, ##4568` **counts as 3 instructions!**
 
@@ -97,7 +97,7 @@ Example:
 <%=p2instrinfo('execf')%>
 EXECF loads an instruction skip pattern from **D**estination[31:10] and jumps to the absolute address in **D**estination[9:0] (this limits it to Cog/LUT memory!).
 
-Please see [SKIPF](#skipf) for details on the fast skipping function and its limitations, but note that EXECF can only skip the following 22 instructions, where **D**estination[10] corrosponds to the first instruction at the jump target.
+Please see [SKIPF](#skipf) for details on the fast skipping function and its limitations, but note that EXECF can only skip the following 22 instructions, where **D**estination[10] corresponds to the first instruction at the jump target.
 
 **TODO: more**
 

@@ -46,8 +46,6 @@ subroutine
         ret
 ~~~
 
-**TODO: Research what happens if skip is executed when another SKIP is still active (or suspended)**
-
 <%=p2instrinfo('skipf')%>
 SKIPF allows any of the next 32 instructions to be skipped if the corresponding bit is set (=1) in **D**estination. Bit 0 controls skipping for the first instruction after SKIPF and bit 31 the 32nd. **D**estination is loaded into an internal shift register, changing it while SKIPF is active has no effect.
 

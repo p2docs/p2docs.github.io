@@ -25,7 +25,7 @@ let $hyperFuse = new Fuse($hyperJumpList,{
 var $hjSelection = 0;
 
 jQuery(function() {
-    $("body").append("<div id=\"hyperjump\"><h1>HyperJump!</h1><input autofocus autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></div>");
+    $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autofocus autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></nav>");
     $("body").on("keydown", function(event) {
         let hjActive = $("#hyperjump input").val != "";
         if(event.keyCode == 16||event.keyCode==17||event.keyCode==18||event.ctrlKey) return null; // Ignore modifiers
@@ -52,7 +52,7 @@ jQuery(function() {
             }
         }
     })
-    $("div#hyperjump").on("click", function(event){
+    $("nav#hyperjump").on("click", function(event){
         // Clear search if background or result clicked
         if (event.target == this) {
             $("#hyperjump input").val("").trigger("input");

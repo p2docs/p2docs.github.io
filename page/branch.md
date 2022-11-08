@@ -58,6 +58,7 @@ However, this instruction has some **severe limitations/oddities**:
  - The first instruction after SKIPF cannot be fast-skipped. If its bit is set, it is skipped normally (see above)
  - Relative addressing should not be used for subroutine calls if the instruction after the call should be skipped (explicitly specify absolute addressing by writing `#\label` instead of `#label`). (**TODO: What happens if this is violated?**)
  - Absolute addressing (both direct immediates and indirect jumps through a register) should not be used for (non-call) branches where the first instruction after the branch should be skipped. (**TODO: What happens if this is violated?**)
+ - Executing a SKIPF while SKIPF is already active ignores bit 0 of the new skip pattern. (**TODO [research more](https://forums.parallax.com/discussion/174986/skipf-when-skipping-already-active#latest)**)
 
 Example:
 

@@ -8,4 +8,7 @@ $finalize_hooks << lambda do
         return
     end
     File.write("out/sitemap.txt",PAGES.reject{|pg|pg.props['sitemap_exclude']}.map{|pg|root_url+pg.href_path}.join(?\n))
+    File.write("out/robots.txt",<<~ROBOTS)
+    Sitemap: #{root_url}/sitemap.txt
+    ROBOTS
 end

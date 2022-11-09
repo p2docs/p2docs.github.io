@@ -435,6 +435,7 @@ nav#hyperjump {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
+    -webkit-backdrop-filter: blur(6px); // Safari brainrot
     backdrop-filter: blur(6px);
     background: #000A;
     color: #fff;
@@ -459,6 +460,7 @@ nav#hyperjump {
         font-family: 'Parallax',monospace;
         font-weight: bold;
         padding: 12px;
+        border-radius: 0; // Safari brainrot
     }
     #hjresults {
         width: 700px;

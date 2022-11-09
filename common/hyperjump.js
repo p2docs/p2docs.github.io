@@ -24,10 +24,20 @@ let $hyperFuse = new Fuse($hyperJumpList,{
 });
 var $hjSelection = 0;
 
+function hyperjump_dispose() {
+    $("#hyperjump input").val("").trigger("input");
+    $("#hyperjump").removeClass("hj-force-show");
+}
+
 jQuery(function() {
+    //return false;
     $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autofocus autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></nav>");
+    $("#hjreadybutton").on("click",function(event) {
+        $("#hyperjump").addClass("hj-force-show");
+        $("#hyperjump input").trigger("focus");
+    });
     $("body").on("keydown", function(event) {
-        let hjActive = $("#hyperjump input").val != "";
+        let hjActive = $("#hyperjump input").val != "" || $("#hyperjump.hj-force-show").count != 0;
         if(event.keyCode == 16||event.keyCode==17||event.keyCode==18||event.ctrlKey) return null; // Ignore modifiers
         else if (hjActive && event.keyCode == 38) { // arrow up
             if ($hjSelection > 0) {
@@ -44,7 +54,7 @@ jQuery(function() {
             $("#hjresults a.hjrsel li").trigger("click");
             event.preventDefault();
         } else if (hjActive && event.keyCode == 27) { // escape
-            $("#hyperjump input").val("").trigger("input");
+            hyperjump_dispose();
             event.preventDefault();
         } else {
             if (document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
@@ -55,7 +65,7 @@ jQuery(function() {
     $("nav#hyperjump").on("click", function(event){
         // Clear search if background or result clicked
         if (event.target == this) {
-            $("#hyperjump input").val("").trigger("input");
+            hyperjump_dispose();
         }
     })
 
@@ -92,8 +102,9 @@ jQuery(function() {
             $("#hjresults a").on("click", function(event){
                 console.log(event)
                 // Clear search if result clicked (fixes intra-page jump)
-                $("#hyperjump input").val("").trigger("input");
+                hyperjump_dispose();
             })
         }
     });
+    $("body").addClass("hyperjump-ready");
 });

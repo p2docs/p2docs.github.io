@@ -56,7 +56,7 @@ ul,ol {
     width: 100%;
     margin: auto;
     height: 132px;
-    z-index: 1;
+    z-index: 2;
     #reimu {
         position: absolute;
         top: 0px;
@@ -76,6 +76,48 @@ ul,ol {
         font-weight: bold;
         filter: drop-shadow(1px 1px 4px #000);
     }
+    #hjreadybutton {
+        display: none;
+        .hyperjump-ready & {
+            display: block;
+        }
+        position: absolute;
+        bottom: 6px;
+        right: 32px;
+        font-style: italic;
+        font-weight: bold;
+        font-family: 'Orbitron',serif;
+        cursor: pointer;
+        @media (width < 750px) {
+            display: none;
+        }
+        @media (hover: none) and (pointer: coarse) { // There is no way to query for a keyboard. lmaowtf.
+            position: fixed;
+            background: #ccc;
+            bottom: -1px;
+            right: -1px;
+            border-top-left-radius: 10px;
+            border: 1px solid black;
+            opacity: 80%;
+            z-index: 20;
+        }
+        & > span {
+            @keyframes hjready {
+                from {background-position-x: 0%;}
+                to {background-position: 100%;}
+            }
+            font-size: 19px;
+            padding: 2px 8px 1px 4px;
+            display: block;
+            color: transparent;
+            background: linear-gradient(117deg, transparent 0% 20%, #d00 20% 30%, #cc0 30% 40%, #0d0 40% 50%, #0bb 50% 60%, #00d 60% 70%, #707 70% 80%,#000 80% 100%);
+            background-size: 500%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: hjready 0.7s linear;
+            background-position: 100%;
+        }
+    }
 }
 
 #cornernav {
@@ -86,6 +128,7 @@ ul,ol {
         top: 0px;
         right: 0px;
         z-index: 4;
+        clip-path: polygon(0% 0%,50% 0%,100% 50%,100% 100%);
     }
 }
 
@@ -395,7 +438,7 @@ nav#hyperjump {
     backdrop-filter: blur(6px);
     background: #000A;
     color: #fff;
-    &.hjvisible {
+    &.hjvisible, &.hj-force-show {
         opacity: 100%;
         pointer-events: initial;
         transition: opacity 0.2s;
@@ -403,9 +446,11 @@ nav#hyperjump {
     h1 {
         font-style: italic;
         font-family: 'Orbitron';
+        pointer-events: none;
     }
     input {
         width: 720px;
+        max-width: 100%;
         color: #f8f8f8;
         background: #222;
         border: none;
@@ -417,6 +462,7 @@ nav#hyperjump {
     }
     #hjresults {
         width: 700px;
+        max-width: 100%;
         list-style-type: none;
         margin: 0;
         padding: 12px;
@@ -448,6 +494,11 @@ nav#hyperjump {
             background: #11f7;
             box-shadow: 0 0 6px 1px #11f;
         }
+    }
+    @media (width < 640px) {
+        zoom: 0.6667;
+        width: 150vw;
+        height: 150vh;
     }
     &>* {
         max-width: 1024px;

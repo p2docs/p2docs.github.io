@@ -219,21 +219,26 @@ tr {
 
 .p2instrinfo {
     h3 {
+        font-size: 1em;
+        .opname {
+            font-size: 1.5em;
+        }
         .args {
+            font-size: 1.5em;
             color: #666;
         }
         .flags {
             color: #666;
-            font-size: 0.7em;
+            font-size: 1.05em
         }
         .desc {
-            font-size: 0.7em;
+            font-size: 1.05em
         }
         .setq {
             color: #666;
             display: inline-block;
             text-decoration: none;
-            font-size: 0.6em;
+            font-size: 0.9em;
         }
         margin-bottom: 12px;
         margin-top: 32px;

@@ -485,6 +485,10 @@ nav#hyperjump {
                 color: #bbb;
                 font-weight: bold;
             }
+            @media (width < 640px) and (pointer: coarse) {
+                font-size: 1.6em;
+                margin-top: 12px;
+            }
         }
         li:hover {
             background: #1187;

@@ -75,15 +75,19 @@ jQuery(function() {
 
     $("#hyperjump input").on("input",function() {
         var val = $(this).val();
+        var hjnav = $("#hyperjump");
         var list = $("#hjresults");
-        list.empty();
         $hjSelection = 0;
         if (val=="") {
-            $("#hyperjump").removeClass("hjvisible");
+            list.empty();
+            hjnav.removeClass("hjvisible");
         } else {
-            $("#hyperjump").addClass("hjvisible");
-            let searchHeight = $(window).height() - list.position().top - 12;
-            const itemHeight = 43; // As measured...
+            hjnav.addClass("hjvisible");
+            let searchHeight = hjnav.height() - list.position().top - 12;
+            list.append("<a><li id=\"hjdummyresult\">Something went very wrong</li></a>");
+            let itemHeight = $("#hjdummyresult").outerHeight(true);
+            list.empty();
+            console.log(itemHeight);
             let searchMax = Math.max(2,Math.floor(searchHeight/itemHeight));
             //console.log(searchHeight,searchMax);
             const resultList = $hyperFuse.search(val,{limit: searchMax});

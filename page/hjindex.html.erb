@@ -1,0 +1,13 @@
+<h1>HyperJump index</h1>
+<script>
+jQuery(function() {
+    let list = $("<ul></ul>");
+    $hyperJumpList.forEach((item) => {
+        let result = "<span class=\"hjrt\">"+item.name+"</span>";
+        if (item.extra) result += " <span class=\"hjrte\">"+item.extra+"</span>";
+        if (item.type) result += " - "+item.type;
+        list.append("<a href=\""+item.href+"\"><li>"+result+"</li></a>");
+    });
+    $("main").append(list);
+})
+</script>

@@ -1,6 +1,7 @@
 <!doctype html><html <%=htmlattr("lang",CONFIG[:site_language])%>><head><meta charset=utf-8>
     <title><%=title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Fix mobile browser stupidity -->
+    <meta name="format-detection" content="telephone=no"> <!-- Fix safari stupidity -->
     <meta name="google-site-verification" content="SNfzL4E2edzCvmJE-HywrNJXBqPZ0J-Qre4sz-pwWaw" />
     <%top_css_list(targ[0]).each do |file|%>
     <link rel="stylesheet" <%=htmlattr('href',file)%>>

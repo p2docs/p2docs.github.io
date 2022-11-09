@@ -31,7 +31,7 @@ function hyperjump_dispose() {
 
 jQuery(function() {
     //return false;
-    $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autofocus autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></nav>");
+    $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></nav>");
     $("#hjreadybutton").on("click",function(event) {
         $("#hyperjump").addClass("hj-force-show");
         $("#hyperjump input").trigger("focus");

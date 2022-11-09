@@ -114,8 +114,8 @@ ul,ol {
             background-size: 500%;
             -webkit-background-clip: text;
             background-clip: text;
-            animation: hjready 0.7s linear;
-            background-position: 100%;
+            animation: hjready 0.7s 0.3s forwards linear;
+            background-position: 0%;
         }
     }
 }

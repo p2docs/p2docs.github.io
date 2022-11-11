@@ -5,6 +5,7 @@ hyperjump:
     -   id: q-register
         name: Q Register
         type: Topic
+        hidden: Q
     -   id: cog-memory
         name: Cog Memory
         type: Topic

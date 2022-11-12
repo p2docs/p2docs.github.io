@@ -19,6 +19,8 @@ jQuery(function() {
             .replace(/(?<!\*)WC/g,'**WC**')
             .replace(/(?<!\*)WZ/g,'**WZ**')
             .replace(/(?<=\w)— /g," - ")
+            .replace(/● /g," - ")
+            .replace(/○ /g,"   - ")
         );
     })
 });

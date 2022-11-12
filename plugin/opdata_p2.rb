@@ -279,7 +279,7 @@ P2SmartModes = [
 
     P2SmartEntry["P_PWM_TRIANGLE",0b01000,"PWM triangle output"],
     P2SmartEntry["P_PWM_SAWTOOTH",0b01001,"PWM sawtooth output"],
-    P2SmartEntry["P_PWM_SMPS",0b01010,"PWM switch-mode power supply I/O"],
+    P2SmartEntry["P_PWM_SMPS",0b01010,"PWM Switch-Mode Power Supply With Voltage/Current Feedback"],
     P2SmartEntry["P_QUADRATURE",0b01011,"A-B quadrature encoder input"],
 
     P2SmartEntry["P_REG_UP",0b01100,"Inc on A-rise when B-high"],

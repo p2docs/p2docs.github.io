@@ -91,27 +91,185 @@ AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**
 
 ## Smart Pin modes
 
+**TODO all of these**
+
 <%=p2smartinfo('p-normal')%>
+Normal operation, without any smart pin functionality.
+
 <%=p2smartinfo('p-repository')%>
+Turns the smart pin into a one-long storage space, where WXPIN writes the long and RDPIN / RQPIN can read the long.
+**This Only available when not using pin DAC (TODO clarify)**
+ - Upon each WXPIN, IN is raised.
+ - During reset (DIR=0), IN is low.
+
 <%=p2smartinfo('p-dac-noise')%>
+ - **Only available when using pin DAC, otherwise [repository mode](#p-repository) is selected.**
+ - Overrides M[7:0] to feed the pin's 8-bit DAC unique pseudo-random data on every clock. M[12:10] must be set to %101 to configure the low-level pin for DAC output.
+ - X[15:0] can be set to a sample period, in clock cycles, in case you want to mark time with IN raising at each period completion. If a sample period is not wanted, set X[15:0] to zero (65,536 clocks), in order to maximize the unused sample period, thereby reducing switching power.
+ - RDPIN / RQPIN can be used to retrieve the 16-bit ADC accumulation from the last sample period.
+ - During reset (DIR=0), IN is low
+
 <%=p2smartinfo('p-dac-dither-rnd')%>
+ - **Only available when using pin DAC, otherwise [repository mode](#p-repository) is selected.**
+ - Overrides M[7:0] to feed the pin's 8-bit DAC with pseudo-randomly-dithered data on every clock. M[12:10] must be set to %101 to configure the low-level pin for DAC output.
+ - X[15:0] establishes the sample period in clock cycles.
+ - Y[15:0] establishes the DAC output value which gets captured at each sample period and used for its duration.
+ - On completion of each sample period, Y[15:0] is captured for the next output value and IN is raised.
+Therefore, you would coordinate updating Y[15:0] with IN going high.
+ - Pseudo-random dithering does not require any kind of fixed period, as it randomly dithers the 8-bit DAC between adjacent levels, in order to achieve 16-bit DAC output, averaged over time. So, if you would like to be able to update the output value at any time and have it take immediate effect, set X[15:0] to one (IN will stay high).
+ - Y[15:0] values larger than $FF00 are invalid and will be clipped down to $FF00.
+ - If OUT is high, the ADC will be enabled and RDPIN / RQPIN can be used to retrieve the 16-bit ADC accumulation from the last sample period. This can be used to measure loading on the DAC pin.
+ - During reset (DIR=0), IN is low and Y[15:0] is captured.
+
 <%=p2smartinfo('p-dac-dither-pwm')%>
+ - **Only available when using pin DAC, otherwise [repository mode](#p-repository) is selected.**
+ - Overrides MP[7:0] to feed the pin's 8-bit DAC with PWM-dithered data on every clock. M[12:10] must be set to %101 to configure the low-level pin for DAC output.
+ - X[15:0] establishes the sample period in clock cycles. The sample period must be a multiple of 256 (X[7:0]=0), so that an integral number of 256 steps are afforded the PWM, which dithers the DAC between adjacent 8-bit levels.
+ - Y[15:0] establishes the DAC output value which gets captured at each sample period and used for its duration.
+ - On completion of each sample period, Y[15:0] is captured for the next output value and IN is raised. Therefore, you would coordinate updating Y[15:0] with IN going high.
+ - PWM dithering will give better dynamic range than pseudo-random dithering, since a maximum of only two transitions occur for every 256 clocks. This means, though, that a frequency of Fclock/256 will be present in the output at -48dB.
+ - Y[15:0] values larger than $FF00 are invalid and will be clipped down to $FF00.
+ - If OUT is high, the ADC will be enabled and RDPIN / RQPIN can be used to retrieve the 16-bit ADC accumulation from the last sample period. This can be used to measure loading on the DAC pin.
+ - During reset (DIR=0), IN is low and Y[15:0] is captured.
+
 <%=p2smartinfo('p-pulse')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - X[31:16] establishes a value to which the base period counter will be compared to on each clock cycle, as it counts from X[15:0] down to 1, before starting over at X[15:0] if decremented Y > 0. On each clock, if the base period counter > X[31:16] and Y > 0, the output will be high (else low).
+ - Whenever Y[31:0] is written with a non-zero value, the pin will begin outputting a high pulse or cycles, starting at the next base period. After each pulse, Y is decremented by one, until it reaches zero, at which the output will remain low. Examples:
+   - If X[31:16] is set to 0, the output will be high for the duration of Y > 0.
+   - If X[15:0] is set to 3 and X[31:16] is set to 2, the output will be 0-0-1 (repeat) for duration of Y > 0.
+ - IN will be raised and the pin will revert to low output when the pulse or cycles complete, meaning Y has been decremented to zero.
+ - During reset (DIR=0), IN is low, the output is low, and Y is set to zero.
+
 <%=p2smartinfo('p-transition')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - Whenever Y[31:0] is written with a non-zero value, the pin will begin toggling for Y transitions at each base period, starting at the next base period.
+ - IN will be raised when the transitions complete, with the pin remaining in its current output state.
+ - During reset (DIR=0), IN is low, the output is low, and Y is set to zero.
+
 <%=p2smartinfo('p-nco-freq')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - Upon WXPIN, X[31:16] is written to Z[31:16] to allow phase setting.
+ - Y[31:0] will be added into Z[31:0] at each base period.
+ - The pin output will reflect Z[31].
+ - IN will be raised whenever Z overflows.
+ - During reset (DIR=0), IN is low, the output is low, and Z is set to zero.
+
+
 <%=p2smartinfo('p-nco-duty')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - Upon WXPIN, X[31:16] is written to Z[31:16] to allow phase setting.
+ - Y[31:0] will be added into Z[31:0] at each base period.
+ - The pin output will reflect Z overflow.
+ - IN will be raised whenever Z overflows.
+ - During reset (DIR=0), IN is low, the output is low, and Z is set to zero.
+
 <%=p2smartinfo('p-pwm-triangle')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - X[31:16] establishes a PWM frame period in terms of base periods.
+ - Y[15:0] establishes the PWM output value which gets captured at each frame start and used for its duration. It should range from zero to the frame period.
+ - A counter, updating at each base period, counts from the frame period down to one, then from one back up to the frame period. Then, Y[15:0] is captured, IN is raised, and the process repeats.
+ - At each base period, the captured output value is compared to the counter. If it is equal or greater, a high is output. If it is less, a low is output. Therefore, a zero will always output a low and the frame period value will always output a high.
+ - During reset (DIR=0), IN is low, the output is low, and Y[15:0] is captured.
+
 <%=p2smartinfo('p-pwm-sawtooth')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - X[31:16] establishes a PWM frame period in terms of base periods.
+ - Y[15:0] establishes the PWM output value which gets captured at each frame start and used for itsduration. It should range from zero to the frame period.
+ - A counter, updating at each base period, counts from one up to the frame period. Then, Y[15:0] iscaptured, IN is raised, and the process repeats.
+ - At each base period, the captured output value is compared to the counter. If it is equal or greater, a highis output. If it is less, a low is output. Therefore, a zero will always output a low and the frame period value will always output a high.
+ - During reset (DIR=0), IN is low, the output is low, and Y[15:0] is captured.
+
+
 <%=p2smartinfo('p-pwm-smps')%>
+ - Overrides OUT to control the pin output state.
+ - X[15:0] establishes a base period in clock cycles which forms the empirical high-time and low-time units.
+ - X[31:16] establishes a PWM frame period in terms of base periods.
+ - Y[15:0] establishes the PWM output value which gets captured at each frame start and used for its duration. It should range from zero to the frame period.
+ - A counter, updating at each base period, counts from one up to the frame period. Then, the 'A' input is sampled at each base period until it reads low. After 'A' reads low, Y[15:0] is captured, IN is raised, and the process repeats.
+ - At each base period, the captured output value is compared to the counter. If it is equal or greater, a high is output. If it is less, a low is output. If, at any time during the cycle, the 'B' input goes high, the output will be low for the rest of that cycle.
+ - Due to the nature of switch-mode power supplies, it may be appropriate to just set Y[15:0] once and let it repeat indefinitely.
+ - During reset (DIR=0), IN is low, the output is low, and Y[15:0] is captured.
+   - WXPIN is used to set the base period (X[15:0]) and the PWM frame count (X[31:16]). The base period is the number of clocks which makes a base unit of time. The frame count is the number of base units that make up a PWM cycle.
+   - WYPIN is used to set the output value (Y[15:0]), which is internally captured at the start of every PWM frame and compared to the frame counter upon completion of each base unit of time. If the output value is greater than or equal to the frame counter, the pin outputs a high, else a low. This is intended to drive the gate of the switcher FET.
+   - The "A" input is the voltage detector for the SMPS output. This could be an adjacent pin using the internal-DAC-comparison mode to observe the center tap of a voltage divider which is fed by the final SMPS output. When "A" is low, a PWM cycle is performed because the final output voltage has sagged below the requirement and it's time to do another pulse.
+   - The "B" input is the over-current detector which, if ever high during the PWM cycle, immediately forces the output low for the rest of that PWM cycle. This could be an adjacent pin using the internal-DAC-comparison mode to observe a shunt resistor between GND and the FET source. When the shunt voltage gets too high, too much current is flowing (or the desired amount of current is flowing), so the output goes low to turn off the FET and allow the inductor connected to its drain to shoot high, creating a power pulse to be captured by a diode and dumped into a cap, which is the SMPS final output.
+
 <%=p2smartinfo('p-quadrature')%>
+ - X[31:0] establishes a measurement period in clock cycles.
+ - If zero is used for the period, the measurement operation will not be periodic, but continuous, like a totalizer, and the current 32-bit quadrature step count can always be read via RDPIN / RQPIN.
+ - If a non-zero value is used for the period, quadrature steps will be counted for that many clock cycles and then the result will be placed in Z while the accumulator will be set to the 0/1/-1 value that would have otherwise been added into it. This way, all quadrature steps get counted across measurements. At the end of each period, IN will be raised and RDPIN / RQPIN can be used to retrieve the last 32-bit measurement.
+ - It may be useful to configure both 'A' and 'B' smart pins to quadrature mode, with one being continuous (X=0) for absolute position tracking and the other being periodic (x<>0) for velocity measurement.
+ - The quadrature encoder can be "zeroed" by pulsing DIR low at any time; no need to do another WXPIN.
+ - During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
+
 <%=p2smartinfo('p-reg-up')%>
+ - X[31:0] establishes a measurement period in clock cycles.
+ - If zero is used for the period, the measurement operation will not be periodic, but continuous, like a totalizer, and the current 32-bit high count can always be read via RDPIN / RQPIN.
+ - If a non-zero value is used for the period, events will be counted for that many clock cycles and then the result will be placed in Z, while the accumulator will be set to the 0/1 value that would have otherwise been added into it, beginning a new measurement. This way, all events get counted across measurements. At the end of each period, IN will be raised and RDPIN / RQPIN can be used to retrieve the 32-bit measurement.
+ - During reset (DIR=0), IN is low and Z is set to the adder value (0/1).
+
 <%=p2smartinfo('p-reg-up-down')%>
+ - X[31:0] establishes a measurement period in clock cycles.
+ - If zero is used for the period, the measurement operation will not be periodic, but continuous, like a totalizer, and the current 32-bit high count can always be read via RDPIN / RQPIN.
+ - If a non-zero value is used for the period, events will be counted for that many clock cycles and then the result will be placed in Z, while the accumulator will be set to the 0/1/-1 value that would have otherwise been added into it, beginning a new measurement. This way, all events get counted across measurements. At the end of each period, IN will be raised and RDPIN / RQPIN can be used to retrieve the 32-bit measurement.
+ - During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1)
+
 <%=p2smartinfo('p-count-rises')%>
+ - X[31:0] establishes a measurement period in clock cycles. Y[0] establishes whether to just count A-input positive edges (=0), or to increment on A-input positive edge and decrement on B-input positive edge (=1).
+ - If zero is used for the period, the measurement operation will not be periodic, but continuous, like a totalizer, and the current 32-bit high count can always be read via RDPIN / RQPIN.
+ - If a non-zero value is used for the period, events will be counted for that many clock cycles and then the result will be placed in Z, while the accumulator will be set to the 0/1/-1 value that would have otherwise been added into it, beginning a new measurement. This way, all events get counted across measurements. At the end of each period, IN will be raised and RDPIN / RQPIN can be used to retrieve the 32-bit measurement.
+ - During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
+
 <%=p2smartinfo('p-count-highs')%>
+ - X[31:0] establishes a measurement period in clock cycles. Y[0] establishes whether to just count A-input highs (=0), or to increment on A-input high and decrement on B-input high (=1).
+ - If zero is used for the period, the measurement operation will not be periodic, but continuous, like a totalizer, and the current 32-bit high count can always be read via RDPIN / RQPIN.
+ - If a non-zero value is used for the period, events will be counted for that many clock cycles and then the result will be placed in Z, while the accumulator will be set to the 0/1/-1 value that would have otherwise been added into it, beginning a new measurement. This way, all events get counted across measurements. At the end of each period, IN will be raised and RDPIN / RQPIN can be used to retrieve the 32-bit measurement.
+ - During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
+
 <%=p2smartinfo('p-state-ticks')%>
+ - Continuous states are counted in clock cycles.
+ - Upon each state change, the prior state is placed in the C-flag buffer, the prior state's duration count is placed in Z, and IN is raised. RDPIN / RQPIN can then be used to retrieve the measurement. Z will be limited to $80000000.
+ - If states change faster than the cog is able to retrieve measurements, the measurements will effectively be lost, as old ones will be overwritten with new ones. This may be gotten around by using two smart pins to time highs, with one pin inverting its 'A' input. Then, you could capture both states, as long as the sum of the states' durations didn't exceed the cog's ability to retrieve both results. This would help in cases where one of the states was very short in duration, but the other wasn't.
+ - During reset (DIR=0), IN is low and Z is set to $00000001.
+
 <%=p2smartinfo('p-high-ticks')%>
+ - Continuous high states are counted in clock cycles.
+ - Upon each high-to-low transition, the previous high duration count is placed in Z, and IN is raised. RDPIN/RQPIN can then be used to retrieve the measurement. Z will be limited to $80000000.
+ - During reset (DIR=0), IN is low and Z is set to $00000001.
+
 <%=p2smartinfo('p-events-ticks')%>
+#### When Y[2] == 0
+ - Time is measured until X A-input highs/rises/edges are accumulated.
+ - X[31:0] establishes how many A-input highs/rises/edges are to be accumulated.
+ - Y[1:0] establishes A-input high/rise/edge sensitivity:
+   - %00 = A-input high
+   - %01 = A-input rise
+   - %1x = A-input edge
+ - Time is measured in clock cycles until X highs/rises/edges are accumulated from the A-input. The measurement is then placed in Z, and IN is raised. RDPIN / RQPIN can then be used to retrieve the measurement. Z will be limited to $80000000.
+ - During reset (DIR=0), IN is low and Z is set to $00000001.
+
+#### When Y[2] == 1
+ - If no A-input high/rise/edge occurs within X clocks, IN is raised, a new timeout period of X clocks begins, and Z maintains a running count of how many clocks have elapsed since the last A-input high/rise/edge. Z will be limited to $80000000 and can be read any time via RDPIN / RQPIN.
+ - If an A-input high/rise/edge does occur within X clocks, a new timeout period of X clocks begins and Z is reset to $00000001.
+ - X[31:0] establishes how many clocks before a timeout due to no A-input high/rise/edge occurring.
+ - Y[1:0] establishes A-input high/rise/edge sensitivity:
+   - %00 = A-input high
+   - %01 = A-input rise
+   - %1x = A-input edge
+ - During reset (DIR=0), IN is low and Z is set to $00000001.
+
+**TODO HW manual split this one, maybe merge again?**
+
 <%=p2smartinfo('p-periods-ticks')%>
+
+
 <%=p2smartinfo('p-periods-highs')%>
 <%=p2smartinfo('p-counter-ticks')%>
 <%=p2smartinfo('p-counter-highs')%>
@@ -119,7 +277,60 @@ AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**
 <%=p2smartinfo('p-adc')%>
 <%=p2smartinfo('p-adc-ext')%>
 <%=p2smartinfo('p-adc-scope')%>
+<img src="Scope_Filters_trans.png">
+
 <%=p2smartinfo('p-usb-pair')%>
+This mode requires that two adjacent pins be configured together to form a USB pair, whose OUTs will be overridden to control their output states. These pins must be an even/odd pair, having only the LSB of their pin numbers different. For example: pins 0 and 1, pins 2 and 3, and pins 4 and 5 can form USB pairs. They can be configured via WRPIN with identical D data of `%1_11011_0`. Using D data of %0_11011_0 will disable output drive and effectively create a USB 'sniffer'. A new WRPIN can be done to effect such a change without resetting the smart pin.
+
+WXPIN is used on the lower pin to establish the specific USB mode and set the baud rate. D[15] must be 1 for 'host' or 0 for 'device'. D[14] must be 1 for 'full-speed' or 0 for 'low-speed'. D[13:0] sets the baud rate, which is a 16-bit fraction of the system clock, whose two MSBs must be 0, necessitating that the baud rate be less than 1/4th of the system clock frequency. For example, if the main clock is 80MHz and you want a 12MHz baud rate (full-speed), use 12,000,000 / 80,000,000 * $10000 = 9830, or $2666. To use this baud rate and select 'host' mode and 'full-speed', you could do 'WXPIN ##$E666,lowerpin'.
+
+The upper (odd) pin is the DP pin. This pin's IN is raised whenever the output buffer empties, signalling that a new output byte can be written via WYPIN to the lower (even) pin. No WXPIN/WYPIN instructions are used for this pin.
+
+The lower (even) pin is the DM pin. This pin's IN is raised whenever a change of status occurs in the receiver, at which point a RDPIN/RQPIN can be used on this pin to read the 16-bit status word. WXPIN is used on this pin to set the NCO baud rate.
+
+These DP/DM electrical designations can actually be switched by swapping low-speed and full-speed modes, due to USB's complementary line signalling.
+
+To start USB, clear the DIR bits of the intended two pins and configure them each via WRPIN. Use WXPIN on the lower pin to set the mode and baud rate. Then, set the pins' DIR bits. You are now ready to read the receiver status via RDPIN/RQPIN and set output states and send packets via WYPIN, both on the lower pin.
+
+To affect the line states or send a packet, use WYPIN on the lower pin. Here are its D values:
+
+~~~
+    0 = output IDLE     - default state, float pins, except possible resistor(s) to 3.3V or GND
+    1 = output SE0      - drive both DP and DM low
+    2 = output K        - drive K state onto DP and DM (opposite)
+    3 = output J        - drive J state onto DP and DM (opposite), like IDLE, but driven
+    4 = output EOP      - output end-of-packet: SE0, SE0, J, then IDLE
+    $80 = SOP           - output start-of-packet, then bytes, automatic EOP when buffer runs out
+~~~
+
+To send a packet, first do a `WYPIN #$80,lowerpin`. Then, after each IN rise on the upper pin, do a `WYPIN byte,lowerpin` to buffer the next byte. The transmitter will automatically send an EOP when you stop giving it bytes. To keep the output buffer from overflowing, you should always verify that the upper pin's IN was raised after each WYPIN, before issuing another WYPIN, even if you are just setting a state. The reason for this is that all output activity is timed to the baud generator and even state changes must wait for the next bit period before being implemented, at which time the output buffer empties.
+
+There are separate state machines for transmitting and receiving. Only the baud generator is common between them. The transmitter was just described above. Below, the receiver is detailed. Note that the receiver receives not just input from another host/device, but all local output, as well.
+
+At any time, a RDPIN/RQPIN can be executed on the lower pin to read the current 16-bit status of the receiver, with the error flag going into C. The lower pin's IN will be raised whenever a change occurs in the receiver's status. This will necessitate A WRPIN/WXPIN/WYPIN/RDPIN/AKPIN before IN can be raised again, to alert of the next change in status. The receiver's status bits are as follows:
+
+~~~
+    [31:16] <unused>            - $0000
+    [15:8]  byte                - last byte received
+    [7]     byte toggle         - cleared on SOP, toggled on each byte received
+    [6]     error               - cleared on SOP, set on bit-unstuff error, EOP SE0 > 3 bits, or SE1
+    [5]     EOP in              - cleared on SOP or 7+ bits of J or K, set on EOP
+    [4]     SOP in              - cleared on EOP or 7+ bits of J or K, set on SOP
+    [3]     SE1 in  (illegal)   - cleared on !SE1, set on 1+ bits of SE1
+    [2]     SE0 in  (RESET)     - cleared on !SE0, set on 1+ bits of SE0
+    [1]     K in    (RESUME)    - cleared on !K, set on 7+ bits of K
+    [0]     J in    (IDLE)      - cleared on !J, set on 7+ bits of J
+~~~
+
+The result of a RDPIN/RQPIN can be bit-tested for events of interest. It can also be shifted right by 8 bits to LSB-justify the last byte received and get the byte toggle bit into C, in order to determine if you have a new byte. Assume that 'flag' is initially zero:
+
+~~~
+       SHR     D,#8    WC      'get byte into D, get toggle bit into C
+       CMPX    flag,#1 WZ      'compare toggle bit to flag, new byte if Z
+IF_Z   XOR     flag,#1         'if new byte, toggle flag
+IF_Z   <use byte>              'if new byte, do something with it
+~~~
+
 <%=p2smartinfo('p-sync-tx')%>
 <%=p2smartinfo('p-sync-rx')%>
 <%=p2smartinfo('p-async-tx')%>

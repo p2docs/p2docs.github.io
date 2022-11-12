@@ -15,7 +15,7 @@ $$
 D'[31:24] \approx \min\left({{D[31:24] *\DMIX+S[31:24] *\SMIX+255}\over 256},255\right) \\
 D'[23:16] \approx \min\left({{D[23:16] *\DMIX+S[23:16] *\SMIX+255}\over 256},255\right) \\
 D'[15:~~8] \approx \min\left({{D[15:08] *\DMIX+S[15:~~8] *\SMIX+255}\over 256},255\right) \\
-D'[~~7:00] \approx \min\left({{D[~~7:~~0] *\DMIX+S[~~7:~~0] *\SMIX+255}\over 256},255\right)
+D'[~~7:~~0] \approx \min\left({{D[~~7:~~0] *\DMIX+S[~~7:~~0] *\SMIX+255}\over 256},255\right)
 $$
 
 wherein DMIX and SMIX depend on the instruction:
@@ -36,9 +36,23 @@ The equivalent SETPIX value for BLNPIX is `%011_010`.
 ## Instructions
 
 <%=p2instrinfo('addpix')%>
+ADDPIX performs a per-byte saturated addition of **S**ource into **D**estination. I.e. if the addition of a byte overflows, the result is capped to 255.
+
+$$
+D'[31:24] = \min\left({D[31:24]+S[31:24]},255\right) \\
+D'[23:16] = \min\left({D[23:16]+S[23:16]},255\right) \\
+D'[15:~~8] = \min\left({D[15:08]+S[15:~~8]},255\right) \\
+D'[~~7:~~0] = \min\left({D[~~7:~~0]+S[~~7:~~0]},255\right)
+$$
+
 <%=p2instrinfo('mulpix')%>
 <%=p2instrinfo('blnpix')%>
+
 <%=p2instrinfo('mixpix')%>
+MIXPIX performs an arbitrary pixel mix operation between **S**ource and **D**estination, as configured by [SETPIX](#setpix). Also [see above]().
+
+**TODO more**
+
 <%=p2instrinfo('setpiv')%>
 <%=p2instrinfo('setpix')%>
 

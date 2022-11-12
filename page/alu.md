@@ -394,10 +394,34 @@ This is useful for processing binary data in a different MSB/LSB order than it i
 
 <%=p2instrinfo('test')%>
 <%=p2instrinfo('testn')%>
+
 <%=p2instrinfo('and')%>
+AND performs a bitwise AND of the value in **S**ource into that of **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('andn')%>
+ANDN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination. That is, each high bit in **S**ource will become low in **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('or')%>
+OR performs a bitwise OR of the value in **S**ource into that of **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('xor')%>
+XOR performs a bitwise XOR of the value in **S**ource into that of **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination XOR **S**ource result equals zero, or is cleared (0) if it is non-zero.
 
 ---
 

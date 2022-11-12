@@ -1,5 +1,5 @@
 ---
-title: Propeller Documentation
+title: Front Page
 ---
 # IRQsoft Propeller 2 Docs
 

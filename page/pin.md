@@ -245,6 +245,8 @@ Therefore, you would coordinate updating Y[15:0] with IN going high.
  - During reset (DIR=0), IN is low and Z is set to $00000001.
 
 <%=p2smartinfo('p-events-ticks')%>
+This mode has 2 sub-modes, selected by bit 2 of the Y register.
+
 #### When Y[2] == 0
  - Time is measured until X A-input highs/rises/edges are accumulated.
  - X[31:0] establishes how many A-input highs/rises/edges are to be accumulated.

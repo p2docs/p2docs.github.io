@@ -17,7 +17,7 @@ hyperjump:
 ---
 
 # Hub Memory
-<img class="float-right" src="p2-hub-ram-interface.gif">
+<iframe class="float-right" src="diagram-eggbeater.html" style="border:none;width:400px;max-width:100%;aspect-ratio:400/500"></iframe>
 
 **TODO: I suck at writing these**
 

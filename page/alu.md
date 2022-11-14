@@ -379,15 +379,15 @@ REV performs a bitwise reverse (bits 31:0 -> bits 0:31) of the value in **D**est
 This is useful for processing binary data in a different MSB/LSB order than it is transmitted with.
 
 <%=p2instrinfo('splitb')%>
-<img src="P2_instruction_SPLITB_MERGEB.png">
+<img src="P2_instruction_SPLITB_MERGEB.png" class="dark-invert">
 <%=p2instrinfo('mergeb')%>
 <%=p2instrinfo('splitw')%>
-<img src="P2_instruction_SPLITW_MERGEW.png">
+<img src="P2_instruction_SPLITW_MERGEW.png" class="dark-invert">
 <%=p2instrinfo('mergew')%>
 <%=p2instrinfo('rgbsqz')%>
 <%=p2instrinfo('rgbexp')%>
 <%=p2instrinfo('seussf')%>
-<img src="P2_instruction_SEUSSF_SEUSSR.png">
+<img src="P2_instruction_SEUSSF_SEUSSR.png" class="dark-invert">
 <%=p2instrinfo('seussr')%>
 
 ---

@@ -37,8 +37,6 @@ But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.githu
  - [Miscellaneous Instructions](misc.html)
 
 
-<img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif"><img src="/common/construction2.gif">
-
 ## Recent changes
 
 As per git commit history...

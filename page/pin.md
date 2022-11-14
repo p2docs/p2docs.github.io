@@ -14,7 +14,7 @@ hyperjump:
 
 
 ## Diagram
-<img src="pin-diagram.png">
+<img src="pin-diagram.png" class="dark-invert">
 
 **TODO: Transparent version**
 
@@ -289,7 +289,7 @@ This mode has 2 sub-modes, selected by bit 2 of the Y register.
 <%=p2smartinfo('p-adc')%>
 <%=p2smartinfo('p-adc-ext')%>
 <%=p2smartinfo('p-adc-scope')%>
-<img src="Scope_Filters_trans.png">
+<img src="Scope_Filters_trans.png" class="dark-invert">
 
 <%=p2smartinfo('p-usb-pair')%>
 This mode requires that two adjacent pins be configured together to form a USB pair, whose OUTs will be overridden to control their output states. These pins must be an even/odd pair, having only the LSB of their pin numbers different. For example: pins 0 and 1, pins 2 and 3, and pins 4 and 5 can form USB pairs. They can be configured via WRPIN with identical D data of `%1_11011_0`. Using D data of %0_11011_0 will disable output drive and effectively create a USB 'sniffer'. A new WRPIN can be done to effect such a change without resetting the smart pin.

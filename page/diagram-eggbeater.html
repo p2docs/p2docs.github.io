@@ -46,17 +46,24 @@
     100% {opacity: 0%}
 }
 body {
+    background-color: transparent;
+}
+#diagram {
+    position:relative;
     font-family: 'Parallax',monospace;
     display: block;
-    background-color: transparent;
-    width: 400px;
-    height: 500px;
-    max-width: 100%;
     text-align: center;
-    font-size: 14px;
+    font-size: 3.5vw;
+    width: 100vw;
+    height: 125vw;
 }
 .blue {
     color: #264299;
+}
+@media screen and (prefers-color-scheme: dark) {
+    .blue {
+        color: #5278EA;
+    }
 }
 h1 {
     margin: 0;
@@ -68,8 +75,8 @@ h1 {
 }
 .cog {
     position: absolute;
-    width: 70px;
-    height: 70px;
+    width: 17.5vw;
+    height: 17.5vw;
     color: white;
     transform: translate(-50%,-50%);
 }
@@ -86,17 +93,17 @@ h1 {
 }
 #eggbeater {
     position: absolute;
-    bottom: 50px;
-    left: 50px;
-    width: 300px;
-    height: 300px;
+    bottom: 12.5vw;
+    left: 12.5vw;
+    width: 75vw;
+    height: 75vw;
 }
 #the-world-revolving {
     position: relative;
-    top: 70px;
-    left: 70px;
-    width: 160px;
-    height: 160px;
+    top: 17.5vw;
+    left: 17.5vw;
+    width: 40vw;
+    height: 40vw;
     animation: eggbeater 8s linear infinite;
     z-index: -1;
 }
@@ -106,8 +113,8 @@ h1 {
 }
 .slice {
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: 8.5vw;
+    height: 8.5vw;
     color: white;
     transform: translate(-50%,-50%);
 }
@@ -126,18 +133,18 @@ h1 {
 .connector {
     transform-origin: 50% 100%;
     position: absolute;
-    bottom: 17px;
-    left: 8px;
-    right: 8px;
-    top: -40px;
+    bottom: 4.25vw;
+    left: 2vw;
+    right: 2vw;
+    top: -10vw;
     background-color: #888;
     z-index: -2;
     animation: connectors 1s step-start infinite;
 }
 .memory {
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 32.5vw;
+    height: 32.5vw;
     color: white;
     transform: translate(-50%,-50%);
 }
@@ -153,21 +160,18 @@ h1 {
     z-index: -1;
     font-size: 10px;
 }
-.memory>.rtext>b {
-    font-size: 14px;
-}
 .rtext {
     position: absolute;
-    left:0px;
-    right:0px;
-    top:0px;
-    bottom:0px;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 4vw;
 }
-</style></head><body>
+</style></head><body><div id="diagram">
 <h1 class="blue">P2 Hub RAM Interface</h1>
 <b class="blue">Every cog can read/write 32 bits per clock</b><br>
 <br>
@@ -191,6 +195,6 @@ h1 {
         <div class="slice" style="top:50%;left:0%;"><span class="rtext">6</span><div class="connector" style="transform:rotate(270deg);"></div></div>
         <div class="slice" style="top:14.7%;left:14.7%;"><span class="rtext">7</span><div class="connector" style="transform:rotate(315deg);"></div></div>
     </div>
-    <div class="memory" style="top:50%;left:50%"><span class="rtext"><span style="font-size:14px;">Address LSBs<br><b style="font-size:16px;">8 Hub RAMs</b><br>16Kx32 each</span></span></div>
+    <div class="memory" style="top:50%;left:50%"><span class="rtext"><span style="font-size:3.5vw;">Address LSBs<br><b style="font-size:4vw;">8 Hub RAMs</b><br>16Kx32 each</span></span></div>
 </div>
-</body>
+</div></body>

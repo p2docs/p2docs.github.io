@@ -185,3 +185,9 @@ EXECF: Jump and Fast-Skip instruction pattern
 REP: Repeat block
 CRCBIT: Advance CRC (one bit)
 CRCNIB: Advance CRC (four bits)
+WRPIN: Set pin mode
+WXPIN: Set smart pin X register
+WYPIN: Set smart pin Y register
+RDPIN: Read smart pin Z register and acknowledge
+RQPIN: Read smart pin Z register and don't acknowledge
+AKPIN: Acknowledge smart pin

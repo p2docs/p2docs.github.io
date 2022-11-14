@@ -69,11 +69,21 @@ hyperjump:
 
 ## Smart Pin Instructions
 
-**TODO: AKPIN is an alias??????**
-
 <%=p2instrinfo('wrpin')%>
+WRPIN sets the mode register of the pin(s) indicated by **S**ource to the value in **D**estination.
+
+**TODO**
+
 <%=p2instrinfo('wxpin')%>
+WXPIN sets the X register of the pin(s) indicated by **S**ource to the value in **D**estination.
+
+**TODO**
+
 <%=p2instrinfo('wypin')%>
+WYPIN sets the Y register of the pin(s) indicated by **S**ource to the value in **D**estination.
+
+**TODO**
+
 <%=p2instrinfo('rdpin')%>
 <%=p2instrinfo('rqpin')%>
 

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<head><link rel="stylesheet" href="/main.css">
+<style>
+@keyframes eggbeater-ctr {
+    /*This is offset for reasons I can't fathom*/
+    0%    {content: "7"}
+    12.5% {content: "0"}
+    25%   {content: "1"}
+    37.5% {content: "2"}
+    50%   {content: "3"}
+    62.5% {content: "4"}
+    75%   {content: "5"}
+    87.5% {content: "6"}
+    100%  {content: "7"}
+}
+@keyframes eggbeater {
+    0%     {transform: rotate(0deg)}
+    6.25%  {transform: rotate(0deg)}
+
+    12.5%  {transform: rotate(-45deg)}
+    18.75% {transform: rotate(-45deg)}
+    
+    25%  {transform: rotate(-90deg)}
+    31.25% {transform: rotate(-90deg)}
+
+    37.5%  {transform: rotate(-135deg)}
+    43.75% {transform: rotate(-135deg)}
+
+    50%  {transform: rotate(-180deg)}
+    56.25% {transform: rotate(-180deg)}
+
+    62.5%  {transform: rotate(-225deg)}
+    68.75% {transform: rotate(-225deg)}
+
+    75%  {transform: rotate(-270deg)}
+    81.25% {transform: rotate(-270deg)}
+
+    87.5%  {transform: rotate(-315deg)}
+    93.75% {transform: rotate(-315deg)}
+
+    100%   {transform: rotate(-360deg)}
+}
+@keyframes connectors {
+    0% {opacity: 0%}
+    50% {opacity: 100%}
+    100% {opacity: 0%}
+}
+body {
+    font-family: 'Parallax',monospace;
+    display: block;
+    background-color: transparent;
+    width: 400px;
+    height: 500px;
+    max-width: 100%;
+    text-align: center;
+    font-size: 14px;
+}
+.blue {
+    color: #264299;
+}
+h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+#counter::after {
+    content: "";
+    animation: eggbeater-ctr 8s step-start infinite;
+}
+.cog {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    color: white;
+    transform: translate(-50%,-50%);
+}
+.cog::before {
+    content: "";
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    clip-path: circle(50%);
+    background: #26997C;
+    z-index: -1;
+}
+#eggbeater {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    width: 300px;
+    height: 300px;
+}
+#the-world-revolving {
+    position: relative;
+    top: 70px;
+    left: 70px;
+    width: 160px;
+    height: 160px;
+    animation: eggbeater 8s linear infinite;
+    z-index: -1;
+}
+#the-world-revolving .rtext {
+    animation: eggbeater 8s linear infinite reverse;
+    animation-delay: 0.5s;
+}
+.slice {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    color: white;
+    transform: translate(-50%,-50%);
+}
+.slice::before {
+    content: "";
+    position: absolute;
+    /* weird positioning to avoid rendering artifacts due to pixel rounding */
+    top: -5%;
+    left: -5%;
+    right: -5%;
+    bottom: -5%;
+    clip-path: circle(46%);
+    background: #264299;
+    z-index: -1;
+}
+.connector {
+    transform-origin: 50% 100%;
+    position: absolute;
+    bottom: 17px;
+    left: 8px;
+    right: 8px;
+    top: -40px;
+    background-color: #888;
+    z-index: -2;
+    animation: connectors 1s step-start infinite;
+}
+.memory {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    color: white;
+    transform: translate(-50%,-50%);
+}
+.memory::before {
+    content: "";
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    clip-path: circle(50%);
+    background: #002842;
+    z-index: -1;
+    font-size: 10px;
+}
+.memory>.rtext>b {
+    font-size: 14px;
+}
+.rtext {
+    position: absolute;
+    left:0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+</style></head><body>
+<h1 class="blue">P2 Hub RAM Interface</h1>
+<b class="blue">Every cog can read/write 32 bits per clock</b><br>
+<br>
+<b id="counter">System Clock: </b>
+<div id="eggbeater">
+    <div class="cog" style="top:0%;left:50%;"><span class="rtext">Cog 0</span></div>
+    <div class="cog" style="top:14.7%;left:85.3%;"><span class="rtext">Cog 1</span></div>
+    <div class="cog" style="top:50%;left:100%;"><span class="rtext">Cog 2</span></div>
+    <div class="cog" style="top:85.3%;left:85.3%;"><span class="rtext">Cog 3</span></div>
+    <div class="cog" style="top:100%;left:50%;"><span class="rtext">Cog 4</span></div>
+    <div class="cog" style="top:85.3%;left:14.7%;"><span class="rtext">Cog 5</span></div>
+    <div class="cog" style="top:50%;left:0%;"><span class="rtext">Cog 6</span></div>
+    <div class="cog" style="top:14.7%;left:14.7%;"><span class="rtext">Cog 7</span></div>
+    <div id="the-world-revolving">
+        <div class="slice" style="top:0%;left:50%;"><span class="rtext">0</span><div class="connector" style="transform:rotate(0deg);"></div></div>
+        <div class="slice" style="top:14.7%;left:85.3%;"><span class="rtext">1</span><div class="connector" style="transform:rotate(45deg);"></div></div>
+        <div class="slice" style="top:50%;left:100%;"><span class="rtext">2</span><div class="connector" style="transform:rotate(90deg);"></div></div>
+        <div class="slice" style="top:85.3%;left:85.3%;"><span class="rtext">3</span><div class="connector" style="transform:rotate(135deg);"></div></div>
+        <div class="slice" style="top:100%;left:50%;"><span class="rtext">4</span><div class="connector" style="transform:rotate(180deg);"></div></div>
+        <div class="slice" style="top:85.3%;left:14.7%;"><span class="rtext">5</span><div class="connector" style="transform:rotate(225deg);"></div></div>
+        <div class="slice" style="top:50%;left:0%;"><span class="rtext">6</span><div class="connector" style="transform:rotate(270deg);"></div></div>
+        <div class="slice" style="top:14.7%;left:14.7%;"><span class="rtext">7</span><div class="connector" style="transform:rotate(315deg);"></div></div>
+    </div>
+    <div class="memory" style="top:50%;left:50%"><span class="rtext"><span style="font-size:14px;">Address LSBs<br><b style="font-size:16px;">8 Hub RAMs</b><br>16Kx32 each</span></span></div>
+</div>
+</body>

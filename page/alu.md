@@ -449,8 +449,16 @@ This is useful for processing binary data in a different MSB/LSB order than it i
 <%=p2instrinfo('splitw')%>
 <img src="P2_instruction_SPLITW_MERGEW.png" class="dark-invert">
 <%=p2instrinfo('mergew')%>
+
 <%=p2instrinfo('rgbsqz')%>
+RGBSQZ converts a 32-bit RGBx8888 color value into a 16-bit RGB565 color value. This can be described as moving **D**estination[15:11] to **D**estination[4:0], **D**estination[23:18] into **D**estination[10:5], **D**estination[31:27] into **D**estination[15:11] and clearing the remaining 16 bits.
+
+**TODO Diagram**
+
 <%=p2instrinfo('rgbexp')%>
+
+**TODO Diagram**
+
 <%=p2instrinfo('seussf')%>
 <img src="P2_instruction_SEUSSF_SEUSSR.png" class="dark-invert">
 <%=p2instrinfo('seussr')%>

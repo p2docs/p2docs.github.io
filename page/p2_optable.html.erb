@@ -6,10 +6,13 @@ inline-css: |
     main {
         max-width: 100%;
     }
+    footer {
+        display: none;
+    }
     #p2_optable {
         overflow: scroll;
         width: 100%;
-        height: calc(100vh - 260px);
+        height: calc(100vh - 192px);
         margin: auto;
         border: 2px solid;
         border-color: #ddd #888 #888 #ddd;
@@ -23,10 +26,73 @@ inline-css: |
                 position:sticky;
                 left: 0px;
                 z-index:2;
-                background: inherit;
             }
-            th.op-encoding {
-                width: 400px;
+            @media not screen and (prefers-color-scheme:dark) {
+                td.op-syntax {
+                    background:  #FFF2CC;
+                }
+                td.op-encoding {
+                    background: #CCCCCC;
+                }
+                td.op-shield {
+                    background: #F9CB9C;
+                }
+                td.op-group {
+                    &[data-opgroup^=Math] {
+                        background: #9FC5E8;
+                    }
+                    &[data-opgroup^=Misc] {
+                        background: #76A5AF;
+                    }
+                    &[data-opgroup^="Register Indir"] {
+                        background: #6AA84F;
+                    }
+                    &[data-opgroup^=Pixel] {
+                        background: #B4A7D6;
+                    }
+                    &[data-opgroup^=Events] {
+                        background: #D9D2E9;
+                    }
+                    &[data-opgroup^="Hub RAM"] {
+                        background: #FFFF80;
+                    }
+                    &[data-opgroup^=Smart] {
+                        background: #BF9000;
+                    }
+                    &[data-opgroup^=Lookup] {
+                        background: #674EA7;
+                    }
+                    &[data-opgroup^=Branch] {
+                        background: #93C47D;
+                    }
+                    &[data-opgroup^="Hub FIFO"] {
+                        background: #FFFF00;
+                    }
+                    &[data-opgroup^=Streamer] {
+                        background: #0B5394;
+                    }
+                    &[data-opgroup^="Hub Control"] {
+                        background: #E06666;
+                    }
+                    &[data-opgroup^=CORDIC] {
+                        background: #3C78D8;
+                    }
+                    &[data-opgroup^=Interrupts] {
+                        background: #F9CB9C;
+                    }
+                    &[data-opgroup^=Color] {
+                        background: #EA9999;
+                    }
+                    &[data-opgroup^=Pins] {
+                        background: #F1C232;
+                    }
+                    &[data-opgroup^="Instruction Prefix"] {
+                        background: #D9D2E9;
+                    }
+                    &[data-opgroup^=MODCZ] {
+                        background: #CFE2F3;
+                    }
+                }
             }
             thead {
                 position: sticky;
@@ -63,7 +129,7 @@ skip_columns = %i[order time16cog time16hub]
                 <%op = P2Opdata::P2Instructions.find{|i|i.name==$1}%>
                 <%itext = "<a #{htmlattr('href',op.doc_href)}>#{itext}</a>" if op%>
             <%end%>
-            <td class="op-<%=column%>"><%=itext%></td>
+            <td class="op-<%=column%>" <%=htmlattr("data-opgroup",itext)if column==:group%>><%=itext%></td>
         <%end%>
     </tr><%end%>
     </tbody>

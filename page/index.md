@@ -3,7 +3,7 @@ title: Front Page
 ---
 # IRQsoft Propeller 2 Docs
 
-<img src="/common/construction.gif" alt="This site is under construction.">
+<img src="/common/construction.gif" alt="This site is under construction." class="dark-invert">
 
 ## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. pending) technology!
 

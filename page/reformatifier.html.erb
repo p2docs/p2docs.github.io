@@ -7,8 +7,8 @@ sitemap_exclude: true
 <textarea id="ref-input" rows="10" cols="80"></textarea>
 <textarea id="ref-output" rows="10" cols="80" readonly></textarea>
 
-<script>
-jQuery(function() {
+<script defer>
+window.addEventListener('DOMContentLoaded', function() {
     $("#ref-input").on('input',(event) => {
         $("#ref-output").val($(event.target).val()
             //.replace(/([A-Z]+)/,"**$1**")

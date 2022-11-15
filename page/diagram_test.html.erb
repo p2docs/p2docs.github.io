@@ -21,4 +21,4 @@ sitemap_exclude: true
 <img src="P2_instruction_SEUSSF_SEUSSR.png" class="dark-invert">
 <br>
 <br>
-<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24},"#faa" elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16},"#afa" else next i,i+11,"#00f",[i+6].reject{|i|i<8},"#aaf" end}%>
+<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24} elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16} else next i,i+11,"#00f",[i+6].reject{|i|i<8} end}%>

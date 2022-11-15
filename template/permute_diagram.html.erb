@@ -32,6 +32,7 @@ svg#<%=id%> {
             stroke-width: 0.1px;
             &.extra {
                 stroke-dasharray: 0.25,0.25;
+                opacity: 40%;
             }
         }
         &:hover {
@@ -54,7 +55,7 @@ svg#<%=id%> {
 <%got_top = Set.new;got_bot = Set.new;%>
 <%32.times do |i|%>
 <% 
-    top,bot,color,extrabots,extracolor = *(yield i)
+    top,bot,color,extrabots = *(yield i)
     if top.nil? || bot.nil?
         next
     else
@@ -66,7 +67,7 @@ svg#<%=id%> {
 <g class="conn">
   <line x1="<%=31-top+0.5%>" x2="<%=31-bot+0.5%>" y1="1" y2="11" stroke="<%=color%>"/>
   <%extrabots.each do |ebot|%>
-    <line class="extra" x1="<%=31-top+0.5%>" x2="<%=31-ebot+0.5%>" y1="1" y2="11" stroke="<%=extracolor%>"/>
+    <line class="extra" x1="<%=31-top+0.5%>" x2="<%=31-ebot+0.5%>" y1="1" y2="11" stroke="<%=color%>"/>
   <%end%>
   <svg class="bit" x="<%=31-top%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=top%></text></svg>
   <svg class="bit" x="<%=31-bot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=bot%></text></svg>

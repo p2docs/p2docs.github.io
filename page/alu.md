@@ -452,7 +452,7 @@ This is useful for processing binary data in a different MSB/LSB order than it i
 
 <%=p2instrinfo('rgbexp')%>
 
-<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24},"#faa" elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16},"#afa" else next i,i+11,"#00f",[i+6].reject{|i|i<8},"#aaf" end}%>
+<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24} elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16} else next i,i+11,"#00f",[i+6].reject{|i|i<8} end}%>
 
 <%=p2instrinfo('rgbsqz')%>
 RGBSQZ converts a 32-bit RGBx8888 color value into a 16-bit RGB565 color value. This can be described as moving **D**estination[15:11] to **D**estination[4:0], **D**estination[23:18] into **D**estination[10:5], **D**estination[31:27] into **D**estination[15:11] and clearing the remaining 16 bits.

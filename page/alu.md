@@ -57,24 +57,89 @@ SETR copies **S**ource[8:0] into **D**estination[27:19]. Other bits remain unaff
 ## Arithmetic
 
 <%=p2instrinfo('add')%>
-Number go brr.
+ADD sums the two unsigned values of **D**estination and **S**ource together and stores the result into the **D**estination register.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the summation resulted in an unsigned carry (= 32-bit overflow), or is cleared (0) if no carry.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result stored into **D**estination is zero, or is cleared (0) if it is non-zero.
+
+To add unsigned, multi-long values, use ADD followed by [ADDX](#addx) as described in Adding Two Multi-Long Values(**TODO LINK**). ADD and ADDX are also used in adding signed, multi-long values with [ADDSX](#addsx) ending the sequence.
+
 <%=p2instrinfo('adds')%>
+ADDS sums the two signed values of **D**estination and **S**ource together and stores the result into the **D**estination register. If **S**ource is a 9-bit literal, its value is interpreted as positive (0-511; it is not sign-extended) — use ##Value (or insert a prior [AUGS](misc.html#augs) instruction) for a 32-bit signed value; negative or positive.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the summation, _signed overflow nonwithstanding_, produced a negative result. Overflow occured if C is _not_ equal to the result's MSB (see [TJV](branch.html#tjv)).
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result stored into **D**estination is zero, or is cleared (0) if it is non-zero.
+
+To add signed, multi-long values, use [ADD](#add) (not ADDS) followed possibly by [ADDX](#addx), and finally [ADDSX](#addsx) as described in Adding Two Multi-Long Values(**TODO LINK**).
+
 <%=p2instrinfo('addx')%>
+ADDX sums the unsigned values of **D**estination and **S**ource plus C together and stores the result into the **D**estination register. The ADDX instruction is used to perform unsigned multi-long (extended) addition, such as 64-bit addition.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the summation resulted in an unsigned carry, or is cleared (0) if no carry.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if Z was previously set _and_ the  result stored into **D**estination is zero, or it is cleared (0) if non-zero or if Z was not previously set. Use **WCZ** on preceding ADD and ADDX instructions for proper final Z flag.
+
+To add unsigned multi-long values, use ADD followed by one or more ADDX instructions as described in Adding Two Multi-Long Values(**TODO LINK**).
+
 <%=p2instrinfo('addsx')%>
+ADDSX sums the signed values of **D**estination and **S**ource plus C together and stores the result into the **D**estination register. The ADDSX instruction is used to perform signed multi-long (extended) addition, such as 64-bit addition.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the summation, _signed overflow nonwithstanding_, produced a negative result. Overflow occured if C is _not_ equal to the result's MSB (see [TJV](branch.html#tjv)).
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if Z was previously set _and_ the  result stored into **D**estination is zero, or it is cleared (0) if non-zero or if Z was not previously set. Use **WCZ** on preceding ADD and ADDX instructions for proper final Z flag.
+
+To add signed multi-long values, use [ADD](#add) (not [ADDS](#adds)) followed possibly by [ADDX](#addx), and finally ADDSX as described in Adding Two Multi-Long Values(**TODO LINK**).
 
 ---
 
 <%=p2instrinfo('sub')%>
-<%=p2instrinfo('subs')%>
+SUB subtracts the unsigned **S**ource from the unsigned **D**estination and stores the result into the **D**estination register.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the subtraction results in an unsigned borrow (= 32-bit underflow), or is cleared (0) if no borrow.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result stored into **D**estination is zero, or is cleared (0) if it is non-zero.
+
+To subtract unsigned, multi-long values, use SUB followed by [SUBX](#subx) as described in Subtracting Two Multi-Long Values(**TODO LINK**). SUB and [SUBX](#subx) are also used in subtracting _signed_, multi-long values with [SUBSX](#subsx) ending the sequence.
+
 <%=p2instrinfo('subr')%>
+SUBR subtracts the unsigned **D**estination from the unsigned **S**ource and stores the result into the **D**estination register. This is the reverse of the subtraction order of [SUB](#sub).
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the subtraction results in an unsigned borrow (= 32-bit underflow), or is cleared (0) if no borrow.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result stored into **D**estination is zero, or is cleared (0) if it is non-zero.
+
+<%=p2instrinfo('subs')%>
+SUBS subtracts the signed **S**ource from the signed **D**estination and stores the result into the **D**estination register. If **S**ource is a 9-bit literal, its value is interpreted as positive (0-511; it is not sign-extended) — use ##Value (or insert a prior [AUGS](#augs) instruction) for a 32-bit signed value; negative or positive.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the subtraction, _signed overflow nonwithstanding_, produced a negative result. Overflow occured if C is _not_ equal to the result's MSB (see [TJV](branch.html#tjv)).
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result stored into **D**estination is zero, or is cleared (0) if it is non-zero.
+
+To subtract signed, multi-long values, use [SUB](#sub) (not [SUBS](#subs)) followed possibly by [SUBX](#subx), and finally [SUBSX](#subsx) as described in Subtracting Two Multi-Long Values(**TODO LINK**).
+
 <%=p2instrinfo('subx')%>
+SUBX subtracts the unsigned value of **S**ource plus C from the unsigned **D**estination and stores the result into the **D**estination register. The SUBX instruction is used to perform unsigned multi-long (extended) subtraction, such as 64-bit subtraction.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the subtraction resulted in an unsigned borrow, or is cleared (0) if no carry.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if Z was previously set _and_ the  result stored into **D**estination is zero, or it is cleared (0) if non-zero or if Z was not previously set. Use **WCZ** on preceding SUB and SUBX instructions for proper final Z flag.
+
 <%=p2instrinfo('subsx')%>
+SUBSX subtracts the signed value of **S**ource plus C from the signed **D**estination and stores the result into the **D**estination register. The SUBSX instruction is used to perform signed multi-long (extended) subtraction, such as 64-bit subtraction.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the subtraction, _signed overflow nonwithstanding_, produced a negative result. Overflow occured if C is _not_ equal to the result's MSB (see [TJV](branch.html#tjv)).
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if Z was previously set _and_ the  result stored into **D**estination is zero, or it is cleared (0) if non-zero or if Z was not previously set. Use **WCZ** on preceding SUB and SUBX instructions for proper final Z flag.
+
+To subtract signed multi-long values, use [SUB](#sub) (not [SUBS](#subs)) followed possibly by [SUBX](#subx), and finally SUBSX as described in Subtracting Two Multi-Long Values(**TODO LINK**).
 
 ---
 
 <%=p2instrinfo('cmp')%>
-<%=p2instrinfo('cmps')%>
 <%=p2instrinfo('cmpr')%>
+<%=p2instrinfo('cmps')%>
 <%=p2instrinfo('cmpm')%>
 <%=p2instrinfo('cmpsub')%>
 <%=p2instrinfo('cmpx')%>

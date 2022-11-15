@@ -18,7 +18,7 @@ If results are attempted to be read when none are available and no commands are 
 ## Binary Angles
 
 **TODO explain binrads**
-
+For now, [see Wikipedia](https://en.wikipedia.org/wiki/Binary_angular_measurement).
 
 ## Result retrieval
 

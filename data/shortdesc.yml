@@ -38,6 +38,8 @@ ABS: Absolute value
 NEG: Negate value
 MUL: Unsigned 16-bit multiply
 MULS: Signed 16-bit multiply
+SCA: Unsigned 16-bit scale
+SCAS: Signed 16-bit scale
 REV: Reverse bits
 SPLITB: Split nibble bits into bytes
 MERGEB: Merge bytes into nibbles
@@ -191,3 +193,6 @@ WYPIN: Set smart pin Y register
 RDPIN: Read smart pin Z register and acknowledge
 RQPIN: Read smart pin Z register and don't acknowledge
 AKPIN: Acknowledge smart pin
+MODCZ: Modify Flags
+MODC: Modify C Flag
+MODZ: Modify Z Flag

@@ -169,6 +169,9 @@ main {
         display: block; // IE9 lmao
         filter: drop-shadow(8px 8px 10px #000);
     }
+    @media print {
+        box-sizing: border-box;
+    }
     &:after {
         /* fix float stupidity */
         content: "";
@@ -284,7 +287,7 @@ table {
         overflow-x: auto;
     }
     @media print {
-        font-size: 11px;
+        font-size: 12px;
     }
     box-sizing: border-box;
 }

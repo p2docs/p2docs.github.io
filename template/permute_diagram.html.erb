@@ -1,39 +1,107 @@
-<svg width="640" viewBox="0 0 32 10"><g vector-effect="non-scaling-stroke">
-<style>
-.conn svg rect {
-  stroke: black;
-  stroke-width: 0.07;
-  fill: #CFE2F3;
-  x: 0;
-  y: 0;
-  width: 1px;
-  height: 1px;
+<%id = kwarg[:id]||targ[0].downcase+'-diagram'%>
+<svg id="<%=id%>" width="720" viewBox="-3 -4 38 20"><g vector-effect="non-scaling-stroke">
+<%scss_style do%>
+svg#<%=id%> {
+    text {
+        font-family: 'Parallax',monospace;
+        fill: black;
+        @media screen and (prefers-color-scheme: dark) {
+            fill: white;
+        }
+    }
+    .bit {
+        rect {
+            stroke: black;
+            stroke-width: 0.07;
+            fill: #CFE2F3;
+            x: 0;
+            y: 0;
+            width: 1px;
+            height: 1px;
+        }
+        text {
+            text-anchor: middle;
+            font-size: 0.7px;
+            dominant-baseline:middle;
+            fill: black;
+        }
+    }
+    .conn {
+        line {
+            stroke-linecap: round;
+            stroke-width: 0.1px;
+            &.extra {
+                stroke-dasharray: 0.25,0.25;
+            }
+        }
+        &:hover {
+            .bit rect {
+                fill: #FCD;
+            }
+            .bit.extra rect {
+                fill: #BBF;
+            }
+            .bit text {
+                font-weight: bold;
+            }
+            line {
+                stroke-width: 0.5px;
+            }
+        }
+    }
 }
-.conn:hover svg rect {
-  fill: #FFE2F3;
-}
-.conn svg text {
-  text-anchor: middle;
-  font-size: 0.7px;
-  dominant-baseline:middle;
-}
-.conn:hover svg text {
-  font-weight: bold;
-}
-.conn line {
-  stroke-linecap: round;
-  stroke-width: 0.1px;
-}
-.conn:hover line {
-  stroke-width: 0.5px;
-}
-</style>
+<%end%>
+<%got_top = Set.new;got_bot = Set.new;%>
 <%32.times do |i|%>
-<% top,bot,color = *(yield i)%>
+<% 
+    top,bot,color,extrabots,extracolor = *(yield i)
+    if top.nil? || bot.nil?
+        next
+    else
+        got_top << top
+        got_bot << bot
+    end
+    extrabots ||= []
+%>
 <g class="conn">
-  <line x1="<%=31-top+0.5%>" x2="<%=31-bot+0.5%>" y1="1" y2="9" stroke="<%=color%>"/>
-  <svg x="<%=31-top%>" y=0 width=1 height=1 class="bit"><rect></rect><text x="50%" y="50%"><%=top%></text></svg>
-  <svg x="<%=31-bot%>" y=9 width=1 height=1 class="bit"><rect></rect><text x="50%" y="50%"><%=bot%></text></svg>
+  <line x1="<%=31-top+0.5%>" x2="<%=31-bot+0.5%>" y1="1" y2="11" stroke="<%=color%>"/>
+  <%extrabots.each do |ebot|%>
+    <line class="extra" x1="<%=31-top+0.5%>" x2="<%=31-ebot+0.5%>" y1="1" y2="11" stroke="<%=extracolor%>"/>
+  <%end%>
+  <svg class="bit" x="<%=31-top%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=top%></text></svg>
+  <svg class="bit" x="<%=31-bot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=bot%></text></svg>
+  <%extrabots.each do |ebot|%>
+    <%puts "duplicate bottom #{ebot}" if got_bot.include? ebot%>
+    <%got_bot << ebot%>
+    <svg class="bit extra" x="<%=31-ebot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=ebot%></text></svg>
+  <%end%>
 </g>
 <%end%>
-</g></svg>
+<%32.times do |i|%>
+    <%unless got_top.include? i%><svg class="bit" x="<%=31-i%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
+    <%unless got_bot.include? i%><svg class="bit" x="<%=31-i%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
+<%end%>
+</g>
+<defs>
+<path id="arrow" d="
+M 0 0
+h -1
+a 1 1 0 0 0 -1 1
+v 4
+h -0.25
+l 0.5 0.5
+l 0.5 -0.5
+h -0.25
+v -4
+a 0.5 0.5 0 0 1 0.5 -0.5
+h 1
+Z" style="fill:#B7B7B7"/>
+</defs>
+<use xlink:href="#arrow" x="0" y="-2"/>
+<use xlink:href="#arrow" x="0" y="-14" style="transform:scale(1,-1);"/>
+<text x="0.5" y="-1" style="font-size: 1.4px;font-weight:bold;"><%=targ[0]%></text>
+<text x="0.5" y="14" style="font-size: 1.4px;font-weight:bold;"><%=targ[1]%></text>
+<text x="8.5" y="-1" style="font-size: 0.8px;"><%=targ[2]%></text>
+<text x="8.5" y="14" style="font-size: 0.8px;"><%=targ[3]%></text>
+<%=kwarg[:custom]%>
+</svg>

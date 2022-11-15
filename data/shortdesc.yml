@@ -43,8 +43,8 @@ SPLITB: Split nibble bits into bytes
 MERGEB: Merge bytes into nibbles
 SPLITW: Split odd/even bits into high/low words
 MERGEW: Merge high/low words into odd/even bits
-RGBSQZ: Convert RGB24 to RGB16
-RGBEXP: Convert RGB16 to RGB24
+RGBSQZ: Convert RGBx8888 to RGB565
+RGBEXP: Convert RGB565 to RGBx8888
 TEST: Test bit pattern
 TESTN: Test bit pattern (negative)
 NOT: Bitwise NOT

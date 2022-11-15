@@ -50,6 +50,7 @@ body {
 }
 
 img,svg {
+    display: block;
     image-rendering: initial;
     max-width: 100%;
     border: none;

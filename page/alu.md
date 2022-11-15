@@ -444,23 +444,22 @@ REV performs a bitwise reverse (bits 31:0 -> bits 0:31) of the value in **D**est
 This is useful for processing binary data in a different MSB/LSB order than it is transmitted with.
 
 <%=p2instrinfo('splitb')%>
-<img src="P2_instruction_SPLITB_MERGEB.png" class="dark-invert">
+<%=permute_diagram("SPLITB","MERGEB","Splits groups of four bits in D into four bytes.","Merges four bytes in D into groups of four bits."){|i|next i,((i&3)<<3)+((i&28)>>2),%w[magenta blue lime red][i&3]}%>
 <%=p2instrinfo('mergeb')%>
 <%=p2instrinfo('splitw')%>
-<img src="P2_instruction_SPLITW_MERGEW.png" class="dark-invert">
+<%=permute_diagram("SPLITW","MERGEW","Splits odd/even bits in D into high/low words.","Merges high/low words in D into odd/even bits."){|i|next i,((i&1)<<4)+((i&30)>>1),%w[blue red][i&1]}%>
 <%=p2instrinfo('mergew')%>
+
+<%=p2instrinfo('rgbexp')%>
+
+<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24},"#faa" elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16},"#afa" else next i,i+11,"#00f",[i+6].reject{|i|i<8},"#aaf" end}%>
 
 <%=p2instrinfo('rgbsqz')%>
 RGBSQZ converts a 32-bit RGBx8888 color value into a 16-bit RGB565 color value. This can be described as moving **D**estination[15:11] to **D**estination[4:0], **D**estination[23:18] into **D**estination[10:5], **D**estination[31:27] into **D**estination[15:11] and clearing the remaining 16 bits.
 
-**TODO Diagram**
-
-<%=p2instrinfo('rgbexp')%>
-
-**TODO Diagram**
 
 <%=p2instrinfo('seussf')%>
-<img src="P2_instruction_SEUSSF_SEUSSR.png" class="dark-invert">
+<%=permute_diagram("SEUSSF","SEUSSR","Moves and flips bits in a 'forward' pattern.","Moves and flips bits in a 'reverse' pattern.",custom:%Q<<text x=0 y=5.5 style="font-size:0.7px;fill:lime;font-weight:bold;">TRUE</text><text x=0 y=6.5 style="font-size:0.7px;fill:red;font-weight:bold;">INVERSE</text>>){|i|next i,[22,6,4,14,10,17,29,0,31,9,1,15,2,16,12,13,23,7,8,3,25,21,26,28,30,20,19,27,24,18,5,11][31-i],%w[lime red][0b11101011010101010000001100101101[i]]}%>
 <%=p2instrinfo('seussr')%>
 
 ---

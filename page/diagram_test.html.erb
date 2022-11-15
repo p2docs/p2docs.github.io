@@ -9,8 +9,16 @@ sitemap_exclude: true
 <iframe src="diagram-eggbeater.html" style="border:none;width:400px;max-width:100%;aspect-ratio:400/500"></iframe>
 
 <h2>Bit permute</h2>
-<%=permute_diagram(){|i|next i,((i&3)<<3)+((i&28)>>2),%w[magenta blue lime red][i&3]}%>
+<%=permute_diagram("SPLITB","MERGEB","Splits groups of four bits in D into four bytes.","Merges four bytes in D into groups of four bits."){|i|next i,((i&3)<<3)+((i&28)>>2),%w[magenta blue lime red][i&3]}%>
+<img src="P2_instruction_SPLITB_MERGEB.png" class="dark-invert">
 <br>
 <br>
+<%=permute_diagram("SPLITW","MERGEW","Splits odd/even bits in D into high/low words.","Merges high/low words in D into odd/even bits."){|i|next i,((i&1)<<4)+((i&30)>>1),%w[blue red][i&1]}%>
+<img src="P2_instruction_SPLITW_MERGEW.png" class="dark-invert">
 <br>
-<%=permute_diagram(){|i|next i,((i&1)<<4)+((i&30)>>1),%w[blue red][i&1]}%>
+<br>
+<%=permute_diagram("SEUSSF","SEUSSR","Moves and flips bits in a 'forward' pattern.","Moves and flips bits in a 'reverse' pattern.",custom:%Q<<text x="0" y="5.5" style="font-size:0.7px;fill:lime;font-weight:bold;">TRUE</text><text x="0" y="6.5" style="font-size:0.7px;fill:red;font-weight:bold;">INVERSE</text>>){|i|next i,[22,6,4,14,10,17,29,0,31,9,1,15,2,16,12,13,23,7,8,3,25,21,26,28,30,20,19,27,24,18,5,11][31-i],%w[lime red][0b11101011010101010000001100101101[i]]}%>
+<img src="P2_instruction_SEUSSF_SEUSSR.png" class="dark-invert">
+<br>
+<br>
+<%=permute_diagram("RGBEXP","RGBSQZ","Expands RGB Color.","Squeezes RGB Color."){|i|if i>=16 then next nil elsif i>=11 then next i,i+16,"#f00",[i+11].reject{|i|i<24},"#faa" elsif i>=5 then next i,i+13,"#0f0",[i+7].reject{|i|i<16},"#afa" else next i,i+11,"#00f",[i+6].reject{|i|i<8},"#aaf" end}%>

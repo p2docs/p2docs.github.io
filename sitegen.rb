@@ -159,9 +159,24 @@ class SitePage
         return spec
     end
 
+    def scss_render_inline(text)
+        return Sass::Engine.new(text,syntax: :scss,style: :compressed).render.chomp(?\n)
+    end
+
+    def scss_style
+        raise unless block_given?
+        backup = @out
+        @out = "".dup
+        yield
+        text = @out
+        @out=backup
+        @out<<"<style>#{scss_render_inline(text)}</style>"
+        return nil
+    end
+
     def render_inline_css
         if props['inline-css']
-            return Sass::Engine.new(props['inline-css'],syntax: :scss,style: :compressed).render.chomp(?\n)
+            return scss_render_inline(props['inline-css'])
         else
             return nil
         end

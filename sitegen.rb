@@ -47,6 +47,9 @@ class Kramdown::Parser::KramdownWithErb < Kramdown::Parser::Kramdown
     end
 end
 
+class Kramdown::Converter::HtmlCustom < Kramdown::Converter::Html
+    # Just here so we can hack it
+end
 
 class SitePage
 
@@ -196,7 +199,7 @@ class SitePage
             @out = "".dup
             if @sourcepath.end_with? '.md'
                 @kram_parsed = Kramdown::Document.new(@source,**KRAMDOWN_OPTS)
-                rendered_document = @kram_parsed.to_html
+                rendered_document = @kram_parsed.to_html_custom
             else
                 rendered_document = @source
             end

@@ -3,7 +3,7 @@ title: Hub Memory
 hyperjump:
     -   type: Topic
         hidden: Hub RAM
-    -   id: timing
+    -   id: hub-timing
         name: Hub Memory Timing
         type: Topic
     -   id: block-transfers
@@ -26,11 +26,13 @@ The Propeller 2 features 512 kiB of "Hub RAM" that is shared between all cogs. T
 To facilitate the sharing of the memory, a round-robin access scheme is used. On each cycle, each cog has the potential to access a different "slice" of memory, consisting of all addresses where `(A>>2)&7 == N`. On the following cycle, the access windows "rotate" and each cog has access to the logically following slice.
 
 ## Block Transfers
+{:.anchor}
 
 TODO
 
 
 ## Pointer Expressions
+{:.anchor}
 
 TODO: Say something
 
@@ -51,7 +53,8 @@ TODO: Say something
 - The index value for `PTRx[INDEX6]` (denoted `iiiiii`) is a 6-bit value and can thus can range from -32 to 31.
 - The index value for inc/dec expressions (denoted `0NNNN` or `1nnnn`) is a 5-bit signed value with a special case wherein `00000` means 16. It can thus range from 1 to 16 in either positive or negative direction.
 
-## Timing
+## Hub Timing
+{:.anchor}
 
 Reading from Hub RAM takes at least **9 cycles**. Writing to Hub RAM takes at least **3 cycles**.
 

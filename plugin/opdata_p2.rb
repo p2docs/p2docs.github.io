@@ -263,6 +263,9 @@ P2SmartEntry = Struct.new(:name,:number,:shortdesc) do
     def doc_href
         "/pin.html##{id}"
     end
+    def extra
+        ""
+    end
 end
 
 P2SmartModes = [

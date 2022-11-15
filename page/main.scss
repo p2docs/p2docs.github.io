@@ -66,10 +66,7 @@ ul,ol {
 }
 
 .column_list {
-    columns: 5;
-    @media screen and (max-width:639) {
-        columns: 3;
-    }
+    columns: 200px;
 }
 
 #sitelogo {
@@ -321,6 +318,7 @@ tr {
 }
 
 .p2instrinfo {
+    break-inside: avoid;
     h3 {
         font-size: 1em;
         .opname {
@@ -508,6 +506,9 @@ pre {
 }
 
 nav#hyperjump {
+    @media print {
+        display: none;
+    }
     position: fixed;
     top: 0;
     left: 0;

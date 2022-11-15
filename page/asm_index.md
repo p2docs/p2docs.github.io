@@ -23,3 +23,7 @@ hyperjump:
 <%=p2instr_categlist :mixpix%>
 <%=p2instr_categlist :hubctrl%>
 <%=p2instr_categlist :misc%>
+
+## Pin Configurations
+
+<%=p2instr_categlist(P2Opdata::P2SmartModes,"Smart Pin modes")%>

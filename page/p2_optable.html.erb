@@ -6,13 +6,16 @@ inline-css: |
     main {
         max-width: 100%;
     }
-    footer {
+    #sitelogo {
+        height: 80px;
+    }
+    #forkme,footer {
         display: none;
     }
     #p2_optable {
         overflow: scroll;
         width: 100%;
-        height: calc(100vh - 192px);
+        height: calc(100vh - 140px);
         margin: auto;
         border: 2px solid;
         border-color: #ddd #888 #888 #ddd;
@@ -22,10 +25,17 @@ inline-css: |
             max-width: none;
             width: max-content;
             overflow: visible;
-            td.op-syntax,th.op-syntax {
-                position:sticky;
-                left: 0px;
-                z-index:2;
+            @media screen and (width > 700px) {
+                td.op-syntax,th.op-syntax {
+                    position:sticky;
+                    left: 0px;
+                    z-index:2;
+                }
+            }
+            thead {
+                position: sticky;
+                top: 0px;
+                z-index:3;
             }
             @media not screen and (prefers-color-scheme:dark) {
                 td.op-syntax {
@@ -93,11 +103,6 @@ inline-css: |
                         background: #CFE2F3;
                     }
                 }
-            }
-            thead {
-                position: sticky;
-                top: 0px;
-                z-index:3;
             }
             a {
                 text-decoration: none;

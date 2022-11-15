@@ -1,0 +1,39 @@
+<svg width="590" viewBox="0 0 32 10"><g vector-effect="non-scaling-stroke">
+<style>
+.conn svg rect {
+  stroke: black;
+  stroke-width: 0.07;
+  fill: #CFE2F3;
+  x: 0;
+  y: 0;
+  width: 1px;
+  height: 1px;
+}
+.conn:hover svg rect {
+  fill: #FFE2F3;
+}
+.conn svg text {
+  text-anchor: middle;
+  font-size: 0.7px;
+  dominant-baseline:middle;
+}
+.conn:hover svg text {
+  font-weight: bold;
+}
+.conn line {
+  stroke-linecap: round;
+  stroke-width: 0.1px;
+}
+.conn:hover line {
+  stroke-width: 0.5px;
+}
+</style>
+<%32.times do |i|%>
+<% top,bot,color = *(yield i)%>
+<g class="conn">
+  <line x1="<%=31-top+0.5%>" x2="<%=31-bot+0.5%>" y1="1" y2="9" stroke="<%=color%>"/>
+  <svg x="<%=31-top%>" y=0 width=1 height=1 class="bit"><rect></rect><text x="50%" y="50%"><%=top%></text></svg>
+  <svg x="<%=31-bot%>" y=9 width=1 height=1 class="bit"><rect></rect><text x="50%" y="50%"><%=bot%></text></svg>
+</g>
+<%end%>
+</g></svg>

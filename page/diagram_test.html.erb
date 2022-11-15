@@ -7,3 +7,10 @@ sitemap_exclude: true
 <h2>Eggbeater</h2>
 <img class="float-right" src="p2-hub-ram-interface.gif">
 <iframe src="diagram-eggbeater.html" style="border:none;width:400px;max-width:100%;aspect-ratio:400/500"></iframe>
+
+<h2>Bit permute</h2>
+<%=permute_diagram(){|i|next i,((i&3)<<3)+((i&28)>>2),%w[magenta blue lime red][i&3]}%>
+<br>
+<br>
+<br>
+<%=permute_diagram(){|i|next i,((i&1)<<4)+((i&30)>>1),%w[blue red][i&1]}%>

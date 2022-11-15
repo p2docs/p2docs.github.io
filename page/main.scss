@@ -529,6 +529,8 @@ nav#hyperjump {
     backdrop-filter: blur(6px);
     background: #000A;
     color: #fff;
+    font-family: 'Orbitron';
+    font-size: 20px;
     &.hjvisible, &.hj-force-show {
         opacity: 100%;
         pointer-events: initial;
@@ -537,6 +539,7 @@ nav#hyperjump {
     h1 {
         font-style: italic;
         font-family: 'Orbitron';
+        font-size: 39px;
         pointer-events: none;
     }
     input {
@@ -558,12 +561,14 @@ nav#hyperjump {
         list-style-type: none;
         margin: 0;
         padding: 12px;
-        font-family: 'Parallax',monospace;
-        font-size: 16px;
+        text-align: center;
         a {
             text-decoration: none;
         }
         li {
+            text-align: left;
+            font-family: 'Parallax',monospace;
+            font-size: 16px;
             display: block;
             background: #1117;
             margin-top: 6px;
@@ -590,6 +595,15 @@ nav#hyperjump {
             background: #11f7;
             box-shadow: 0 0 6px 1px #11f;
         }
+    }
+    #hjhint {
+        display: none;
+        pointer-events: none;
+        text-align: center;
+        line-height: 1.8;
+    }
+    &.hj-force-show #hjresults:empty ~ #hjhint {
+        display: block;
     }
     @media (width < 640px) {
         zoom: 0.6667;

@@ -31,7 +31,7 @@ function hyperjump_dispose() {
 
 jQuery(function() {
     //return false;
-    $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul></nav>");
+    $("body").append("<nav id=\"hyperjump\"><h1>HyperJump!</h1><input autocomplete=\"off\" spellcheck=\"off\"><ul id=\"hjresults\"></ul><div id=\"hjhint\">Welcome to <i>HyperJump!</i><br>Start typing to search for content.<br>This prompt opens automatically if you start typing, at any time.<br>Click anywhere or press ESC to close.</div></nav>");
     $("#hjreadybutton").on("click",function(event) {
         $("#hyperjump").addClass("hj-force-show");
         $("#hyperjump input").trigger("focus");

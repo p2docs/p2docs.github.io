@@ -22,7 +22,7 @@ ALTD inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of
 ALTD's **S**ource can be omitted, in which case it defaults to `#0`.
 
 <%=p2instrinfo('altr')%>
-ALTR inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's "Result Field", which is normally always equal to the **D**estination field. This allows the result of an instruction to be written to a location other than it's given **D**estination. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
+ALTR inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's "Result Field", which is normally always equal to the **D**estination field. This allows the result of an instruction to be written to a location other than its given **D**estination. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
 
 ALTR's **S**ource can be omitted, in which case it defaults to `#0`.
 

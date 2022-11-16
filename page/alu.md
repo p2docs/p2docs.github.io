@@ -157,6 +157,8 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 
 Literal **S**ource values are zero-extended, so ABS is really best used with register **S**ource (or augmented **S**ource) values.
 
+ABS's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
+
 <%=p2instrinfo('neg')%>
 NEG negates **S**ource and stores the result in the **D**estination register. The negation flips the
 value's sign; ex: 78 becomes -78, or -306 becomes 306.
@@ -165,6 +167,7 @@ If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the resul
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
+NEG's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
 
 <%=p2instrinfo('negc')%>
 <%=p2instrinfo('negnc')%>
@@ -398,6 +401,8 @@ If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the count
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if not zero.
 
+ONES' **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
+
 <%=p2instrinfo('encod')%>
 ENCOD stores the bit position value (0—31) of the top-most high bit (1) of **S**ource into **D**estination. If the value to encode is all zeroes, the resulting **D**estination will be 0 - use the **WC** or **WCZ** effect and check the resulting C flag to distinguish between the cases of **S**ource == 1 vs. **S**ource == 0.
 
@@ -412,6 +417,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 
 ENCOD is the complement of [DECOD](#decod).
 
+ENCOD's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
 
 <%=p2instrinfo('decod')%>
 DECOD generates a 32-bit value with just one bit high, corresponding to **S**ource[4:0] (0—31) and stores
@@ -425,6 +431,8 @@ In effect, **D**estination becomes `1 << value` via the DECOD instruction; where
 
 DECOD is the complement of [ENCOD](#encod)
 
+DECOD's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
+
 <%=p2instrinfo('bmask')%>
 BMASK generates an LSB-justified bit mask (all ones) of **S**ource[4:0]+1 bits and stores it in **D**estination. The size
 value, specified by **S**ource[4:0], is in the range 0—31 to generate 1 to 32 bits of bit mask.
@@ -437,6 +445,7 @@ In effect, **D**estination becomes (%10 << size) - 1 via the BMASK instruction.
 
 A bit mask is often useful in bitwise operations (AND, OR, XOR) to filter out or affect special groups of bits.
 
+BMASK's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
 ---
 
 <%=p2instrinfo('rev')%>

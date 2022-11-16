@@ -2,6 +2,7 @@
 title: Register Indirection
 hyperjump:
     -   type: Topic
+        hidden: ALT
 ---
 
 # Register Indirection

@@ -283,12 +283,52 @@ This mode has 2 sub-modes, selected by bit 2 of the Y register.
 
 
 <%=p2smartinfo('p-periods-highs')%>
+**TODO**
+
 <%=p2smartinfo('p-counter-ticks')%>
+**TODO**
+
 <%=p2smartinfo('p-counter-highs')%>
+**TODO**
+
 <%=p2smartinfo('p-counter-periods')%>
+**TODO**
+
 <%=p2smartinfo('p-adc')%>
-<%=p2smartinfo('p-adc-ext')%>
+<%=p2smartinfo('p-adc-ext',joinup:true)%>
+These modes facilitate sampling, SINC filtering, and raw capturing of ADC bitstream data.
+
+For the internally-clocked mode, the A-input will be sampled on every clock and should be a pin configured for ADC operation (M[12:10] = %100). In the externally-clocked mode, the A-input will be sampled on each B-input rise, so that an external delta-sigma ADC may be employed.
+
+[WXPIN](#wxpin) sets the mode to X[5:4] and the sample period to 2<sup>X[3:0]</sup>. Not all mode and period combinations are useful, or even functional:
+
+| |X[5:4] -><br>Mode ->|%00<br>SINC2 Sampling|%01<br>SINC2 Filtering|%10<br>SINC3 Filtering|%11<br>Bitstream capture|
+|X[3:0]|Sample Period|Sample Resolution|Post-diff ENOB\*|Post-diff ENOB\*|(LSB = oldest bit)|
+|:-----:|:----------:|:---------:|:---------:|:---------:|:---------:|
+|`%0000`|1 clock     |impractical|impractical|impractical|1 new bit  |
+|`%0001`|2 clocks    |2 bits     |impractical|impractical|2 new bits |
+|`%0010`|4 clocks    |3 bits     |impractical|impractical|4 new bits |
+|`%0011`|8 clocks    |4 bits     |4          |impractical|8 new bits |
+|`%0100`|16 clocks   |5 bits     |5          |8          |16 new bits|
+|`%0101`|32 clocks   |6 bits     |6          |10         |32 new bits|
+|`%0110`|64 clocks   |7 bits     |7          |12         |overflow   |
+|`%0111`|128 clocks  |8 bits     |8          |14         |overflow   |
+|`%1000`|256 clocks  |9 bits     |9          |16         |1 new bit  |
+|`%1001`|512 clocks  |10 bits    |10         |18         |2 new bits |
+|`%1010`|1024 clocks |11 bits    |11         |overflow   |4 new bits |
+|`%1011`|2048 clocks |12 bits    |12         |overflow   |8 new bits |
+|`%1100`|4096 clocks |13 bits    |13         |overflow   |16 new bits|
+|`%1101`|8192 clocks |14 bits    |14         |overflow   |32 new bits|
+|`%1110`|16384 clocks|overflow   |overflow   |overflow   |overflow   |
+|`%1111`|32768 clocks|overflow   |overflow   |overflow   |overflow   |
+
+For modes other than SINC2 Sampling (X[5:4] != `%00`), [WYPIN](#wypin) may be used after [WXPIN](#wxpin) to override the initial period established by X[3:0] and replace it with the arbitrary value in Y[13:0]. For example, if you'd like to do SINC3 filtering with a period of 320 clocks, you could follow the WXPIN with a `WYPIN #320,adcpin`.  The smart pin accumulators are 27 bits wide.  This allows up to 2<sup>27/3</sup> (=512) clocks per decimation in SINC3 filtering mode and up to 2<sup>27/2</sup> (=11585) clocks in SINC2 filtering mode.
+
+Upon completion of each sample period, the measurement is placed in Z, IN is raised, and a new measurement begins. RDPIN/RQPIN can then be used to retrieve the completed measurement.
+
 <%=p2smartinfo('p-adc-scope')%>
+
+**TODO**
 <img src="Scope_Filters_trans.png" class="dark-invert">
 
 <%=p2smartinfo('p-usb-pair')%>

@@ -1,17 +1,5 @@
 "use strict";
 
-/*let $hyperJumpList = [
-    {
-        name: "TESTB",
-        type: "Instruction",
-        href: "/ohno.html",
-    },{
-        name: "MERGEW",
-        type: "Instruction",
-        href: "/lmao.html",
-    },
-];*/
-
 let $hyperFuse = new Fuse($hyperJumpList,{
     keys: [
         {name:"name",weight:1},

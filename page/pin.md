@@ -16,6 +16,9 @@ hyperjump:
 ## Diagram
 <img src="pin-diagram.png" class="dark-invert">
 
+<%#=p2pin_diagram commented out because sucks%>
+
+
 **TODO: Transparent version**
 
 ## I/O Instructions
@@ -313,14 +316,16 @@ For the internally-clocked mode, the A-input will be sampled on every clock and 
 |`%0101`|32 clocks   |6 bits     |6          |10         |32 new bits|
 |`%0110`|64 clocks   |7 bits     |7          |12         |overflow   |
 |`%0111`|128 clocks  |8 bits     |8          |14         |overflow   |
-|`%1000`|256 clocks  |9 bits     |9          |16         |1 new bit  |
-|`%1001`|512 clocks  |10 bits    |10         |18         |2 new bits |
-|`%1010`|1024 clocks |11 bits    |11         |overflow   |4 new bits |
-|`%1011`|2048 clocks |12 bits    |12         |overflow   |8 new bits |
-|`%1100`|4096 clocks |13 bits    |13         |overflow   |16 new bits|
-|`%1101`|8192 clocks |14 bits    |14         |overflow   |32 new bits|
+|`%1000`|256 clocks  |9 bits     |9          |16         |overflow   |
+|`%1001`|512 clocks  |10 bits    |10         |18         |overflow   |
+|`%1010`|1024 clocks |11 bits    |11         |overflow   |overflow   |
+|`%1011`|2048 clocks |12 bits    |12         |overflow   |overflow   |
+|`%1100`|4096 clocks |13 bits    |13         |overflow   |overflow   |
+|`%1101`|8192 clocks |14 bits    |14         |overflow   |overflow   |
 |`%1110`|16384 clocks|overflow   |overflow   |overflow   |overflow   |
 |`%1111`|32768 clocks|overflow   |overflow   |overflow   |overflow   |
+
+\* ENOB = Effective Number of Bits, or the sample resolution.
 
 For modes other than SINC2 Sampling (X[5:4] != `%00`), [WYPIN](#wypin) may be used after [WXPIN](#wxpin) to override the initial period established by X[3:0] and replace it with the arbitrary value in Y[13:0]. For example, if you'd like to do SINC3 filtering with a period of 320 clocks, you could follow the WXPIN with a `WYPIN #320,adcpin`.  The smart pin accumulators are 27 bits wide.  This allows up to 2<sup>27/3</sup> (=512) clocks per decimation in SINC3 filtering mode and up to 2<sup>27/2</sup> (=11585) clocks in SINC2 filtering mode.
 

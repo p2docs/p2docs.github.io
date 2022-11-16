@@ -47,6 +47,13 @@
 }
 body {
     background-color: transparent;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+}
+@media print {
+    *, *::after {
+        animation: none !important;
+    }        
 }
 #diagram {
     position:relative;

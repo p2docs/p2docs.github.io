@@ -14,7 +14,7 @@ $$
 \newcommand{\SMIX}{\mathit{SMIX}}
 D'[31:24] \approx \min\left({{D[31:24] *\DMIX+S[31:24] *\SMIX+255}\over 256},255\right) \\
 D'[23:16] \approx \min\left({{D[23:16] *\DMIX+S[23:16] *\SMIX+255}\over 256},255\right) \\
-D'[15:~~8] \approx \min\left({{D[15:08] *\DMIX+S[15:~~8] *\SMIX+255}\over 256},255\right) \\
+D'[15:~~8] \approx \min\left({{D[15:~~8] *\DMIX+S[15:~~8] *\SMIX+255}\over 256},255\right) \\
 D'[~~7:~~0] \approx \min\left({{D[~~7:~~0] *\DMIX+S[~~7:~~0] *\SMIX+255}\over 256},255\right)
 $$
 
@@ -41,7 +41,7 @@ ADDPIX performs a per-byte saturated addition of **S**ource into **D**estination
 $$
 D'[31:24] = \min\left({D[31:24]+S[31:24]},255\right) \\
 D'[23:16] = \min\left({D[23:16]+S[23:16]},255\right) \\
-D'[15:~~8] = \min\left({D[15:08]+S[15:~~8]},255\right) \\
+D'[15:~~8] = \min\left({D[15:~~8]+S[15:~~8]},255\right) \\
 D'[~~7:~~0] = \min\left({D[~~7:~~0]+S[~~7:~~0]},255\right)
 $$
 

@@ -11,7 +11,7 @@ TODO: Explain pipeline quirks and general concept
 ## Simple Indirection
 
 <%=p2instrinfo('alts')%>
-ALTS inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's **S**ource _field_ (i.e. the given address or immediate). The next instruction is not modified in RAM. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
+ALTS inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's **S**ource _field_ (i.e. the given **S**ource address or immediate). The next instruction is not modified in RAM. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
 
 ALTS can be used to index into an Array in [Cog Memory](cog.html#cog-memory), with **S**ource being the base address (and optionally, auto-increment amount) and **D**estination being the index.
 
@@ -19,7 +19,7 @@ ALTS' **S**ource can be omitted, in which case it defaults to `#0`.
 
 
 <%=p2instrinfo('altd')%>
-ALTD inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's **D**estination _field_ (i.e. the given address or immediate). The next instruction is not modified in RAM. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
+ALTD inserts (**S**ource + **D**estination) & $1FF into the pipeline in place of the next instruction's **D**estination _field_ (i.e. the given **D**estination address or immediate). The next instruction is not modified in RAM. Additionally, after the indirection, the signed value in **S**ource[17:9] is summed into **D**estination.
 
 ALTD can be used to index into an Array in [Cog Memory](cog.html#cog-memory), with **S**ource being the base address (and optionally, auto-increment amount) and **D**estination being the index.
 

@@ -3,11 +3,26 @@ title: Register Indirection
 hyperjump:
     -   type: Topic
         hidden: ALT
+    -   id: order-of-prefix-instructions
+        name: Order of Prefix Instructions
+        type: Topic
 ---
 
 # Register Indirection
 
 TODO: Explain pipeline quirks and general concept
+
+## Order of Prefix Instructions
+{:.anchor}
+
+When multiple prefix instructions (ALTx,[AUGS](misc.html#augs),[AUGD](misc.html#augd),[SETQ](misc.html#setq)) are used, the correct order is as follows:
+
+ - SETQ or SETQ2 first
+ - Then AUGS and/or AUGD
+ - Then any ALTx
+ - Finally, the main instruction
+
+**Caution: hardware bug! When ALTx is used with an immediate Source, a preceding AUGS will affect _both_ the ALTx _and_ the main instruction!**
 
 ## Simple Indirection
 

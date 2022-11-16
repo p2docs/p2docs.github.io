@@ -46,13 +46,13 @@ MOVBYTS swizzles the bytes of **D**estination based on bottom 8 bits in **S**our
 ---
 
 <%=p2instrinfo('sets')%>
-SETS copies **S**ource[8:0] into **D**estination[8:0]. Other bits remain unaffected. This is useful to set up the S-field for [ALTI](indirect.html#alti) or to set the S-field of an instruction in memory (See: Self-Modifying Code **TODO Link**).
+SETS copies **S**ource[8:0] into **D**estination[8:0]. Other bits remain unaffected. This is useful to set up the S-field for [ALTI](indir.html#alti) or to set the S-field of an instruction in memory (See: Self-Modifying Code **TODO Link**).
 
 <%=p2instrinfo('setd')%>
-SETD copies **S**ource[8:0] into **D**estination[17:9]. Other bits remain unaffected. This is useful to set up the D field for [ALTI](indirect.html#alti) or to set the D field of an instruction in memory (See: Self-Modifying Code **TODO Link**).
+SETD copies **S**ource[8:0] into **D**estination[17:9]. Other bits remain unaffected. This is useful to set up the D field for [ALTI](indir.html#alti) or to set the D field of an instruction in memory (See: Self-Modifying Code **TODO Link**).
 
 <%=p2instrinfo('setr')%>
-SETR copies **S**ource[8:0] into **D**estination[27:19]. Other bits remain unaffected. This is useful to set up the R field for [ALTI](indirect.html#alti) or to modify the opcode and flag effects of an instruction in memory (See: Self-Modifying Code **TODO Link**).
+SETR copies **S**ource[8:0] into **D**estination[27:19]. Other bits remain unaffected. This is useful to set up the R field for [ALTI](indir.html#alti) or to modify the opcode and flag effects of an instruction in memory (See: Self-Modifying Code **TODO Link**).
 
 ## Arithmetic
 

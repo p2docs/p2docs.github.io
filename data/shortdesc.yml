@@ -95,7 +95,7 @@ RDLONG: Read long from Hub
 WRBYTE: Write byte to Hub
 WRWORD: Write word to Hub
 WRLONG: Write long to Hub
-WMLONG: Write non-zero bytes to Hub
+WMLONG: Write non-zero bytes in long to Hub
 RDLUT: Read long from LUT
 WRLUT: Write long to LUT
 SETLUTS: Configure LUT RAM

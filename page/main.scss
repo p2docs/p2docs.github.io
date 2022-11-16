@@ -98,7 +98,9 @@ ul,ol {
     #hjreadybutton {
         display: none;
         .hyperjump-ready & {
-            display: block;
+            @media not print {
+                display: block;
+            }
         }
         position: absolute;
         bottom: 6px;
@@ -238,6 +240,11 @@ h1,h2,h3,h4,h5,h6 {
         }
     }
 }
+@media print {
+    a {
+        color: inherit;
+    }
+}
 
 .fail_link {
     color: red;
@@ -253,6 +260,9 @@ a.anchor {
     filter: saturate(0);
     &:hover {
         filter: saturate(1);
+    }
+    @media print {
+        display: none;
     }
 }
 

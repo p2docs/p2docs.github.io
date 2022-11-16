@@ -28,26 +28,67 @@ To facilitate the sharing of the memory, a round-robin access scheme is used. On
 ## Block Transfers
 {:.anchor}
 
-TODO
+By preceding [RDLONG](#rdlong) with either [SETQ](misc.html#setq) or [SETQ2](misc.html#setq2), multiple hub RAM longs can be read into either [Cog RAM](cog.html#cog-memory) or [Lookup RAM](lutmem.html). This transfer happens at the rate of one long per cycle, assuming the [hub FIFO interface](fifo.html) is not accessing the same hub RAM slice as RDLONG, on the same cycle, in which case the FIFO gets priority access and the block move must wait 8 cycles(?? TODO) for the hub RAM slice to come around again. If WC/WZ/WCZ are used with RDLONG, the flags will be set according to the last long read in the sequence.
 
+Use [SETQ](misc.html#setq)+RDLONG to read multiple hub longs into cog register RAM:
+
+~~~
+    SETQ    #x                      'x = number of longs, minus 1, to read
+    RDLONG  first_reg,S/#/PTRx      'read x+1 longs starting at first_reg
+~~~
+
+Use [SETQ2](misc.html#setq2)+RDLONG to read multiple hub longs into cog lookup RAM:
+
+~~~
+    SETQ2   #x                      'x = number of longs, minus 1, to read
+    RDLONG  first_lut,S/#/PTRx      'read x+1 longs starting at first_lut
+~~~
+(TODO: LUT addressing is kinda curious, elaborate)
+
+Similarly, [WRLONG](#wrlong) and [WMLONG](#wmlong) can be preceded by either [SETQ](misc.html#setq) or [SETQ2](misc.html#setq2) to write either multiple register RAM longs or lookup RAM longs into hub RAM. When WRLONG/WMLONG‘s **D**estination field is an immediate, it instead writes that immediate value to RAM, functioning as a memory filler. (**TODO I think I recall fill doesn't work with SETQ2**)
+
+Use SETQ+WRLONG/WMLONG to write multiple register RAM longs into hub RAM:
+
+~~~
+    SETQ    #x                      'x = number of longs, minus 1, to write
+    WRLONG  first_reg,S/#/PTRx      'write x+1 longs starting at first_reg
+~~~
+
+Use SETQ2+WRLONG/WMLONG to write multiple lookup RAM longs into hub RAM:
+
+~~~
+    SETQ2   #x                      'x = number of longs, minus 1, to write
+    WRLONG  first_lut,S/#/PTRx      'write x+1 longs starting at first_lut
+~~~
+
+(TODO: LUT addressing is kinda curious, elaborate)
+
+Use SETQ+WRLONG to fill multiple longs of hub RAM:
+
+~~~
+    SETQ    #x                      'x = number of longs, minus 1, to write
+    WRLONG  ##$89ABCDEF,S/#/PTRx    'write x+1 longs of $89ABCDEF
+~~~
+
+For block transfers, [PTRx expressions](#pointer-expressions) cannot have arbitrary index values, since the index will be overridden with the number of longs. Only unindexed increment/decrement modes are allowed.
 
 ## Pointer Expressions
 {:.anchor}
 
 TODO: Say something
 
-|Encoding |Syntax        |Accessed Address  |Post-Modify        |
-|---------|--------------|------------------|-------------------|
-|1x0000000|PTRx          |PTRx              |                   |
-|1x0iiiiii|PTRx[INDEX6]  |PTRx + INDEX*SCALE|                   |
-|1x1100001|PTRx++        |PTRx,             |PTRx += SCALE      |
-|1x1111111|PTRx--        |PTRx,             |PTRx -= SCALE      |
-|1x1000001|++PTRx        |PTRx + SCALE,     |PTRx += SCALE      |
-|1x1011111|--PTRx        |PTRx - SCALE,     |PTRx -= SCALE      |
-|1x110NNNN|PTRx++[INDEX5]|PTRx,             |PTRx += INDEX*SCALE|
-|1x111nnnn|PTRx--[INDEX5]|PTRx,             |PTRx -= INDEX*SCALE|
-|1x100NNNN|++PTRx[INDEX5]|PTRx + INDEX*SCALE|PTRx += INDEX*SCALE|
-|1x101nnnn|--PTRx[INDEX5]|PTRx - INDEX*SCALE|PTRx -= INDEX*SCALE|
+|Encoding |Syntax        |Accessed Address  |Post-Modify        |Block Transfers|
+|---------|--------------|------------------|-------------------|---------------|
+|1x0000000|PTRx          |PTRx              |                   |Valid          |
+|1x0iiiiii|PTRx[INDEX6]  |PTRx + INDEX*SCALE|                   |Not Valid      |
+|1x1100001|PTRx++        |PTRx,             |PTRx += SCALE      |Valid          |
+|1x1111111|PTRx--        |PTRx,             |PTRx -= SCALE      |Valid          |
+|1x1000001|++PTRx        |PTRx + SCALE,     |PTRx += SCALE      |Valid          |
+|1x1011111|--PTRx        |PTRx - SCALE,     |PTRx -= SCALE      |Valid          |
+|1x110NNNN|PTRx++[INDEX5]|PTRx,             |PTRx += INDEX*SCALE|Not Valid      |
+|1x111nnnn|PTRx--[INDEX5]|PTRx,             |PTRx -= INDEX*SCALE|Not Valid      |
+|1x100NNNN|++PTRx[INDEX5]|PTRx + INDEX*SCALE|PTRx += INDEX*SCALE|Not Valid      |
+|1x101nnnn|--PTRx[INDEX5]|PTRx - INDEX*SCALE|PTRx -= INDEX*SCALE|Not Valid      |
 
 - `SCALE` is 1 for BYTE and LUT operations, 2 for WORD operations and 4 for LONG operations. When using an augmented operand (##/AUGS), SCALE is always 1.
 - The index value for `PTRx[INDEX6]` (denoted `iiiiii`) is a 6-bit value and can thus can range from -32 to 31.

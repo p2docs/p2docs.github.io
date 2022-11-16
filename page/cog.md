@@ -16,6 +16,7 @@ hyperjump:
 **TODO**
 
 ## Cog Memory
+{:.anchor}
 
 Each Cog has 512 longs (= 2 kiB) of **Cog RAM**. The first 496 can be used for any purpose, the next 8 have some special purposes and the final 8 are hardware I/O registers. The normal RAM locations are also often referred to as "Registers" due to them being directly addressible by most instructions.
 
@@ -45,6 +46,7 @@ Similarily, PTRA/PTRB/PA/PB are normal general-purpose registers aside from thei
 
 
 ## Q Register
+{:.anchor}
 
 Each Cog contains a hidden "**Q**" register that is used for certain operations.
 

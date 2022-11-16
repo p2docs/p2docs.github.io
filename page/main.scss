@@ -51,6 +51,10 @@ body {
     text-size-adjust: none;
 }
 
+iframe {
+    color-scheme: initial; // Fix weird dark mode bug
+}
+
 img,svg {
     display: block;
     image-rendering: initial;

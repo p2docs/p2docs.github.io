@@ -53,6 +53,7 @@ Each Cog contains a hidden "**Q**" register that is used for certain operations.
 The following instructions can **set Q**:
 
 - [SETQ](misc.html#setq) and [SETQ2](misc.html#setq2): Q is set to the given D value.
+- [XORO32](alu.html#xoro32): Q is set to the XORO32 result.
 - [RDLUT](lutmem.html#rdlut): Q is set to data read from lookup memory.
 - [GETXACC](streamer.html#getxacc): Q is set to the Goertzel sine accumulator value.
 - [CRCNIB](alu.html#crcnib): Q is shifted left by 4 bits.

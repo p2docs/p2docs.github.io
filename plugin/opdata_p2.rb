@@ -190,7 +190,7 @@ tab.each do |row|
         cval = "LOCK status"
         regwr = "D if reg and WC" # Table mistake
     elsif name == "GETBRK"
-        cval = "owie ouch"
+        cval = "owie ouch TODO"
     elsif name =~ /^FGE/
         cval = "D < S"
     elsif name =~ /^FLE/

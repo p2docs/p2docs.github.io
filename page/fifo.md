@@ -30,7 +30,5 @@ It can either be used to feed the [Streamer](streamer.html), to execute code fro
 <%=p2instrinfo('wfword')%>
 <%=p2instrinfo('wfbyte')%>
 
-Very spicy!
-
 
 <%p2instr_checkall :fifo%>

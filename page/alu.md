@@ -11,8 +11,7 @@ MOV copies the **S**ource value into **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is updated to be **S**ource[31].
 
-If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is
-non-zero.
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination result equals zero, or is cleared (0) if it is non-zero.
 
 
 

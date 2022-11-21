@@ -19,11 +19,11 @@ hyperjump:
 # Hub Memory
 <iframe class="float-right" src="diagram-eggbeater.html" style="border:none;width:400px;max-width:100%;aspect-ratio:400/500"></iframe>
 
-**TODO: I suck at writing these**
-
-The Propeller 2 features 512 kiB of "Hub RAM" that is shared between all cogs. The architecture allows for up to 1024 kiB, but this additional space is unused in the current chip. Hub RAM is addressed in bytes, but an entire long (4 aligned bytes) can be read or written at once.
+The Propeller 2 features 512 kiB of "Hub RAM" that is shared between all cogs. The architecture allows for up to 1024 kiB, but this additional space is unused in the current chip. Hub RAM is addressed in bytes, but an entire long (4 aligned bytes) can be read or written at once. All larger-than-byte memory operations are little-endian.
 
 To facilitate the sharing of the memory, a round-robin access scheme is used. On each cycle, each cog has the potential to access a different "slice" of memory, consisting of all addresses where `(A>>2)&7 == N`. On the following cycle, the access windows "rotate" and each cog has access to the logically following slice.
+
+**TODO: I suck at writing these**
 
 ## Block Transfers
 {:.anchor}
@@ -111,13 +111,51 @@ An additional cycle is added if the access crosses a long boundary. (i.e. any un
 ## Instructions
 
 <%=p2instrinfo('rdlong')%>
+RDLONG reads a long (4 bytes) from the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination. Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
+
+If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 31) of the read value.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read value equals zero, or is cleared (0) if it is non-zero.
+
+If prefixed with SETQ or SETQ2, a [block transfer](#block-transfers) is initiated.
+
 <%=p2instrinfo('rdword')%>
+RDWORD reads a word (2 bytes) from the 2 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 16 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty if the word crosses a long boundary (i.e. the bottom two bits of the effective address are both set). (See [Hub Timing](#hub-timing))
+
+If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 15) of the read value.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read value equals zero, or is cleared (0) if it is non-zero.
+
+RDWORD cannot initiate block transfers.
+
 <%=p2instrinfo('rdbyte')%>
+RDBYTE reads a byte from the Hub memory location addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 24 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 7) of the read value.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read value equals zero, or is cleared (0) if it is non-zero.
+
+RDBYTE cannot be used for block transfers.
+
 <%=p2instrinfo('wrlong')%>
+WRLONG writes **D**estination into the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned writes are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
+
+If prefixed with SETQ or SETQ2, a [block transfer](#block-transfers) is initiated.
+
 <%=p2instrinfo('wrword')%>
+WRWORD writes the bottom 16 bits of **D**estination into the 2 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned writes are possible, but carry a one-cycle penalty if the word crosses a long boundary (i.e. the bottom two bits of the effective address are both set). (See [Hub Timing](#hub-timing))
+
+WRWORD cannot be used for block transfers.
+
 <%=p2instrinfo('wrbyte')%>
+WRBYTE writes the bottom 8 bits of **D**estination into the Hub memory location addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions). Only the bottom 20 bits of the effective address are considered, the rest are ignored.
+
+WRBYTE cannot be used for block transfers.
+
 <%=p2instrinfo('wmlong')%>
-Very spicy!
+WMLONG functions identically to [WRLONG](#wrlong), except that if any of the 4 bytes to be written is zero, that byte is not written and the previous value remains in memory. This is useful for masked blitting operations.
+
+If prefixed with SETQ or SETQ2, a [block transfer](#block-transfers) is initiated.
 
 ## Alias Instructions
 

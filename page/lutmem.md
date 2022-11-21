@@ -30,7 +30,7 @@ It is possible to quickly transfer blocks of data between Hub and LUT memories. 
 <%=p2instrinfo('rdlut')%>
 RDLUT reads the LUT memory location addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (and as a side effect, also the [Q Register](cog.html#q-register)). Only the bottom 9 bits of the effective address are considered, the rest are ignored.
 
-If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB of the read value.
+If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 31) of the read value.
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read value equals zero, or is cleared (0) if it is non-zero.
 

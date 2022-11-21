@@ -111,7 +111,7 @@ An additional cycle is added if the access crosses a long boundary. (i.e. any un
 ## Instructions
 
 <%=p2instrinfo('rdlong')%>
-RDLONG reads a long (4 bytes) from the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination. Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
+RDLONG reads a long (32 bits) from the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination. Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
 
 If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 31) of the read value.
 
@@ -120,7 +120,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read 
 If prefixed with SETQ or SETQ2, a [block transfer](#block-transfers) is initiated.
 
 <%=p2instrinfo('rdword')%>
-RDWORD reads a word (2 bytes) from the 2 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 16 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty if the word crosses a long boundary (i.e. the bottom two bits of the effective address are both set). (See [Hub Timing](#hub-timing))
+RDWORD reads a word (16 bits) from the 2 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 16 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned reads are possible, but carry a one-cycle penalty if the word crosses a long boundary (i.e. the bottom two bits of the effective address are both set). (See [Hub Timing](#hub-timing))
 
 If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 15) of the read value.
 
@@ -129,7 +129,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read 
 RDWORD cannot initiate block transfers.
 
 <%=p2instrinfo('rdbyte')%>
-RDBYTE reads a byte from the Hub memory location addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 24 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored.
+RDBYTE reads a byte (8 bits) from the Hub memory location addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions) into **D**estination (the upper 24 bits are set to zeroes). Only the bottom 20 bits of the effective address are considered, the rest are ignored.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB (bit 7) of the read value.
 
@@ -138,7 +138,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the read 
 RDBYTE cannot be used for block transfers.
 
 <%=p2instrinfo('wrlong')%>
-WRLONG writes **D**estination into the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned writes are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
+WRLONG writes the 32 bits of **D**estination into the 4 consecutive Hub memory locations addressed by **S**ource or a [pointer expression](hubmem.html#pointer-expressions). Only the bottom 20 bits of the effective address are considered, the rest are ignored. Unaligned writes are possible, but carry a one-cycle penalty. (See [Hub Timing](#hub-timing))
 
 If prefixed with SETQ or SETQ2, a [block transfer](#block-transfers) is initiated.
 

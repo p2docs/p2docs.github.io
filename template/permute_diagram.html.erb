@@ -56,15 +56,15 @@ svg#<%=id%> {
         from {stroke-dashoffset: 0;}
         to   {stroke-dashoffset: 1.5;}
     }
-    &:has(.bit_top:hover) .conn line {
+    &:has(.bit_top:hover,.top_text *:hover) .conn line {
         stroke-dasharray: 0.85,0.65;
         animation: 0.5s linear reverse infinite strokeflow-<%=id%>;
     }
-    &:has(.bit_bot:hover) .conn line:not(.extra) {
+    &:has(.bit_bot:hover,.bot_text *:hover) .conn line:not(.extra) {
         stroke-dasharray: 0.85,0.65;
         animation: 0.5s linear normal infinite strokeflow-<%=id%>;
     }
-    &:has(.bit_bot:hover) .conn line.extra {
+    &:has(.bit_bot:hover,.bot_text *:hover) .conn line.extra {
         opacity: 15%;
     }
 }
@@ -115,11 +115,15 @@ a 0.5 0.5 0 0 1 0.5 -0.5
 h 1
 Z" style="fill:#B7B7B7"/>
 </defs>
-<use xlink:href="#arrow" x="0" y="-2"/>
-<use xlink:href="#arrow" x="0" y="-14" style="transform:scale(1,-1);"/>
-<text x="0.5" y="-1" style="font-size: 1.4px;font-weight:bold;"><%=targ[0]%></text>
-<text x="0.5" y="14" style="font-size: 1.4px;font-weight:bold;"><%=targ[1]%></text>
-<text x="8.5" y="-1" style="font-size: 0.8px;"><%=targ[2]%></text>
-<text x="8.5" y="14" style="font-size: 0.8px;"><%=targ[3]%></text>
+<g class="top_text">
+    <use xlink:href="#arrow" x="0" y="-2"/>
+    <text x="0.5" y="-1" style="font-size: 1.4px;font-weight:bold;"><%=targ[0]%></text>
+    <text x="8.5" y="-1" style="font-size: 0.8px;"><%=targ[2]%></text>
+</g>
+<g class="bot_text">
+    <use xlink:href="#arrow" x="0" y="-14" style="transform:scale(1,-1);"/>
+    <text x="0.5" y="14" style="font-size: 1.4px;font-weight:bold;"><%=targ[1]%></text>
+    <text x="8.5" y="14" style="font-size: 0.8px;"><%=targ[3]%></text>
+</g>
 <%=kwarg[:custom]%>
 </svg>

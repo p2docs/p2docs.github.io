@@ -9,6 +9,11 @@ hyperjump:
 
 <%=p2instrinfo('jmp-a')%>
 <%=p2instrinfo('jmp-d',joinup:true)%>
+**TODO**
+
+If the **WC** or **WCZ** effect is specified (`JMP D` only), the C flag is updated to be **D**estination[31].
+
+If the **WZ** or **WCZ** effect is specified (`JMP D` only), the Z flag is updated to be **D**estination[30].
 
 <%=p2instrinfo('jmprel')%>
 

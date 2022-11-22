@@ -79,6 +79,7 @@ TODO: Say something
 
 |Encoding |Syntax        |Accessed Address  |Post-Modify        |Block Transfers|
 |---------|--------------|------------------|-------------------|---------------|
+|0IIIIIIII|#immediate    |immediate         |                   |Valid          |
 |1x0000000|PTRx          |PTRx              |                   |Valid          |
 |1x0iiiiii|PTRx[INDEX6]  |PTRx + INDEX*SCALE|                   |Not Valid      |
 |1x1100001|PTRx++        |PTRx,             |PTRx += SCALE      |Valid          |

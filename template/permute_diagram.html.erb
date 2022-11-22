@@ -9,7 +9,7 @@ svg#<%=id%> {
             fill: white;
         }
     }
-    .bit {
+    .bit_top,.bit_bot {
         rect {
             stroke: black;
             stroke-width: 0.07;
@@ -36,19 +36,36 @@ svg#<%=id%> {
             }
         }
         &:hover {
-            .bit rect {
-                fill: #FCD;
-            }
-            .bit.extra rect {
-                fill: #BBF;
-            }
-            .bit text {
-                font-weight: bold;
+            .bit_top,.bit_bot {
+                rect {
+                    fill: #FCD;
+                }
+                &.extra rect {
+                    fill: #BBF;
+                }
+                text {
+                    font-weight: bold;
+                }
             }
             line {
                 stroke-width: 0.5px;
             }
         }
+    }
+    @keyframes strokeflow-<%=id%> {
+        from {stroke-dashoffset: 0;}
+        to   {stroke-dashoffset: 1.5;}
+    }
+    &:has(.bit_top:hover) .conn line {
+        stroke-dasharray: 0.85,0.65;
+        animation: 0.5s linear reverse infinite strokeflow-<%=id%>;
+    }
+    &:has(.bit_bot:hover) .conn line:not(.extra) {
+        stroke-dasharray: 0.85,0.65;
+        animation: 0.5s linear normal infinite strokeflow-<%=id%>;
+    }
+    &:has(.bit_bot:hover) .conn line.extra {
+        opacity: 15%;
     }
 }
 <%end%>
@@ -69,18 +86,18 @@ svg#<%=id%> {
   <%extrabots.each do |ebot|%>
     <line class="extra" x1="<%=31-top+0.5%>" x2="<%=31-ebot+0.5%>" y1="1" y2="11" stroke="<%=color%>"/>
   <%end%>
-  <svg class="bit" x="<%=31-top%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=top%></text></svg>
-  <svg class="bit" x="<%=31-bot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=bot%></text></svg>
+  <svg class="bit_top" x="<%=31-top%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=top%></text></svg>
+  <svg class="bit_bot" x="<%=31-bot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=bot%></text></svg>
   <%extrabots.each do |ebot|%>
     <%puts "duplicate bottom #{ebot}" if got_bot.include? ebot%>
     <%got_bot << ebot%>
-    <svg class="bit extra" x="<%=31-ebot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=ebot%></text></svg>
+    <svg class="bit_bot extra" x="<%=31-ebot%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=ebot%></text></svg>
   <%end%>
 </g>
 <%end%>
 <%32.times do |i|%>
-    <%unless got_top.include? i%><svg class="bit" x="<%=31-i%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
-    <%unless got_bot.include? i%><svg class="bit" x="<%=31-i%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
+    <%unless got_top.include? i%><svg class="bit_top" x="<%=31-i%>" y="0" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
+    <%unless got_bot.include? i%><svg class="bit_bot" x="<%=31-i%>" y="11" width="1" height="1" class="bit"><rect></rect><text x="50%" y="55%"><%=i%></text></svg><%end%>
 <%end%>
 </g>
 <defs>

@@ -480,6 +480,12 @@ RGBSQZ converts a 32-bit color in **D**estination into a 16-bit color. This can 
 SEUSSF and SEUSSR are TODO weird. What are these actually good for?
 <%=permute_diagram("SEUSSF","SEUSSR","Moves and flips bits in a 'forward' pattern.","Moves and flips bits in a 'reverse' pattern.",custom:%Q<<text x=0 y=5.5 style="font-size:0.7px;fill:lime;font-weight:bold;">TRUE</text><text x=0 y=6.5 style="font-size:0.7px;fill:red;font-weight:bold;">INVERSE</text>>){|i|next i,[22,6,4,14,10,17,29,0,31,9,1,15,2,16,12,13,23,7,8,3,25,21,26,28,30,20,19,27,24,18,5,11][31-i],%w[lime red][0b11101011010101010000001100101101[i]]}%>
 
+SEUSSF bit permutation in text form:
+
+<%="<ul>"%>
+<%32.times do |i|%><%="<li>"%>bit <%=i%> -> bit <%=[22,6,4,14,10,17,29,0,31,9,1,15,2,16,12,13,23,7,8,3,25,21,26,28,30,20,19,27,24,18,5,11][31-i]%>, <%=%w[non-inverted inverted][0b11101011010101010000001100101101[i]]%><%="</li>"%><%end%>
+<%="</ul>"%>
+
 ---
 
 <%=p2instrinfo('test')%>

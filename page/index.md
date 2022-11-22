@@ -52,15 +52,20 @@ Short specs:
  - [Pixel Mixer](mixpix.html)
  - [Branching Instructions](branch.html)
  - [Register Indirection](indir.html)
- - [I/O Pins](pin.html)
- - [Streamer](streamer.html)
- - [Colorspace Converter](colorspace.html)
+ - [I/O Pins](pin.html) (Mostly TODO)
+ - [Streamer](streamer.html) (TODO)
+ - [Colorspace Converter](colorspace.html) (TODO)
  - [Events](event.html)
  - [Interrupts](irq.html)
  - [Hub Control](hubctrl.html)
  - [Miscellaneous Instructions](misc.html)
- - [Bytecode Engine (XBYTE)](xbyte.html)
+ - [Bytecode Engine (XBYTE)](xbyte.html) (TODO)
 
+### Auxillary Topics
+
+ - Assembler Syntax (TODO)
+ - Accessory boards (TODO)
+ - External RAM (TODO)
 
 ## Recent changes
 

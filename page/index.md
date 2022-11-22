@@ -31,7 +31,7 @@ Short specs:
  - 512Kx8 bits of shared Hub RAM
     - Fast transfer between Hub and Cog/Lookup RAM
  - 64 "Smart Pins" with individual DAC, ADC, pullup, pulldown, schmitt trigger, comparator, logic and much more.
- - Fast DMA between Hub memory and pins/DACs/ADCs
+ - Fast streaming DMA between Hub memory and pins/DACs/ADCs
  - Built-in video signal encoders for TMDS (DVI/HDMI) and analog VGA, YPbPr, NTSC/PAL composite/s-video.
 
 

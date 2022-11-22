@@ -94,6 +94,7 @@ ul,ol {
         font-family: 'Parallax',monospace;
         bottom: 10px;
         left: 100px;
+        margin-right: 40px;
         font-size: 40px;
         color: #fff;
         print-color-adjust: exact;
@@ -152,6 +153,9 @@ ul,ol {
     display: contents;
     #forkme {
         @media print {
+            display: none;
+        }
+        @media (width < 480px) {
             display: none;
         }
         position: absolute;

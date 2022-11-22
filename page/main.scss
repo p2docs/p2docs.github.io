@@ -21,13 +21,13 @@
 
 @mixin inset-border {
     border-color: #888 #ddd #ddd #888;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         border-color: #333 #556 #556 #333;
     }
 }
 @mixin outset-border {
     border-color: #ddd #888 #888 #ddd;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         border-color:  #556 #333 #333 #556 ;
     }
 }
@@ -36,7 +36,7 @@ body {
     background-color: #ccc;
     color: #000;
     color-scheme: only light;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         background-color: #444;
         color: #fff;
         color-scheme: only dark;
@@ -62,7 +62,7 @@ img,svg {
     border: none;
 }
 .dark-invert {
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         filter: invert(1) hue-rotate(180deg);
     }
 }
@@ -193,7 +193,7 @@ main {
     &>h1:first-child {
         margin-top: 0;
     }
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         background-color: #111;
     }
 }
@@ -242,7 +242,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 // Default link colors read poorly in dark scheme
-@media screen and (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
     a {
         color: #88F;
         &:visited {
@@ -323,18 +323,18 @@ th,td {
 }
 th {
     background: #ccc;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         background: #44444A;
     }
 }
 tr {
     background: #eee;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         background: #222222;
     }
     &:nth-child(even) {
         background: #ddd;
-        @media screen and (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: dark) {
             background: #2A2A30;
         }
     }
@@ -354,13 +354,13 @@ tr {
         .args {
             font-size: 1.5em;
             color: #666;
-            @media screen and (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: dark) {
                 color: #aaa;
             }
         }
         .flags {
             color: #666;
-            @media screen and (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: dark) {
                 color: #aaa;
             }
             font-size: 1.05em
@@ -370,7 +370,7 @@ tr {
         }
         .setq {
             color: #666;
-            @media screen and (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: dark) {
                 color: #aaa;
             }
             display: inline-block;
@@ -392,7 +392,7 @@ tr {
     h3 {
         .modenum {
             color: #666;
-            @media screen and (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: dark) {
                 color: #aaa;
             }
             font-size: 0.7em;
@@ -484,7 +484,7 @@ blockquote {
     border: 6px solid;
     @include inset-border;
     background-color: #eee;
-    @media screen and (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
         background-color: #222;
     }
     padding: 4px;

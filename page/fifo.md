@@ -12,9 +12,15 @@ It can either be used to feed the [Streamer](streamer.html), to execute code fro
 ## Control Instructions
 
 <%=p2instrinfo('rdfast')%>
+
 <%=p2instrinfo('wrfast')%>
+
 <%=p2instrinfo('fblock')%>
+
 <%=p2instrinfo('getptr')%>
+GETPTR gets the current FIFO address (from/to which the next data will be read/written) in **D**estination.
+
+**TODO: I think this only works right with RFxxxx/WFxxxx and XBYTE? (i.e. not with streamer or hubexec)**
 
 ## Read Instructions
 

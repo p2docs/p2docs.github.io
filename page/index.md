@@ -14,7 +14,7 @@ But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.githu
 
 ## What's a Propeller 2?
 
-<img src="p2_trans.png" class="float-right" style="max-width:50%;" load="lazy">
+<img src="p2_trans.png" class="float-right" style="max-width:50%;">
 
 The _Propeller 2_ is a high-performance microcontroller developed and sold by [Parallax Inc.](https://www.parallax.com). It features 8 symmetric CPU+Memory+IO cores (called "Cogs") connected to a common "Hub" memory and to the 64 "Smart I/O Pins".
 

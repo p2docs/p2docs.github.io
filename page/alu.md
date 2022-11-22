@@ -626,7 +626,7 @@ To process an entire long, the following sequence can be used:
 ~~~
 
 <%=p2instrinfo('xoro32')%>
-XORO32 generates a pseudo-random number based on the seed value in **D**estination. The next seed value is written back into **D**estination and the generated pseudo-random number is substituted as the next instruction's **S**ource value.
+XORO32 generates a pseudo-random number based on the seed value in **D**estination. The next seed value is written back into **D**estination and the generated pseudo-random number is substituted as the next instruction's **S**ource value (and as a side effect, also written to the [Q Register](cog.html#q-register).
 
 **D**estination's value should never be zero, since that causes the seed to stay zero.
 

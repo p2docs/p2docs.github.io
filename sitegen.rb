@@ -146,6 +146,7 @@ class SitePage
         typographic_symbols: { # Yes, this is the easiest way to disable this stupid shit
             hellip: "..." , mdash: "---" , ndash: "--" , laquo: "<<" , raquo: ">>" , laquo_space: "<< " , raquo_space: " >>"
         },
+        smart_quotes: ["apos", "apos", "quot", "quot"],
     }
 
     # Content must be passed in to allow autodetect

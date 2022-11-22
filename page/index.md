@@ -59,6 +59,7 @@ Short specs:
  - [Interrupts](irq.html)
  - [Hub Control](hubctrl.html)
  - [Miscellaneous Instructions](misc.html)
+ - [Bytecode Engine (XBYTE)](xbyte.html)
 
 
 ## Recent changes

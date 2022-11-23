@@ -32,12 +32,18 @@ Brain hurt.
 <%=p2instrinfo('reti1',joinup:true)%>
 <%=p2instrinfo('reti2',joinup:true)%>
 <%=p2instrinfo('reti3',joinup:true)%>
+**TODO**
+
+Technically an alias for [CALLD INB,IRETx WCZ](branch.html#calld-s).
 
 
 <%=p2instrinfo('resi0')%>
 <%=p2instrinfo('resi1',joinup:true)%>
 <%=p2instrinfo('resi2',joinup:true)%>
 <%=p2instrinfo('resi3',joinup:true)%>
+**TODO**
+
+Technically an alias for [CALLD IJMPx,IRETx WCZ](branch.html#calld-s).
 
 ## Debug-Related
 

@@ -26,26 +26,47 @@ Brain hurt.
 |EVENT_ATN|14|[COGATN](#cogatn) attention strobe occurs||
 |EVENT_QMT|15|[GETQX](cordic.html#getqx)/[GETQY](cordic.html#getqy) executes without any CORDIC results available or in progress.||
 
-## Setup Instructions
+## Selectable Events
+Each cog can track up to four selectable [pin](#Pin), [LUT](#LUT), or [Hub-lock](#Hub-lock) events.  This is accomplished by using the following SETSEx instruction
+
+### Setup Instructions
 
 <%=p2instrinfo('setse1')%>
 <%=p2instrinfo('setse2',joinup:true)%>
 <%=p2instrinfo('setse3',joinup:true)%>
 <%=p2instrinfo('setse4',joinup:true)%>
-**TODO**
+SETSEn D/# accepts the following configuration values:
+#### Pin
+%001_PPPPPP = INA/INB bit of pin %PPPPPP rises
+%010_PPPPPP = INA/INB bit of pin %PPPPPP falls
+%011_PPPPPP = INA/INB bit of pin %PPPPPP changes
 
+%10x_PPPPPP = INA/INB bit of pin %PPPPPP is low
+%11x_PPPPPP = INA/INB bit of pin %PPPPPP is high
+
+#### LUT
+You can select $1FC..$1FF for the LUT read or write address event sensitivity with bits AA.
+%000_00_00AA = this cog reads LUT address %1_1111_11AA
+%000_00_01AA = this cog writes LUT address %1_1111_11AA
+%000_00_10AA = odd/even companion cog reads LUT address %1_1111_11AA
+%000_00_11AA = odd/even companion cog writes LUT address %1_1111_11AA
+
+####Hub-lock
+%000_01_LLLL = hub lock %LLLL rises
+%000_10_LLLL = hub lock %LLLL falls
+%000_11_LLLL = hub lock %LLLL changes
+
+## Setup Instructions
 <%=p2instrinfo('addct1')%>
 <%=p2instrinfo('addct2',joinup:true)%>
 <%=p2instrinfo('addct3',joinup:true)%>
-ADDCT1, ADDCT2, or ADDCT3 set the hidden CT1, CT2, or CT3 event trigger register (respectively) to the value of **D**estination + **S**ource. The result is also written to **D**estination.
-
+ADDCT1, ADDCT2, or ADDCT3 must be used to establish a global CT counter target. This is done by first using 'GETCT D' to get the current CT value into a register, and then using ADDCTx to add **S**ource into that register. The result is also written to the hidden CT1, CT2, or CT3 event trigger register as target value. 
 The respective CTx event flag is set when the trigger register matches the bottom 32 bits of the global CT counter.
-
-**TODO: Doesn't this instr clear the respective event flag?**
-
-**TODO: More detail**
+By executing the ADDCTx-instruction the CTn flag is cleared to help with initialization and cycling.
 
 <%=p2instrinfo('setpat')%>
+Set pin pattern for 'Pattern match/mismatch' event. **C** flag selects INA/INB, **Z** flag selects match/mismatch, **D** provides mask value, **S** provides match value.
+**TODO: More detail**
 
 ## Attention
 

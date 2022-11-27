@@ -63,7 +63,7 @@ Short specs:
 
 ### Auxillary Topics
 
- - Assembler Syntax (TODO)
+ - [Assembler Syntax](asm_syntax.html) (TODO)
  - Accessory boards (TODO)
  - External RAM (TODO)
 

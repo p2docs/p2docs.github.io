@@ -2,6 +2,9 @@
 title: Branching Instructions
 hyperjump:
     -   type: Topic
+    -   id: ret-condition-code
+        name: _RET_ Condition Code
+        type: Topic
 ---
 # Branching Instructions
 
@@ -146,6 +149,11 @@ If the **WC** or **WCZ** effect is specified, the C flag is restored from bit 31
 If the **WZ** or **WCZ** effect is specified, the Z flag is restored from bit 30 of the return address.
 
 **TODO more detail**
+
+## \_RET\_ Condition Code
+{:.anchor}
+
+TODO.
 
 ## External Stack Calls
 

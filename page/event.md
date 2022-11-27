@@ -2,6 +2,18 @@
 title: Events
 hyperjump:
     -   type: Topic
+    -   id: selectable-events
+        name: Selectable Events
+        type: Topic
+    -   id: pin-events
+        name: Pin Events
+        type: Selectable Events
+    -   id: lut-events
+        name: LUT Events
+        type: Selectable Events
+    -   id: lock-events
+        name: Lock Events
+        type: Selectable Events
 ---
 # Events
 
@@ -26,26 +38,56 @@ Brain hurt.
 |EVENT_ATN|14|[COGATN](#cogatn) attention strobe occurs||
 |EVENT_QMT|15|[GETQX](cordic.html#getqx)/[GETQY](cordic.html#getqy) executes without any CORDIC results available or in progress.||
 
+## Selectable Events
+{:.anchor}
+Each cog can track up to four selectable [Pin](pin.html), [LUT](lutmem.html), or Lock(TODO link?) events, SE1 through SE4. The event to be monitored is selected by using the [SETSEx](#setse1) instruction(s).
+
 ## Setup Instructions
 
 <%=p2instrinfo('setse1')%>
 <%=p2instrinfo('setse2',joinup:true)%>
 <%=p2instrinfo('setse3',joinup:true)%>
 <%=p2instrinfo('setse4',joinup:true)%>
-**TODO**
+SETSEx selects the event to be monitored by the corrosponding SEx event flag according to **D**estination. **TODO words**
+
+#### Pin Events
+{:.anchor}
+
+ - `%001_PPPPPP` = IN bit of pin `%PPPPPP` rises
+ - `%010_PPPPPP` = IN bit of pin `%PPPPPP` falls
+ - `%011_PPPPPP` = IN bit of pin `%PPPPPP` changes
+ - `%10x_PPPPPP` = IN bit of pin `%PPPPPP` _is_ low
+ - `%11x_PPPPPP` = IN bit of pin `%PPPPPP` _is_ high
+
+#### LUT Events
+{:.anchor}
+You can select $1FC..$1FF for the LUT read or write address event sensitivity with bits AA. (TODO less confusing wording)
+
+ - `%000_00_00AA` = this cog reads LUT address `%1_1111_11AA`
+ - `%000_00_01AA` = this cog writes LUT address `%1_1111_11AA`
+ - `%000_00_10AA` = odd/even companion cog reads LUT address `%1_1111_11AA`
+ - `%000_00_11AA` = odd/even companion cog writes LUT address `%1_1111_11AA`
+
+#### Lock Events
+{:.anchor}
+
+ - `%000_01_LLLL` = hub lock %LLLL rises
+ - `%000_10_LLLL` = hub lock %LLLL falls
+ - `%000_11_LLLL` = hub lock %LLLL changes
 
 <%=p2instrinfo('addct1')%>
 <%=p2instrinfo('addct2',joinup:true)%>
 <%=p2instrinfo('addct3',joinup:true)%>
 ADDCT1, ADDCT2, or ADDCT3 set the hidden CT1, CT2, or CT3 event trigger register (respectively) to the value of **D**estination + **S**ource. The result is also written to **D**estination.
 
-The respective CTx event flag is set when the trigger register matches the bottom 32 bits of the global CT counter.
-
-**TODO: Doesn't this instr clear the respective event flag?**
+The respective CTx event flag is set when the trigger register matches the bottom 32 bits of the global CT counter. ADDCTx clears this flag again.
 
 **TODO: More detail**
 
 <%=p2instrinfo('setpat')%>
+Set pin pattern for 'Pattern match/mismatch' event. C flag selects INA/INB, Z flag selects match/mismatch, **D**estination provides mask value, **S**ource provides match value.
+
+**TODO: More detail**
 
 ## Attention
 

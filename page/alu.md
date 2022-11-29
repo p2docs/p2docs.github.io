@@ -23,18 +23,53 @@ MOVBYTS swizzles the bytes of **D**estination based on bottom 8 bits in **S**our
 - `MOVBYTS D,#%%0000` will copy the lowest byte into all four slots
 
 <%=p2instrinfo('loc')%>
+LOC moves a 20-bit address into either PA, PB, PTRA or PTRB. This address can be encoded as either absolute or relative.
 
 ---
 
 <%=p2instrinfo('getnib')%>
+GETNIB reads the **N**th nibble (4 bits) from **S**ource and moves it into **D**estination. The upper 28 bits of **D**estination are cleared.
+
+**N** can be any constant between 0 and 7. **N** = 0 gets the least significant nibble (**S**[3:0]), **N** = 7 gets the most significant nibble (**S**[31:28]) 
+
+GETNIB can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
+
 <%=p2instrinfo('getbyte')%>
+GETBYTE reads the **N**th byte (8 bits) from **S**ource and moves it into **D**estination. The upper 24 bits of **D**estination are cleared.
+
+**N** can be any constant between 0 and 3. **N** = 0 gets the least significant byte (**S**[7:0]), **N** = 3 gets the most significant byte (**S**[31:24]) 
+
+GETBYTE can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
+
 <%=p2instrinfo('getword')%>
+GETWORD reads the **N**th word (16 bits) from **S**ource and moves it into **D**estination. The upper 16 bits of **D**estination are cleared.
+
+**N** can be the constants 0 and 1. **N** = 0 gets the least significant word (**S**[15:0]), **N** = 1 gets the most significant word (**S**[31:16]) 
+
+GETWORD can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
 
 ---
 
 <%=p2instrinfo('setnib')%>
+SETNIB stores the least significant nibble (4 bits) of **S**ource into the **N**th nibble of **D**estination. All other bits are unaffected.
+
+**N** can be any constant between 0 and 7. **N** = 0 sets the least significant nibble (**D**[3:0]), **N** = 7 sets the most significant nibble (**D**[31:28]) 
+
+SETNIB can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSN](indir.html#altsn).
+
 <%=p2instrinfo('setbyte')%>
+SETBYTE stores the least significant byte (8 bits) of **S**ource into the **N**th byte of **D**estination. All other bits are unaffected.
+
+**N** can be any constant between 0 and 3. **N** = 0 sets the least significant byte (**D**[7:0]), **N** = 3 sets the most significant byte (**D**[31:24]) 
+
+SETBYTE can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSB](indir.html#altsb).
+
 <%=p2instrinfo('setword')%>
+SETWORD stores the least significant byte (16 bits) of **S**ource into the **N**th word of **D**estination. All other bits are unaffected.
+
+**N** can be the constants 0 and 1. **N** = 0 sets the least significant word (**D**[15:0]), **N** = 1 sets the most significant word (**D**[31:16]) 
+
+SETWORD can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSW](indir.html#altsw).
 
 ---
 
@@ -522,13 +557,17 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**
 ---
 
 <%=p2instrinfo('testb')%>
-<%=p2instrinfo('testbn',joinup:true)%>
 <%=p2instrinfo('testb-and',joinup:true)%>
-<%=p2instrinfo('testbn-and',joinup:true)%>
 <%=p2instrinfo('testb-or',joinup:true)%>
-<%=p2instrinfo('testbn-or',joinup:true)%>
 <%=p2instrinfo('testb-xor',joinup:true)%>
+**TODO**
+
+<%=p2instrinfo('testbn')%>
+<%=p2instrinfo('testbn-and',joinup:true)%>
+<%=p2instrinfo('testbn-or',joinup:true)%>
 <%=p2instrinfo('testbn-xor',joinup:true)%>
+**TODO**
+
 <%=p2instrinfo('bitl')%>
 <%=p2instrinfo('bith')%>
 <%=p2instrinfo('bitnot')%>
@@ -553,8 +592,12 @@ The current Q value is always used, regardless of whether MUXQ is directly prece
 <%=p2instrinfo('muxnibs')%>
 MUXNIBS copies any non-zero nibbles from **S**ource into the corresponding nibbles of **D**estination and leaves the rest of **D**estination's nibbles as-is.
 
+**TODO more detail**
+
 <%=p2instrinfo('muxnits')%>
 MUXNITS copies any non-zero bit pairs from **S**ource into the corresponding bit pairs of **D**estination and leaves the rest of **D**estination's bit pairs as-is.
+
+**TODO more detail**
 
 ## Flag manipulation
 

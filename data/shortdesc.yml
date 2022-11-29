@@ -196,3 +196,9 @@ AKPIN: Acknowledge smart pin
 MODCZ: Modify Flags
 MODC: Modify C Flag
 MODZ: Modify Z Flag
+GETNIB: Get Nth nibble
+GETBYTE: Get Nth byte
+GETWORD: Get Nth word
+SETNIB: Set Nth nibble
+SETBYTE: Set Nth byte
+SETWORD: Set Nth word

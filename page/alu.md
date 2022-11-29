@@ -74,8 +74,26 @@ SETWORD can have it's **D**estination and **N** omitted, in which case they defa
 ---
 
 <%=p2instrinfo('rolnib')%>
+ROLNIB reads the **N**th nibble (4 bits) from **S**ource and shifts it into **D**estination. The lower 28 bits of **D**estination are shifted up by 4 and the top 4 bits are discarded.
+
+**N** can be any constant between 0 and 7. **N** = 0 gets the least significant nibble (**S**[3:0]), **N** = 7 gets the most significant nibble (**S**[31:28]) 
+
+ROLNIB can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
+
 <%=p2instrinfo('rolbyte')%>
+ROLBYTE reads the **N**th byte (8 bits) from **S**ource and shifts it into **D**estination. The lower 24 bits of **D**estination are shifted up by 8 and the top 8 bits are discarded.
+
+**N** can be any constant between 0 and 3. **N** = 0 gets the least significant byte (**S**[7:0]), **N** = 3 gets the most significant byte (**S**[31:24]) 
+
+ROLBYTE can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
+
+
 <%=p2instrinfo('rolword')%>
+ROLWORD reads the **N**th word (16 bits) from **S**ource and shifts it into **D**estination. The lower 16 bits of **D**estination are shifted up by 16 and the top 16 bits are discarded.
+
+**N** can be the constants 0 and 1. **N** = 0 gets the least significant word (**S**[15:0]), **N** = 1 gets the most significant word (**S**[31:16]) 
+
+ROLWORD can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
 
 ---
 

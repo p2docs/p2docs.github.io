@@ -202,3 +202,6 @@ GETWORD: Get Nth word
 SETNIB: Set Nth nibble
 SETBYTE: Set Nth byte
 SETWORD: Set Nth word
+ROLNIB: Shift in Nth nibble
+ROLBYTE: Shift in Nth byte
+ROLWORD: Shift in Nth word

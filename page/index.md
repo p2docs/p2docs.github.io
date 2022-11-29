@@ -9,7 +9,7 @@ title: Front Page
 
 Just start typing and be taken to the object of your intrigue! In theory anyways, in practice a lot of the content isn't quite cooked yet.
 
-But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.github.io)
+But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.github.io) File an issue if you think something needs to be improved or try your own hand and file a PR.
 
 
 ## What's a Propeller 2?

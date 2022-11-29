@@ -65,7 +65,7 @@ Short specs:
 
  - [Assembler Syntax](asm_syntax.html) (TODO)
  - Accessory boards (TODO)
- - External RAM (TODO)
+ - [External RAM](psram.html) (TODO)
 
 ## Recent changes
 

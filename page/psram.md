@@ -15,4 +15,4 @@ Other common memory configurations include:
  - [Parallax 64004-ES HyperRAM/HyperFlash Add-on](https://www.parallax.com/product/p2-es-eval-board-hyperram-hyperflash-add-on/): TODO HyperRAM is different. 8 bit bus.
 
 
-**TODO.** In the meantime, check [the PSRAM chip datasheet](common/APM_PSRAM_QSPI_APS6404L_3SQR_v2_3_PKG-1954826.pdf).
+**TODO.** In the meantime, check [the PSRAM chip datasheet](common/download/APM_PSRAM_QSPI_APS6404L_3SQR_v2_3_PKG-1954826.pdf).

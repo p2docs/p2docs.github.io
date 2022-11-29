@@ -149,9 +149,9 @@ ALTS: Indirect source
 ALTD: Indirect destination
 ALTR: Indirect result
 ALTB: Indirect bit
-ALTGN: Indirect GETNIB
-ALTGB: Indirect GETBYTE
-ALTGW: Indirect GETWORD
+ALTGN: Indirect GETNIB/ROLNIB
+ALTGB: Indirect GETBYTE/ROLBYTE
+ALTGW: Indirect GETWORD/ROLWORD
 ALTSN: Indirect SETNIB
 ALTSB: Indirect SETBYTE
 ALTSW: Indirect SETWORD

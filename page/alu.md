@@ -542,7 +542,7 @@ SEUSSF bit permutation in text form:
 ---
 
 <%=p2instrinfo('test')%>
-TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).
+TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).  **Note that it is possible to encode TEST without any effects, which is entirely pointless.**
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 
@@ -551,7 +551,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**
 **Warning:** Easy to confuse with [TESTB](#testb)
 
 <%=p2instrinfo('testn')%>
-TESTN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).
+TESTN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged). **Note that it is possible to encode TESTN without any effects, which is entirely pointless.**
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 

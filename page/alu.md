@@ -542,35 +542,50 @@ SEUSSF bit permutation in text form:
 ---
 
 <%=p2instrinfo('test')%>
+TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+
+**Warning:** Easy to confuse with [TESTB](#testb)
+
 <%=p2instrinfo('testn')%>
+TESTN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+
+**Warning:** Easy to confuse with [TESTBN](#testbn)
 
 <%=p2instrinfo('and')%>
 AND performs a bitwise AND of the value in **S**ource into that of **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 
-If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('andn')%>
 ANDN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination. That is, each high bit in **S**ource will become low in **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 
-If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('or')%>
 OR performs a bitwise OR of the value in **S**ource into that of **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 
-If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('xor')%>
 XOR performs a bitwise XOR of the value in **S**ource into that of **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 
-If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination XOR **S**ource result equals zero, or is cleared (0) if it is non-zero.
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 ---
 
@@ -656,16 +671,16 @@ MODC is an alias for [MODCZ](#modcz) without the Z parameter.
 MODZ is an alias for [MODCZ](#modcz) without the C parameter.
 
 <%=p2instrinfo('wrc')%>
-WRC writes the state of C (0 or 1) to **D**estination.
+WRC writes the state of C (0 or 1) to **D**estination. The entire register is overwritten.
 
 <%=p2instrinfo('wrnc')%>
-WRNC writes the inverse state of C (0 or 1) to **D**estination.
+WRNC writes the inverse state of C (0 or 1) to **D**estination. The entire register is overwritten.
 
 <%=p2instrinfo('wrz')%>
-WRZ writes the state of Z (0 or 1) to **D**estination.
+WRZ writes the state of Z (0 or 1) to **D**estination. The entire register is overwritten.
 
 <%=p2instrinfo('wrnz')%>
-WRNZ writes the inverse state of Z (0 or 1) to **D**estination.
+WRNZ writes the inverse state of Z (0 or 1) to **D**estination. The entire register is overwritten.
 
 
 ## Other

@@ -5,7 +5,7 @@ title: Front Page
 
 <img src="/common/construction.gif" alt="This site is under construction." class="dark-invert">
 
-## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. pending) technology!
+## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. ponding) technology!
 
 Just start typing and be taken to the object of your intrigue! In theory, anyways; in practice a lot of the content isn't quite cooked yet.
 

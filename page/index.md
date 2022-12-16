@@ -5,9 +5,9 @@ title: Front Page
 
 <img src="/common/construction.gif" alt="This site is under construction." class="dark-invert">
 
-## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. ponding) technology!
+## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. pending) technology!
 
-Just start typing and be taken to the object of your intrigue! In theory anyways, in practice a lot of the content isn't quite cooked yet.
+Just start typing and be taken to the object of your intrigue! In theory, anyways; in practice a lot of the content isn't quite cooked yet.
 
 But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.github.io) File an issue if you think something needs to be improved or try your own hand and file a PR.
 
@@ -16,7 +16,7 @@ But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.githu
 
 <img src="p2_trans.png" class="float-right" style="max-width:50%;">
 
-The _Propeller 2_ is a high-performance microcontroller developed and sold by [Parallax Inc.](https://www.parallax.com). It features 8 symmetric CPU+Memory+IO cores (called "Cogs") connected to a common "Hub" memory and to the 64 "Smart I/O Pins".
+The _Propeller 2_ is a high-performance microcontroller developed and sold by [Parallax Inc](https://www.parallax.com). It features 8 symmetric CPU+Memory+I/O cores (called "Cogs") connected to a common "Hub" memory and to 64 "Smart I/O Pins".
 
 Short specs:
 
@@ -30,9 +30,9 @@ Short specs:
     - 3 prioritzed interrupts (mappable to many event sources)
  - 512Kx8 bits of shared Hub RAM
     - Fast transfer between Hub and Cog/Lookup RAM
- - 64 "Smart Pins" with individual DAC, ADC, pullup, pulldown, schmitt trigger, comparator, logic and much more.
+ - 64 "Smart Pins" with individual DAC, ADC, pullup, pulldown, schmitt trigger, comparator, logic and much more
  - Fast streaming DMA between Hub memory and pins/DACs/ADCs
- - Built-in video signal encoders for TMDS (DVI/HDMI) and analog VGA, YPbPr, NTSC/PAL composite/s-video.
+ - Built-in video signal encoders for TMDS (DVI/HDMI) and analog VGA, YPbPr, NTSC/PAL composite/s-video
 
 
 ## Overview

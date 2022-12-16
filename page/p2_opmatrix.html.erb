@@ -58,6 +58,7 @@ inline-css: |
 <% print_matrix(3,4,true,&:opc_main)%>
 
 <h2 id="1101011-sub">1101011 Sub-Opcodes</h2>
+<p>For opcode 1101011, the <strong>S</strong> field of the instruction (bits 8:0) is the sub-opcode.</p>
 <% print_matrix(3,5,false){|op|op.opc_main==0b1101011 && op.opc_s}%>
 
 

@@ -32,21 +32,21 @@ GETNIB reads the **N**th nibble (4 bits) from **S**ource and moves it into **D**
 
 **N** can be any constant between 0 and 7. **N** = 0 gets the least significant nibble (**S**[3:0]), **N** = 7 gets the most significant nibble (**S**[31:28]) 
 
-GETNIB can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
+GETNIB can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
 
 <%=p2instrinfo('getbyte')%>
 GETBYTE reads the **N**th byte (8 bits) from **S**ource and moves it into **D**estination. The upper 24 bits of **D**estination are cleared.
 
 **N** can be any constant between 0 and 3. **N** = 0 gets the least significant byte (**S**[7:0]), **N** = 3 gets the most significant byte (**S**[31:24]) 
 
-GETBYTE can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
+GETBYTE can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
 
 <%=p2instrinfo('getword')%>
 GETWORD reads the **N**th word (16 bits) from **S**ource and moves it into **D**estination. The upper 16 bits of **D**estination are cleared.
 
 **N** can be the constants 0 and 1. **N** = 0 gets the least significant word (**S**[15:0]), **N** = 1 gets the most significant word (**S**[31:16]) 
 
-GETWORD can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
+GETWORD can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
 
 ---
 
@@ -55,21 +55,21 @@ SETNIB stores the least significant nibble (4 bits) of **S**ource into the **N**
 
 **N** can be any constant between 0 and 7. **N** = 0 sets the least significant nibble (**D**[3:0]), **N** = 7 sets the most significant nibble (**D**[31:28]) 
 
-SETNIB can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSN](indir.html#altsn).
+SETNIB can have its **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSN](indir.html#altsn).
 
 <%=p2instrinfo('setbyte')%>
 SETBYTE stores the least significant byte (8 bits) of **S**ource into the **N**th byte of **D**estination. All other bits are unaffected.
 
 **N** can be any constant between 0 and 3. **N** = 0 sets the least significant byte (**D**[7:0]), **N** = 3 sets the most significant byte (**D**[31:24]) 
 
-SETBYTE can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSB](indir.html#altsb).
+SETBYTE can have its **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSB](indir.html#altsb).
 
 <%=p2instrinfo('setword')%>
 SETWORD stores the least significant byte (16 bits) of **S**ource into the **N**th word of **D**estination. All other bits are unaffected.
 
 **N** can be the constants 0 and 1. **N** = 0 sets the least significant word (**D**[15:0]), **N** = 1 sets the most significant word (**D**[31:16]) 
 
-SETWORD can have it's **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSW](indir.html#altsw).
+SETWORD can have its **D**estination and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTSW](indir.html#altsw).
 
 ---
 
@@ -78,14 +78,14 @@ ROLNIB reads the **N**th nibble (4 bits) from **S**ource and shifts it into **D*
 
 **N** can be any constant between 0 and 7. **N** = 0 gets the least significant nibble (**S**[3:0]), **N** = 7 gets the most significant nibble (**S**[31:28]) 
 
-ROLNIB can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
+ROLNIB can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGN](indir.html#altgn).
 
 <%=p2instrinfo('rolbyte')%>
 ROLBYTE reads the **N**th byte (8 bits) from **S**ource and shifts it into **D**estination. The lower 24 bits of **D**estination are shifted up by 8 and the top 8 bits are discarded.
 
 **N** can be any constant between 0 and 3. **N** = 0 gets the least significant byte (**S**[7:0]), **N** = 3 gets the most significant byte (**S**[31:24]) 
 
-ROLBYTE can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
+ROLBYTE can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGB](indir.html#altgb).
 
 
 <%=p2instrinfo('rolword')%>
@@ -93,7 +93,7 @@ ROLWORD reads the **N**th word (16 bits) from **S**ource and shifts it into **D*
 
 **N** can be the constants 0 and 1. **N** = 0 gets the least significant word (**S**[15:0]), **N** = 1 gets the most significant word (**S**[31:16]) 
 
-ROLWORD can have it's **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
+ROLWORD can have its **S**ource and **N** omitted, in which case they default to `0` and `#0`. This is intended for use with [ALTGW](indir.html#altgw).
 
 ---
 
@@ -593,13 +593,41 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 <%=p2instrinfo('testb-and',joinup:true)%>
 <%=p2instrinfo('testb-or',joinup:true)%>
 <%=p2instrinfo('testb-xor',joinup:true)%>
-**TODO**
+TESTB reads the state (0/1) of a bit in **D**estination designated by **S**ource and either stores it as-is, or bitwise ANDs, ORs, or XORs it into the C or Z flag.
+
+**S**ource[4:0] indicates the bit number (0–31) to test.
+
+If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the state of the bit.
+
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the state of the bit. If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the state of the bit.
+
+If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the state of the bit.
+
+See also [TESTBN](#testbn).
+
+**Warning:** Easy to confuse with [TEST](#test).
+
+---
 
 <%=p2instrinfo('testbn')%>
 <%=p2instrinfo('testbn-and',joinup:true)%>
 <%=p2instrinfo('testbn-or',joinup:true)%>
 <%=p2instrinfo('testbn-xor',joinup:true)%>
-**TODO**
+TESTBN reads the state (0/1) of a bit in **D**estination designated by **S**ource, inverts the result, and either stores it (the inverse value) as-is, or bitwise ANDs, ORs, or XORs it into the C or Z flag.
+
+**S**ource[4:0] indicates the bit number (0–31) to test and invert.
+
+If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the inverse state of the bit.
+
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the inverse state of the bit. If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the inverse state of the bit.
+
+If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the inverse state of the bit.
+
+See also [TESTB](#testb).
+
+**Warning:** Easy to confuse with [TESTN](#testn).
+
+---
 
 <%=p2instrinfo('bitl')%>
 <%=p2instrinfo('bith')%>

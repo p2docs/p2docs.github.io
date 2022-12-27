@@ -607,8 +607,6 @@ See also [TESTBN](#testbn).
 
 **Warning:** Easy to confuse with [TEST](#test).
 
----
-
 <%=p2instrinfo('testbn')%>
 <%=p2instrinfo('testbn-and',joinup:true)%>
 <%=p2instrinfo('testbn-or',joinup:true)%>
@@ -626,8 +624,6 @@ If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORe
 See also [TESTB](#testb).
 
 **Warning:** Easy to confuse with [TESTN](#testn).
-
----
 
 <%=p2instrinfo('bitl')%>
 <%=p2instrinfo('bith')%>

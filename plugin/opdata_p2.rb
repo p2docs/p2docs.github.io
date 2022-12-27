@@ -231,6 +231,11 @@ tab.each do |row|
         search_prefer = nil
     end
 
+    shield = (row[:shield] == '✔')
+    if name == "GETCT"
+        shield = "if WC"
+    end
+
     id = [name,extra].compact.join('-').downcase.gsub(/[^A-Za-z0-9\-]/,'')
 
     P2Instructions << P2InstEntry.new(
@@ -244,7 +249,7 @@ tab.each do |row|
         zval: zval,
         cval: cval,
         flags: flags,
-        shield: row[:shield] == '✔',
+        shield: shield,
         category: categ,
         time_cog: fixup_cycles(row[:time8cog]),
         time_hub: fixup_cycles(row[:time8hub]=="same" ? row[:time8cog] : row[:time8hub]),

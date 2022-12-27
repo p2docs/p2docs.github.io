@@ -36,7 +36,12 @@ NOP does nothing, except for causing the processor to reflect on the futility of
 
 
 <%=p2instrinfo('getct')%>
+GETCT copies the low 32 bits of the value of the global cycle counter into **D**estination.
+
+If the **WC** effect is specified, the upper 32 bits are copied instead (C is left unchanged). This value is compensated such that reading the upper half first and then the lower half immediately after results in a coherent value.
+
 <%=p2instrinfo('waitx')%>
+
 <%=p2instrinfo('getrnd')%>
 
 

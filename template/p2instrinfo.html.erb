@@ -27,7 +27,7 @@ raise "untabled op #{targ[0]}" unless op
             <td><%=op.zval%></td>
             <td><%=op.time_cog%></td>
             <td><%=op.time_hub%></td>
-            <td><%=op.shield ? "<strong>Yes</strong>" : "No"%></td>
+            <td><%=op.shield.is_a?(String) ? "<strong>#{op.shield}</strong>" : (op.shield ? "<strong>Yes</strong>" : "No")%></td>
         </tbody>
     </table>
 </div>

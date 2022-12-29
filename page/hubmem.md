@@ -75,7 +75,9 @@ For block transfers, [PTRx expressions](#pointer-expressions) cannot have arbitr
 ## Pointer Expressions
 {:.anchor}
 
-TODO: Say something
+Instead of using a normal **S**ource register to provide the address, most Hub (and [LUT](lutmem.html)) access instructions allow a "pointer expression", using the PTRA or PTRB registers with an offset and/or automatic increment/decrement.
+
+**TODO: More**
 
 |Encoding |Syntax        |Accessed Address  |Post-Modify        |Block Transfers|
 |---------|--------------|------------------|-------------------|---------------|

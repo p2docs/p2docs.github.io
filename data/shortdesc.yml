@@ -173,14 +173,6 @@ DJF: Decrement and jump if borrow
 DJNF: Decrement and jump if no borrow
 IJZ: Increment and jump if zero
 IJNZ: Increment and jump if not zero
-RETI0: Return from Debug Interrupt
-RETI1: Return from Interrupt 1
-RETI2: Return from Interrupt 2
-RETI3: Return from Interrupt 3
-RESI0: Resume from Debug Interrupt
-RESI1: Resume from Interrupt 1
-RESI2: Resume from Interrupt 2
-RESI3: Resume from Interrupt 3
 SKIP: Slow-Skip instruction pattern
 SKIPF: Fast-Skip instruction pattern
 EXECF: Jump and Fast-Skip instruction pattern
@@ -205,3 +197,28 @@ SETWORD: Set Nth word
 ROLNIB: Shift in Nth nibble
 ROLBYTE: Shift in Nth byte
 ROLWORD: Shift in Nth word
+ALLOWI: Enable interrupts
+STALLI: Disable interrupts
+RETI0: Return from Debug Interrupt
+RETI1: Return from Interrupt 1
+RETI2: Return from Interrupt 2
+RETI3: Return from Interrupt 3
+RESI0: Resume from Debug Interrupt
+RESI1: Resume from Interrupt 1
+RESI2: Resume from Interrupt 2
+RESI3: Resume from Interrupt 3
+SETINT1: Configure Interrupt 1
+SETINT2: Configure Interrupt 2
+SETINT3: Configure Interrupt 3
+TRIGINT1: Force Interrupt 1
+TRIGINT2: Force Interrupt 2
+TRIGINT3: Force Interrupt 3
+NIXINT1: Cancel Interrupt 1
+NIXINT2: Cancel Interrupt 2
+NIXINT3: Cancel Interrupt 3
+CALL-A: Call subroutine 
+CALL-D: Call subroutine (indirect)
+CALLPA: Call and set PA
+CALLPB: Call and set PB
+
+

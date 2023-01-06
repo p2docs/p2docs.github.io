@@ -210,9 +210,9 @@ RESI3: Resume from Interrupt 3
 SETINT1: Configure Interrupt 1
 SETINT2: Configure Interrupt 2
 SETINT3: Configure Interrupt 3
-TRIGINT1: Force Interrupt 1
-TRIGINT2: Force Interrupt 2
-TRIGINT3: Force Interrupt 3
+TRGINT1: Force Interrupt 1
+TRGINT2: Force Interrupt 2
+TRGINT3: Force Interrupt 3
 NIXINT1: Cancel Interrupt 1
 NIXINT2: Cancel Interrupt 2
 NIXINT3: Cancel Interrupt 3

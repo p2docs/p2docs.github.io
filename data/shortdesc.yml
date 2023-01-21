@@ -30,6 +30,7 @@ SUBSX: Signed subtract with borrow
 SUBR: Reverse subtract
 CMP: Unsigned compare
 CMPS: Signed compare
+CMPM: MSB compare
 CMPX: Unsigned compare with borrow
 CMPSX: Signed compare with borrow
 CMPR: Reverse compare

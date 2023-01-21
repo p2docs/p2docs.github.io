@@ -190,11 +190,51 @@ To subtract signed multi-long values, use [SUB](#sub) (not [SUBS](#subs)) follow
 ---
 
 <%=p2instrinfo('cmp')%>
+CMP compares the _unsigned_ values of **D**estination and **S**ource (by subtracting **S**ource from **D**estination) and optionally setting the C and Z flags accordingly.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if **D**estination is less than **S**ource.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if **D**estination equals **S**ource.
+
+**Note that it is possible to encode CMP without any effects, which is entirely pointless.**
+
 <%=p2instrinfo('cmpr')%>
+CMPR compares the _unsigned_ values of **D**estination and **S**ource (by subtracting **D**estination from **S**ource) and optionally setting the C and Z flags accordingly.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if **S**ource is less than **D**estination.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if **D**estination equals **S**ource.
+
+**Note that it is possible to encode CMP without any effects, which is entirely pointless.**
+
 <%=p2instrinfo('cmps')%>
+CMPS compares the _signed_ values of **D**estination and **S**ource (by subtracting **S**ource from **D**estination) and optionally setting the C and Z flags accordingly.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if **D**estination is less than **S**ource.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if **D**estination equals **S**ource.
+
+**Note that it is possible to encode CMPS without any effects, which is entirely pointless.**
+
 <%=p2instrinfo('cmpm')%>
+CMPM compares the values of **D**estination and **S**ource (by subtracting **S**ource from **D**estination) and optionally setting the C and Z flags accordingly.
+
+If the **WC** or **WCZ** effect is specified, the C flag is updated to the MSB (bit 31) of (**D**estination - **S**ource)
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if **D**estination equals **S**ource.
+
+**Note that it is possible to encode CMPM without any effects, which is entirely pointless.**
+
+
 <%=p2instrinfo('cmpsub')%>
+CMPSUB compares the unsigned values of **D**estination and **S**ource, and, if **S**ource is less than or equal to **D**estination, it is subtracted from **D**estination. Optionally, the C and Z flags are set to indicate the comparison and operation results.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if **D**estination was greater than or equal to **S**ource.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals 0 (including if **D**estination was 0 to begin with).
+
 <%=p2instrinfo('cmpx')%>
+
 <%=p2instrinfo('cmpsx')%>
 
 ---
@@ -542,7 +582,7 @@ SEUSSF bit permutation in text form:
 ---
 
 <%=p2instrinfo('test')%>
-TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged).  **Note that it is possible to encode TEST without any effects, which is entirely pointless.**
+TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged). **Note that it is possible to encode TEST without any effects, which is entirely pointless.**
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
 

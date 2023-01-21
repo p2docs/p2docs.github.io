@@ -389,9 +389,68 @@ IF_Z   <use byte>              'if new byte, do something with it
 ~~~
 
 <%=p2smartinfo('p-sync-tx')%>
+**TODO**
+
 <%=p2smartinfo('p-sync-rx')%>
+**TODO**
+
+
 <%=p2smartinfo('p-async-tx')%>
+This mode overrides OUT to control the pin output state.
+
+Words from 1 to 32 bits are serially transmitted on the pin at a programmable baud rate, beginning with a low "start" bit and ending with a high "stop" bit.
+
+[WXPIN](#wxpin) is used to configure the baud rate and word length.
+
+X[31:16] establishes the number of clocks in a bit period, and in case X[31:26] is zero, X[15:10] establishes the number of fractional clocks in a bit period. The X bit period value can be simply computed as: (clocks * $1_0000) & $FFFFFC00. For example, 7.5 clocks would be $00078000, and 33.33 clocks would be $00215400.
+
+X[4:0] sets the number of bits, minus 1. For example, a value of 7 will set the word size to 8 bits.
+
+[WYPIN](#wypin) is used to load the output words. The words first go into a single-stage buffer before being advanced to a shifter for output. This buffering mechanism makes it possible to keep the shifter constantly busy, so that gapless transmissions can be achieved. Any time a word is advanced from the buffer to the shifter, IN is raised, indicating that a new word can be loaded.
+
+Here is the internal state sequence:
+
+1. Wait for an output word to be buffered via WYPIN, then set the 'buffer-full' and 'busy' flags.
+2. Move the word into the shifter, clear the 'buffer-full' flag, and raise IN.
+3. Output a low for one bit period (the START bit).
+4. Output the LSB of the shifter for one bit period, shift right, and repeat until all data bits are sent.
+5. Output a high for one bit period (the STOP bit).
+6. If the 'buffer-full' flag is set due to an intervening WYPIN, loop to (2). Otherwise, clear the 'busy' flag and loop to (1).
+
+[RDPIN](#rdpin)/[RQPIN](#rqpin) with WC always returns the 'busy' flag into C. This is useful for knowing when a transmission has completed. The busy flag can be polled starting three clocks after the WYPIN, which loads the output words:
+
+~~~
+       WYPIN   x,#txpin        'load output word
+       WAITX   #1              'wait 2+1 clocks before polling busy
+wait   RDPIN   x,#txpin  WC    'get busy flag into C
+IF_C   JMP     #wait           'loop until C = 0
+~~~
+
+During reset (DIR=0) the output is held high.
+
+
 <%=p2smartinfo('p-async-rx')%>
+Words from 1 to 32 bits are serially received on the A input at a programmable baud rate.
+
+[WXPIN](#wxpin) is used to configure the baud rate and word length.
+
+X[31:16] establishes the number of clocks in a bit period, and in case X[31:26] is zero, X[15:10] establishes the number of fractional clocks in a bit period. The X bit period value can be simply computed as: `(clocks * $1_0000) & $FFFFFC00`. For example, 7.5 clocks would be $00078000, and 33.33 clocks would be $00215400.
+
+X[4:0] sets the number of bits, minus 1. For example, a value of 7 will set the word size to 8 bits.
+
+Here is the internal state sequence:
+
+1. Wait for the A input to go high (idle state).
+2. Wait for the A input to go low (START bit edge).
+3. Delay for half of a bit period.
+4. If the A input is no longer low, loop to (2).
+5. Delay for one bit period.
+6. Right-shift the A input into the shifter and delay for one bit period, repeat until all data bits are received.
+7. Capture the shifter into the Z register and raise IN.
+8. Loop to (1).
+
+[RDPIN](#rdpin)/[RQPIN](#rqpin) is used to read the received word. The word must be shifted right by 32 minus the word size. For example, to LSB-justify an 8-bit word received, you would do a `SHR D,#32-8`.
+
 
 
 

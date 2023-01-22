@@ -25,6 +25,7 @@ hyperjump:
 HUBSET configures shared resources inside the P2 chip. The affected configuration depends on the top bits of **D**estination.
 
 #### Set clock mode
+{:.anchor}
 ~~~
         %0000_xxxE_DDDD_DDMM_MMMM_MMMM_PPPP_CCSS     Set clock generator mode
 ~~~
@@ -33,12 +34,14 @@ If HUBSET is used with the topmost 4 bits of **D**estination being zero (`%0000`
 **MEGA TODO**
 
 #### Software Reset
+{:.anchor}
 ~~~
         %0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx     Hard reset, reboots chip
 ~~~
 If HUBSET is used with the topmost 4 bits of **D**estination being `%0001`, the chip hard-resets itself (as if the reset pin was triggered). Any further **D**estination bits are ignored.
 
 #### Debug IRQ Enable and Hub Write Protection
+{:.anchor}
 ~~~
         %0010_xxxx_xxxx_xxLW_DDDD_DDDD_DDDD_DDDD     Set write-protect and debug enables
 ~~~
@@ -51,6 +54,7 @@ If bit 16 (`%W`) is set, the last 16K of [Hub RAM](hubmem.html) becomes write-pr
 If bit 17 (`%L`) is set, the debug enable and write-protect settings become locked until the chip is reset.
 
 #### Digital Filter Configuration
+{:.anchor}
 ~~~
         %0100_xxxx_xxxx_xxxx_xxxx_xxxR_RLLT_TTTT     Set filter R to length L and tap T
 ~~~
@@ -78,6 +82,7 @@ The filters are set to the following defaults on reset:
 
 
 #### Seeding the global PRNG
+{:.anchor}
 ~~~
         %1DDD_DDDD_DDDD_DDDD_DDDD_DDDD_DDDD_DDDD     Seed Xoroshiro128** PRNG with D
 ~~~

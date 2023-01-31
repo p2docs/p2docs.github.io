@@ -13,6 +13,7 @@ Brain hurt.
 <%=p2instrinfo('setint1')%>
 <%=p2instrinfo('setint2',joinup:true)%>
 <%=p2instrinfo('setint3',joinup:true)%>
+SETINTx configures which [Event ID](event.html) triggers the respective interrupt based on **D**estination. An event ID of zero (or `INT_OFF`) disables the interrupt (`EVENT_INT` is not available).
 
 ## Control Instructions
 

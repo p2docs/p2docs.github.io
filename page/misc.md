@@ -41,8 +41,17 @@ GETCT copies the low 32 bits of the value of the global cycle counter into **D**
 If the **WC** effect is specified, the upper 32 bits are copied instead (C is left unchanged). This value is compensated such that reading the upper half first and then the lower half immediately after results in a coherent value.
 
 <%=p2instrinfo('waitx')%>
+WAITX waits for the amount of cycles given in **D**estination. This is in addition to the ususal two cycle execution time, so `waitx #1` takes 3 cycles.
+
+If the **WC**, **WZ** or **WCZ** effect is specified, the effective wait time (excluding the 2 usual cycles) is bitwise-AND-ed with the current value of the global random number generator (see [GETRND](#getrnd)) and the relevant flags are cleared (0).
+
+Note: WAITX is _not_ interrupt-able!
 
 <%=p2instrinfo('getrnd')%>
+GETRND captures the current value of the global random number generator into **D**estination. This value changes every cycle and is different (though correlated) for each cog.
 
+If the **WC** or **WCZ** effect is specified, the C flag is set to the MSB of the random value.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set to bit 30 (the one below the MSB) of the random value.
 
 <%p2instr_checkall :misc%>

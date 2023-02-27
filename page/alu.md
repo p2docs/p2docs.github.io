@@ -298,8 +298,10 @@ If the **WZ** effect is specified, the Z flag is set (1) if the product (before 
 non-zero.
 
 <%=p2instrinfo('scas')%>
-SCAS multiplies the lower, signed 16-bits of each of **D**estination and **S**ource together, right shifts the 32-bit product by 14 (to
+SCAS multiplies the lower, signed 16-bits of each of **D**estination and **S**ource together, right shifts the 32-bit product by **14** (to
 scale down the result), and substitutes this value as the next instruction's **S**ource value.
+
+In this 2.14 fixed point scheme, a factor of $4000 will pass the the other factor through unchanged and a factor of $C000 will negate it.
 
 If the **WZ** effect is specified, the Z flag is set (1) if the product (before scaling down) is zero, or is cleared (0) if
 non-zero.

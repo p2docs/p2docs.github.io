@@ -262,16 +262,63 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 NEG's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
 
 <%=p2instrinfo('negc')%>
+NEGC negates **S**ource if the C flag is _set_ and stores the result in the **D**estination register. If the C flag is clear, the **S**ource value is left as-is (not negated) and is stored into **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
+
 <%=p2instrinfo('negnc')%>
+NEGNC negates **S**ource if the C flag is _not set_ and stores the result in the **D**estination register. If the C flag is set, the **S**ource value is left as-is (not negated) and is stored into **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('negz')%>
+NEGZ negates **S**ource if the C flag is _set_ and stores the result in the **D**estination register. If the Z flag is clear, the **S**ource value is left as-is (not negated) and is stored into **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('negnz')%>
+NEGNZ negates **S**ource if the Z flag is _not set_ and stores the result in the **D**estination register. If the Z flag is set, the **S**ource value is left as-is (not negated) and is stored into **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
 ---
 
 <%=p2instrinfo('sumc')%>
+NEGC subtracts **S**ource from **D**estination if the C flag is _set_ and stores the result in the **D**estination register. If the C flag is clear, **S**ource is instead added to **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('sumnc')%>
+NEGNC subtracts **S**ource from **D**estination if the C flag is _not set_ and stores the result in the **D**estination register. If the C flag is set, **S**ource is instead added to **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('sumz')%>
+NEGZ subtracts **S**ource from **D**estination if the Z flag is _set_ and stores the result in the **D**estination register. If the Z flag is clear, **S**ource is instead added to **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
+
 <%=p2instrinfo('sumnz')%>
+NEGNZ subtracts **S**ource from **D**estination if the Z flag is _not set_ and stores the result in the **D**estination register. If the Z flag is set, **S**ource is instead added to **D**estination.
+
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
+
+If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
 ---
 
@@ -586,7 +633,7 @@ SEUSSF bit permutation in text form:
 <%=p2instrinfo('test')%>
 TEST performs a bitwise AND of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged). **Note that it is possible to encode TEST without any effects, which is entirely pointless.**
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
 
@@ -595,7 +642,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**
 <%=p2instrinfo('testn')%>
 TESTN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination, but discards the result (**D**estination remains unchanged). **Note that it is possible to encode TESTN without any effects, which is entirely pointless.**
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**estination OR **S**ource result equals zero, or is cleared (0) if it is non-zero.
 
@@ -604,28 +651,28 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**
 <%=p2instrinfo('and')%>
 AND performs a bitwise AND of the value in **S**ource into that of **D**estination.
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('andn')%>
 ANDN performs a bitwise AND of the _inverse_ of the value in **S**ource into that of **D**estination. That is, each high bit in **S**ource will become low in **D**estination.
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('or')%>
 OR performs a bitwise OR of the value in **S**ource into that of **D**estination.
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('xor')%>
 XOR performs a bitwise XOR of the value in **S**ource into that of **D**estination.
 
-If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result contains an odd number of high (1) bits, or is cleared (0) if it contains an even number of high bits.
+If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result has odd parity (contains an odd number of high (1) bits), or is cleared (0) if it has even parity (contains an even number of high bits).
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result equals zero, or is cleared (0) if it is non-zero.
 

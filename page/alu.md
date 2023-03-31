@@ -323,29 +323,28 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 ---
 
 <%=p2instrinfo('mul')%>
-MUL multiplies the lower 16-bits of each of **D**estination and **S**ource together and stores the 32-bit product result into the **D**estination
-register. This is a fast (2-clock) 16 x 16 bit multiplication operation - to multiply larger factors, use [the CORDIC Solver QMUL instruction](cordic.html#qmul).
+MUL performs an _unsigned_ multiplication of the lower 16-bits of **D**estination and **S**ource and stores the 32-bit product result into the **D**estination register. This is a fast (2-clock) 16 x 16 bit multiplication operation - to multiply larger factors, use [the CORDIC Solver QMUL instruction](cordic.html#qmul).
 
 If the **WZ** effect is specified, the Z flag is set (1) if either the **D**estination or **S**ource values are zero, or is cleared (0) if both are
 non-zero. **TODO: is the entire register checked or just the bottom 16 bits?**
 
 <%=p2instrinfo('muls')%>
 
-MULS multiplies the signed lower 16-bits of each of **D**estination and **S**ource together and stores the 32-bit signed product
+MULS performs a _signed_ multiplication of the lower 16-bits of **D**estination and **S**ource and stores the 32-bit signed product
 result into the **D**estination register. This is a fast (2-clock) signed 16 x 16 bit multiplication operation - to multiply larger factors, use [the CORDIC Solver QMUL instruction](cordic.html#qmul).
 
 If the **WZ** effect is specified, the Z flag is set (1) if either the **D**estination or **S**ource values are zero, or is cleared (0) if both are
 non-zero. **TODO: same question as MUL**
 
 <%=p2instrinfo('sca')%>
-SCA multiplies the lower 16-bits of each of **D**estination and **S**ource together, shifts the 32-bit product right by 16 (to scale
+SCA performs an _unsigned_ multiplication of the lower 16-bits of **D**estination and **S**ource, shifts the 32-bit product right by 16 (to scale
 down the result), and substitutes this value as the next instruction's **S**ource value.
 
 If the **WZ** effect is specified, the Z flag is set (1) if the product (before scaling down) is zero, or is cleared (0) if
 non-zero.
 
 <%=p2instrinfo('scas')%>
-SCAS multiplies the lower, signed 16-bits of each of **D**estination and **S**ource together, right shifts the 32-bit product by **14** (to
+SCAS performs a _signed_ multiplication of the lower 16-bits of **D**estination and **S**ource, right shifts the 32-bit product by **14** (to
 scale down the result), and substitutes this value as the next instruction's **S**ource value.
 
 In this 2.14 fixed point scheme, a factor of $4000 will pass the the other factor through unchanged and a factor of $C000 will negate it.

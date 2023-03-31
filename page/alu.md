@@ -329,7 +329,6 @@ If the **WZ** effect is specified, the Z flag is set (1) if either the **D**esti
 non-zero. **TODO: is the entire register checked or just the bottom 16 bits?**
 
 <%=p2instrinfo('muls')%>
-
 MULS performs a _signed_ multiplication of the lower 16-bits of **D**estination and **S**ource and stores the 32-bit signed product
 result into the **D**estination register. This is a fast (2-clock) signed 16 x 16 bit multiplication operation - to multiply larger factors, use [the CORDIC Solver QMUL instruction](cordic.html#qmul).
 

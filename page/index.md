@@ -60,6 +60,7 @@ Short specs:
  - [Hub Control](hubctrl.html)
  - [Miscellaneous Instructions](misc.html)
  - [Bytecode Engine (XBYTE)](xbyte.html) (TODO)
+ - [Boot Process](boot.html) (TODO)
 
 ### Auxillary Topics
 

@@ -585,6 +585,7 @@ In effect, **D**estination becomes (%10 << size) - 1 via the BMASK instruction.
 A bit mask is often useful in bitwise operations (AND, OR, XOR) to filter out or affect special groups of bits.
 
 BMASK's **S**ource can be omitted, in which case it defaults to being the same as its **D**estination.
+
 ---
 
 <%=p2instrinfo('rev')%>

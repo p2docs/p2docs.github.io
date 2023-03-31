@@ -2,6 +2,10 @@
 title: Hub Control
 hyperjump:
     -   type: Topic
+    -   id: set-clock-mode
+        name: Set Clock Mode
+        type: HUBSET configuration
+        hidden: CLock Generator
     -   id: software-reset
         name: Software Reset
         type: HUBSET configuration

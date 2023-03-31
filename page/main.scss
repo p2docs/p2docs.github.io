@@ -491,17 +491,23 @@ blockquote {
 }
 
 #markdown-toc {
-    border: 4px ridge;
+    border: 1px solid black;
+    background: #CFE2F3;
+    @media (prefers-color-scheme: dark) {
+        border-color: #aaa;
+        background: #001;
+    }
+    border-radius: 8px;
     padding: 4px 16px 4px 16px;
     width: 400px; // IE fallback hack
     width: fit-content;
-    background: #eee;
     margin-left: 16px;
     &:before {
         content: "Contents";
         line-height: 1.75;
         font-size: larger;
         font-weight: bold;
+        font-family: 'Parallax',monospace;
     }
     &>li {
         margin-left: 16px;

@@ -6,6 +6,11 @@ $finalize_hooks << lambda do
         puts "Copying diagram #{path}"
         outpath = "out/"+path.delete_prefix('page/')
         FileUtils.mkdir_p(File.dirname(outpath))
-        FileUtils.copy_entry(path,outpath)
+        diagdata = File.read(path)
+        if Object.const_defined? :Minify
+            diagdata = Minify.compressor.compress(diagdata)
+        end
+        File.write(outpath,diagdata)
+       # FileUtils.copy_entry(path,outpath)
     end
 end

@@ -7,6 +7,10 @@ module Minify
 
     @@compressor = HtmlCompressor::Compressor.new(**(CONFIG[:htmlcompressor]||{}))
 
+    def self.compressor
+        @@compressor
+    end
+
     def document_postprocess(doc)
         #puts "lmao"
         @@compressor.compress(super)

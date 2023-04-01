@@ -187,5 +187,9 @@ To try out the serial loader, just open a terminal program on your PC with the P
 ## SPI Flash Boot
 {:.anchor}
 
+**TODO**
+
 ## SD Card Boot
 {:.anchor}
+
+**TODO**

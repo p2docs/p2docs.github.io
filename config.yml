@@ -2,4 +2,5 @@ site_language: en
 htmlcompressor:
   enabled: true
   remove_quotes: true
+  compress_css: true
 sitemap_root_url: https://p2docs.github.io

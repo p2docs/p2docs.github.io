@@ -5,7 +5,14 @@ require 'htmlcompressor'
 
 module Minify
 
-    @@compressor = HtmlCompressor::Compressor.new(**(CONFIG[:htmlcompressor]||{}))
+    # All valid CSS is also valid SCSS, so we can use that to compress
+    class SCSS_Minifier
+        def compress(style)
+            Sass::Engine.new(style,syntax: :scss,style: :compressed).render.chomp(?\n)
+        end
+    end
+
+    @@compressor = HtmlCompressor::Compressor.new(css_compressor: SCSS_Minifier.new,**(CONFIG[:htmlcompressor]||{}))
 
     def self.compressor
         @@compressor

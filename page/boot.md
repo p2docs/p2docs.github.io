@@ -53,6 +53,18 @@ The boot source is selected by the presence of pull-up or pull-down resistors on
 
 **TODO Flowchart**
 
+In summary, the pins used by the various boot sources:
+
+|Pin|Serial      |SD Card           |Flash            |
+|---|------------|------------------|-----------------|
+|P58|            |Data device -> P2 |Data device -> P2|
+|P59|            |Data P2 -> device |Data P2 -> device|
+|P60|            |Select            |Clock            |
+|P61|            |Clock             |Select           |
+|P62|TX (to PC)  |                  |                 |
+|P63|RX (from PC)|                  |                 |
+
+
 ## Serial Boot
 {:.anchor}
 
@@ -123,7 +135,7 @@ To return to the clock configuration on bootup:
 {:.anchor}
 The Prop_Hex command is used to load byte data into the hub, starting at $00000, and then execute them. Hex bytes must be separated by whitespaces. Only the bottom 8 bits of hex values are used as data.
 
-If the command is terminated with a "~" character, the loader will do a 'COGINIT #0,#0' to relaunch cog 0 (currently running the booter program) with the new program starting at $00000.
+If the command is terminated with a "~" character, the loader will do a `COGINIT #0,#0` to relaunch cog 0 (currently running the booter program) with the new program starting at $00000.
 
 If the command is terminated with a "?" character, the loader will send either a "." character to signify that the embedded checksum was correct, in which case it will run the program as "~" would have. Or, it will send a "!" character to signify that the checksum was incorrect, after which it will wait for a new command.
 
@@ -192,4 +204,13 @@ To try out the serial loader, just open a terminal program on your PC with the P
 ## SD Card Boot
 {:.anchor}
 
-**TODO**
+The P2 can boot from an attached SD card. The bootloader will try to locate executable code in a number of ways:
+
+- If the first sector contains the signature "Prop" ($706F7250) at offset $17C, the MBR is loaded into [Cog RAM](cog.html#cog-memory) and executed starting at address $20 (byte offset $80 in the MBR)
+- If the first sector instead contains the signature "ProP" ($506F7250) at offset $17C, the long at offset $174 is used as the sector number that the boot file starts in and the long at offset $178 is used as its lenght in bytes (max. 496KB). The file is loaded and started normally (`coginit #0,#0`).
+- If the MBR has a valid structure and partition 1 is marked as bootable, its VBR is loaded and checked for the same signatures as the MBR.
+- If the VBR is that of a valid FAT32 volume, its root directory is scanned for a file named `_BOOT_P2.BIX` (max. 496K), which will be loaded and started normally  (`coginit #0,#0`). **This file _must not_ be fragmented!**
+- Alternatively, a file named `_BOOT_P2.BIY` will be started in the same manner if `_BOOT_P2.BIX` is not found.
+
+
+For more details, [look here](https://forums.parallax.com/discussion/170637/p2-sd-boot-code-rev-2-silicon/p1).

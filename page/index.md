@@ -56,7 +56,7 @@ Short specs:
  - [Streamer](streamer.html) (TODO)
  - [Colorspace Converter](colorspace.html) (TODO)
  - [Events](event.html)
- - [Interrupts](irq.html)
+ - [Interrupts](irq.html) (TODO)
  - [Hub Control](hubctrl.html)
  - [Miscellaneous Instructions](misc.html)
  - [Bytecode Engine (XBYTE)](xbyte.html) (TODO)

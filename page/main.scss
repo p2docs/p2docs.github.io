@@ -488,6 +488,7 @@ blockquote {
     @media (prefers-color-scheme: dark) {
         background-color: #222;
     }
+    overflow-x: scroll;
     padding: 4px;
 }
 

@@ -293,28 +293,28 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the resul
 ---
 
 <%=p2instrinfo('sumc')%>
-NEGC subtracts **S**ource from **D**estination if the C flag is _set_ and stores the result in the **D**estination register. If the C flag is clear, **S**ource is instead added to **D**estination.
+SUMC subtracts **S**ource from **D**estination if the C flag is _set_ and stores the result in the **D**estination register. If the C flag is clear, **S**ource is instead added to **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('sumnc')%>
-NEGNC subtracts **S**ource from **D**estination if the C flag is _not set_ and stores the result in the **D**estination register. If the C flag is set, **S**ource is instead added to **D**estination.
+SUMNC subtracts **S**ource from **D**estination if the C flag is _not set_ and stores the result in the **D**estination register. If the C flag is set, **S**ource is instead added to **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('sumz')%>
-NEGZ subtracts **S**ource from **D**estination if the Z flag is _set_ and stores the result in the **D**estination register. If the Z flag is clear, **S**ource is instead added to **D**estination.
+SUMZ subtracts **S**ource from **D**estination if the Z flag is _set_ and stores the result in the **D**estination register. If the Z flag is clear, **S**ource is instead added to **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
 
 If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the result is zero, or is cleared (0) if it is non-zero.
 
 <%=p2instrinfo('sumnz')%>
-NEGNZ subtracts **S**ource from **D**estination if the Z flag is _not set_ and stores the result in the **D**estination register. If the Z flag is set, **S**ource is instead added to **D**estination.
+SUMNZ subtracts **S**ource from **D**estination if the Z flag is _not set_ and stores the result in the **D**estination register. If the Z flag is set, **S**ource is instead added to **D**estination.
 
 If the **WC** or **WCZ** effect is specified, the C flag is set (1) if the result is negative, or is cleared (0) if positive.
 

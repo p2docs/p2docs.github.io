@@ -6,6 +6,7 @@ hyperjump:
 
 # Pixel Mixer
 
+The Propeller 2 supports a set of four "Pixel Mixer" instructions that are designed to accelerate operations on graphics data, particularily 32 bit RGBA and 8 bit greyscale formats. For 16 bit RGB support, see [RGBEXP](alu.html#rgbexp) and [RGBSQZ](alu.html#rgbsqz).
 
 All pixel mixer operations perform the following math:
 

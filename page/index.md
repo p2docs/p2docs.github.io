@@ -11,6 +11,8 @@ Just start typing and be taken to the object of your intrigue! In theory, anyway
 
 But you can help! [Contribute on GitHub!](https://github.com/p2docs/p2docs.github.io) File an issue if you think something needs to be improved or try your own hand and file a PR.
 
+(Also, the [Instruction Table](p2_optable.html) has entries for most of the instructions missing a detailed description)
+
 
 ## What's a Propeller 2?
 

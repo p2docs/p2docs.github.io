@@ -24,6 +24,11 @@ jQuery(function() {
         $("#hyperjump").addClass("hj-force-show");
         $("#hyperjump input").trigger("focus");
     });
+    $("body").on("keypress",function(event) {
+        if (document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
+            $("#hyperjump input").trigger("focus");
+        }
+    });
     $("body").on("keydown", function(event) {
         let hjActive = $("#hyperjump input").val() != "" || $("#hyperjump.hj-force-show").length != 0;
         if (event.ctrlKey) return;
@@ -62,9 +67,6 @@ jQuery(function() {
             }
             break;
         default:
-            if (document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
-                $("#hyperjump input").trigger("focus");
-            }
             break;
         }
     });

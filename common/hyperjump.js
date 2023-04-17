@@ -13,7 +13,7 @@ let $hyperFuse = new Fuse($hyperJumpList,{
 var $hjSelection = 0;
 
 function hyperjump_dispose() {
-    $("#hyperjump input").val("").trigger("input");
+    $("#hyperjump input").val("").trigger("input").trigger("blur");
     $("#hyperjump").removeClass("hj-force-show");
 }
 
@@ -25,37 +25,55 @@ jQuery(function() {
         $("#hyperjump input").trigger("focus");
     });
     $("body").on("keydown", function(event) {
-        let hjActive = $("#hyperjump input").val != "" || $("#hyperjump.hj-force-show").count != 0;
-        if(event.keyCode == 16||event.keyCode==17||event.keyCode==18||event.ctrlKey) return null; // Ignore modifiers
-        else if (hjActive && event.keyCode == 38) { // arrow up
-            if ($hjSelection > 0) {
-                updateSelHighlight($("#hjresults"),--$hjSelection);
+        let hjActive = $("#hyperjump input").val() != "" || $("#hyperjump.hj-force-show").length != 0;
+        if (event.ctrlKey) return;
+        switch (event.keyCode) {
+        case 16:
+        case 17:
+        case 18:
+            return null; // Ignore modifiers
+        case 38: // arrow up
+            if (hjActive) {
+                if ($hjSelection > 0) {
+                    updateSelHighlight($("#hjresults"),--$hjSelection);
+                }
+                event.preventDefault();
             }
-            event.preventDefault();
-        } else if (hjActive && event.keyCode == 40) { // arrow down
-            var list = $("#hjresults");
-            if ($hjSelection < list.children().length-1) {
-                updateSelHighlight($("#hjresults"),++$hjSelection);
+            break;
+        case 40:
+            if (hjActive) {
+                var list = $("#hjresults");
+                if ($hjSelection < list.children().length-1) {
+                    updateSelHighlight($("#hjresults"),++$hjSelection);
+                }
+                event.preventDefault();
             }
-            event.preventDefault();
-        } else if (hjActive && event.keyCode == 13) { // enter
-            $("#hjresults a.hjrsel li").trigger("click");
-            event.preventDefault();
-        } else if (hjActive && event.keyCode == 27) { // escape
-            hyperjump_dispose();
-            event.preventDefault();
-        } else {
+            break;
+        case 13:
+            if (hjActive) {
+                $("#hjresults a.hjrsel li").trigger("click");
+                event.preventDefault();
+            }
+            break;
+        case 27:
+            if (hjActive) { // escape
+                hyperjump_dispose();
+                event.preventDefault();
+            }
+            break;
+        default:
             if (document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
                 $("#hyperjump input").trigger("focus");
             }
+            break;
         }
-    })
+    });
     $("nav#hyperjump").on("click", function(event){
         // Clear search if background or result clicked
         if (event.target == this) {
             hyperjump_dispose();
         }
-    })
+    });
 
     function updateSelHighlight(list,num) {
         list.children().removeClass("hjrsel").eq(num).addClass("hjrsel");
@@ -69,6 +87,9 @@ jQuery(function() {
         if (val=="") {
             list.empty();
             hjnav.removeClass("hjvisible");
+            if ($("#hyperjump.hj-force-show").length == 0) {
+                $(this).trigger("blur");
+            }
         } else {
             hjnav.addClass("hjvisible");
             let searchHeight = hjnav.height() - list.position().top - 12;

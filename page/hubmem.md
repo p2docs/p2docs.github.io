@@ -13,7 +13,7 @@ hyperjump:
     -   id: pointer-expressions
         name: Pointer Expressions
         type: Topic
-        hidden: --PTRB[]PTRA++[]ptrx
+        hidden: --PTRB[]PTRA++[]ptrx Indexing
 ---
 
 # Hub Memory

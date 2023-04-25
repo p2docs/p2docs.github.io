@@ -94,6 +94,7 @@ Instead of using a normal **S**ource register to provide the address, most Hub (
 |1x101nnnn|--PTRx[INDEX5]|PTRx - INDEX*SCALE|PTRx -= INDEX*SCALE|Not Valid      |
 
 - `SCALE` is 1 for BYTE and LUT operations, 2 for WORD operations and 4 for LONG operations. When using an augmented operand (##/AUGS), SCALE is always 1.
+- The bit indicated as `x` is set (1) for PTRB and clear (0) for PTRA
 - The index value for `PTRx[INDEX6]` (denoted `iiiiii`) is a 6-bit value and can thus can range from -32 to 31.
 - The index value for inc/dec expressions (denoted `0NNNN` or `1nnnn`) is a 5-bit signed value with a special case wherein `00000` means 16. It can thus range from 1 to 16 in either positive or negative direction.
 

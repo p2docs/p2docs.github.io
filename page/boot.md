@@ -11,8 +11,8 @@ hyperjump:
     -   id: spi-flash-boot
         name: SPI Flash Boot
         type: Topic
-    -   id: sd-boot
-        name: SD Boot
+    -   id: sd-card-boot
+        name: SD Card Boot
         type: Topic
     -   id: propchk
         name: Prop_Chk

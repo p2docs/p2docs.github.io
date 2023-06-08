@@ -1,8 +1,8 @@
 
 ## Quick Orientation
 
-To generate site, run `bundler exec ruby sitegen.rb`.
-To host local server on Port 8008, run `ruby -run -e httpd ./out -p 8008`
+To generate site, run `bundler exec ruby sitegen.rb` (run `bundler install` first if it tells you to).
+To host local server on Port 8008, run `ruby -run -e httpd ./out -p 8008` (install webrick first if it tells you to)
 
 Page data lives in `page/`. Is semi-standard markdown with ERB templating.
 

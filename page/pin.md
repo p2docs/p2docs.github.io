@@ -2,6 +2,10 @@
 title: I/O Pins
 hyperjump:
     -   type: Topic
+    -   id: pin-fields
+        name: Pin Fields
+        type: Topic
+        hidden: addpins               pinfield
     -   id: smart-pin-modes
         name: Smart Pin Modes
         type: Topic
@@ -11,6 +15,21 @@ hyperjump:
 # I/O Pins
 
 **TODO**
+
+## Pin Fields
+{:.anchor}
+
+Many instructions that operate on pins will take a _Pin Field_ for a parameter. A Pin Field is an 11-bit value consisting of a 6-bit base pin number and a 5-bit field length (where 0 means 1 pin). Any pin number 0..63 can be interpreted as a pin field consisting of just that pin. Larger pinfields can be created using an expression like `base_pin + (extra_pins >> 6)` (there also exists a `addpins` infix operator as a shorthand for this).
+
+A pin field may address up to 32 pins, but they can not cross the Port A / Port B boundary between pins 31 and 32 and will instead wraparound inside the base pin's port.
+
+A Pin Field is similar to a Bit Field (Link TODO), but _not_ interchangeable.
+
+Examples:
+  - `1 addpins 0` or just `1` refers just to Pin 1
+  - `1 addpins 1` refers just to Pins 1 and 2
+  - `32 addpins 7` refers to pins 32..39
+  - `31 addpins 1` refers to pins 31 and 0 (intra-port wraparound)
 
 
 ## Diagram

@@ -114,7 +114,7 @@ class SitePage
 
     def invoke_template(name,*targ,**kwarg,&block)
         unless @@template_cache[name]
-            @@template_cache[name] = ERB.new(File.read(path_for_template(name)),nil,nil,'@out')
+            @@template_cache[name] = ERB.new(File.read(path_for_template(name)),eoutvar:'@out')
         end
         outbak = @out
         begin
@@ -204,7 +204,7 @@ class SitePage
             else
                 rendered_document = @source
             end
-            templated_document = content_postprocess(render_inner(ERB.new(rendered_document,nil,nil,'@out')))
+            templated_document = content_postprocess(render_inner(ERB.new(rendered_document,eoutvar:'@out')))
             wrapped_document = document_postprocess(invoke_template("wrapper",templated_document))
             FileUtils.mkdir_p(File.dirname(local_output_path))
             File.write(local_output_path,wrapped_document)

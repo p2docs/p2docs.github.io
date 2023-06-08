@@ -22,7 +22,7 @@ The _Propeller 2_ is a high-performance microcontroller developed and sold by [P
 
 Short specs:
 
- - High Speed (160 MHz spec, 320+MHz overclock easily attainable)
+ - High Speed (180 MHz spec, 320+MHz overclock easily attainable)
  - 8 CPU cores
     - Custom RISC-ish architecture
     - 2 cycles for ALU instructions (including 16x16 multiply)

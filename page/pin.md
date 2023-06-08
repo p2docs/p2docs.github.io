@@ -2,10 +2,11 @@
 title: I/O Pins
 hyperjump:
     -   type: Topic
+        hidden: pin
     -   id: pin-fields
         name: Pin Fields
         type: Topic
-        hidden: addpins               pinfield
+        hidden: addpins               field
     -   id: smart-pin-modes
         name: Smart Pin Modes
         type: Topic

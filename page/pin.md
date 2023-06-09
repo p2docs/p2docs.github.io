@@ -23,11 +23,12 @@ Each I/O pin has the following inputs:
  - An OUT signal, produced by logical OR of all cog's corrosponding OUTA/OUTB register bits
  - A mode register writeable through [WRPIN](#wrpin)
  - Two parameter registers writeable through [WXPIN](#wxpin) and [WYPIN](#wypin)
+ - An acknowledge signal
 
 And the following outputs:
 
  - An IN signal, available in all cog's INA/INB registers
- - A data register readable through [RDPIN](#rdpin) or [RQPIN](#rqpin)
+ - A Z register readable through [RDPIN](#rdpin) or [RQPIN](#rqpin)
 
 ## Pin Fields
 {:.anchor}
@@ -121,6 +122,9 @@ WYPIN sets the Y register of the pin(s) indicated by **S**ource to the value in 
 
 <%=p2instrinfo('rdpin')%>
 <%=p2instrinfo('rqpin')%>
+RQPIN reads the value of the Z register of the pin indicated by **S**ource into **D**estination and sends the pin an acknowledge signal.
+
+RDPIN does the same but additionally sends an acknowledge signal to the pin.
 
 <%=p2instrinfo('akpin')%>
 AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**
@@ -129,8 +133,27 @@ AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**
 ## Other Instructions
 
 <%=p2instrinfo('setdacs')%>
+SETDACS sets the default values for the cog's four DAC channels (TODO link) to the four bytes of the **D**estination value. These values are used when the [Streamer](streamer.html) is not active.
+
+
 <%=p2instrinfo('setscp')%>
+SETSCP configures the cog's scope data pipe. If **D**estination[6] is set, the scope data pipe is enabled and **D**estination[5:2] selects the group of 4 pins to capture from. The bottom two bits are ignored, so the group must be 4-aligned.
+
 <%=p2instrinfo('getscp')%>
+GETSCP reads the current state of the SCOPE data pipe into **D**estination.
+
+`GETSCP x` is roughly equivalent to this sequence, where `pinblock` is the pin group set with [SETSCP](#setscp):
+
+~~~
+        RQPIN   tmp,#pinblock | 3     'read pin3 long into x
+        ROLBYTE x,tmp,#0              'rotate pin3 byte into y
+        RQPIN   tmp,#pinblock | 2     'read pin2 long into x
+        ROLBYTE x,tmp,#0              'rotate pin2 byte into y
+        RQPIN   tmp,#pinblock | 1     'read pin1 long into x
+        ROLBYTE x,tmp,#0              'rotate pin1 byte into y
+        RQPIN   tmp,#pinblock | 0     'read pin0 long into x
+        ROLBYTE x,tmp,#0              'rotate pin0 byte into y
+~~~
 
 <%p2instr_checkall :pin%>
 

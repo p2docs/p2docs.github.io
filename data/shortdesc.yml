@@ -253,6 +253,8 @@ FLTZ: Set pin OUT to Z and set DIR low
 FLTNZ: Set pin OUT to !Z and set DIR low
 FLTRND: Randomize pin OUT and set DIR low
 FLTNOT: Invert pin OUT and set DIR low
-
+SETDACS: Set DAC channel values
+SETSCP: Setup scope pipe
+GETSCP: Get scope pipe data
 
 

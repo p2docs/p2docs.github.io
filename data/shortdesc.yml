@@ -221,5 +221,38 @@ CALL-A: Call subroutine
 CALL-D: Call subroutine (indirect)
 CALLPA: Call and set PA
 CALLPB: Call and set PB
+OUTL: Set pin OUT low
+OUTH: Set pin OUT high
+OUTC: Set pin OUT to C
+OUTNC: Set pin OUT to !C
+OUTZ: Set pin OUT to Z
+OUTNZ: Set pin OUT to !Z
+OUTRND: Randomize pin OUT
+OUTNOT: Invert pin OUT
+DIRL: Set pin DIR low
+DIRH: Set pin DIR high
+DIRC: Set pin DIR to C
+DIRNC: Set pin DIR to !C
+DIRZ: Set pin DIR to Z
+DIRNZ: Set pin DIR to !Z
+DIRRND: Randomize pin DIR
+DIRNOT: Invert pin DIR
+DRVL: Set pin OUT low and set DIR high
+DRVH: Set pin OUT high and set DIR high
+DRVC: Set pin OUT to C and set DIR high
+DRVNC: Set pin OUT to !C and set DIR high
+DRVZ: Set pin OUT to Z and set DIR high
+DRVNZ: Set pin OUT to !Z and set DIR high
+DRVRND: Randomize pin OUT and set DIR high
+DRVNOT: Invert pin OUT and set DIR high
+FLTL: Set pin OUT low and set DIR low
+FLTH: Set pin OUT high and set DIR low
+FLTC: Set pin OUT to C and set DIR low
+FLTNC: Set pin OUT to !C and set DIR low
+FLTZ: Set pin OUT to Z and set DIR low
+FLTNZ: Set pin OUT to !Z and set DIR low
+FLTRND: Randomize pin OUT and set DIR low
+FLTNOT: Invert pin OUT and set DIR low
+
 
 

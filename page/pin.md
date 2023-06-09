@@ -17,6 +17,18 @@ hyperjump:
 
 **TODO**
 
+Each I/O pin has the following inputs:
+
+ - A DIR signal, produced by logical OR of all cog's corrosponding DIRA/DIRB register bits
+ - An OUT signal, produced by logical OR of all cog's corrosponding OUTA/OUTB register bits
+ - A mode register writeable through [WRPIN](#wrpin)
+ - Two parameter registers writeable through [WXPIN](#wxpin) and [WYPIN](#wypin)
+
+And the following outputs:
+
+ - An IN signal, available in all cog's INA/INB registers
+ - A data register readable through [RDPIN](#rdpin) or [RQPIN](#rqpin)
+
 ## Pin Fields
 {:.anchor}
 

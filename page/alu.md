@@ -687,7 +687,9 @@ TESTB reads the state (0/1) of a bit in **D**estination designated by **S**ource
 
 If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the state of the bit.
 
-If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the state of the bit. If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the state of the bit.
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the state of the bit.
+
+If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the state of the bit.
 
 If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the state of the bit.
 
@@ -705,7 +707,9 @@ TESTBN reads the state (0/1) of a bit in **D**estination designated by **S**ourc
 
 If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the inverse state of the bit.
 
-If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the inverse state of the bit. If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the inverse state of the bit.
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the inverse state of the bit.
+
+If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the inverse state of the bit.
 
 If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the inverse state of the bit.
 

@@ -93,13 +93,41 @@ Examples:
 
 
 <%=p2instrinfo('testp')%>
-<%=p2instrinfo('testpn',joinup:true)%>
 <%=p2instrinfo('testp-and',joinup:true)%>
-<%=p2instrinfo('testpn-and',joinup:true)%>
 <%=p2instrinfo('testp-or',joinup:true)%>
-<%=p2instrinfo('testpn-or',joinup:true)%>
 <%=p2instrinfo('testp-xor',joinup:true)%>
+TESTP reads the IN state (0/1) of a pin designated by **S**ource and either stores it as-is, or bitwise ANDs, ORs, or XORs it into the C or Z flag.
+
+**S**ource[5:0] indicates the pin number (0–63) to test.
+
+If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the state of the pin.
+
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the state of the pin.
+
+If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the state of the pin.
+
+If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the state of the pin.
+
+See also [TESTPN](#testpn).
+
+<%=p2instrinfo('testpn')%>
+<%=p2instrinfo('testpn-and',joinup:true)%>
+<%=p2instrinfo('testpn-or',joinup:true)%>
 <%=p2instrinfo('testpn-xor',joinup:true)%>
+
+TESTPN reads the IN state (0/1) of a pin designated by **S**ource, inverts the result, and either stores it (the inverse value) as-is, or bitwise ANDs, ORs, or XORs it into the C or Z flag.
+
+**S**ource[5:0] indicates the pin number (0–63) to test and invert.
+
+If the **WC** or **WZ** effect is specified, the C or Z flag is overwritten with the inverse state of the pin.
+
+If the **ANDC** or **ANDZ** effect is specified, the C or Z flag is bitwise ANDed with the inverse state of the pin.
+
+If the **ORC** or **ORZ** effect is specified, the C or Z flag is bitwise ORed with the inverse state of the pin.
+
+If the **XORC** or **XORZ** effect is specified, the C or Z flag is bitwise XORed with the inverse state of the pin.
+
+See also [TESTP](#testp).
 
 
 

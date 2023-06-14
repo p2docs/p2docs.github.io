@@ -37,6 +37,8 @@ Many instructions that operate on pins will take a _Pin Field_ for a parameter. 
 
 A pin field may address up to 32 pins, but they can not cross the Port A / Port B boundary between pins 31 and 32 and will instead wraparound inside the base pin's port.
 
+All instructions that support pin fields also support overriding the field length using [SETQ](misc.html#setq). In this case the field length in the actual operand is ignored.
+
 A Pin Field is similar to a Bit Field (Link TODO), but _not_ interchangeable.
 
 Examples:

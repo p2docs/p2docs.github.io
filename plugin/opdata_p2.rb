@@ -5,6 +5,7 @@
 
 require 'csv'
 require 'yaml'
+require 'json'
 
 module P2Opdata
 
@@ -112,6 +113,10 @@ keyword_init: true) do
 
     def doc_href
         "/#{category}.html##{id}"
+    end
+
+    def to_json(...)
+        to_h.to_json(...)
     end
 
 end
@@ -259,6 +264,9 @@ tab.each do |row|
         setq: setq,
     )
 end
+
+FileUtils.mkdir_p("out/data")
+File.write("out/data/p2instructions.json",JSON.fast_generate(P2Instructions))
 
 P2SmartEntry = Struct.new(:name,:number,:shortdesc) do
     def id

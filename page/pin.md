@@ -474,10 +474,46 @@ IF_Z   <use byte>              'if new byte, do something with it
 ~~~
 
 <%=p2smartinfo('p-sync-tx')%>
-**TODO**
+This mode overrides OUT to control the pin output state.
+
+Words of 1 to 32 bits are shifted out on the pin, LSB first, with each new bit being output two internal clock cycles after registering a positive edge on the B input. For negative-edge clocking, the B input may be inverted by setting B[3] in [WRPIN](#wrpin)'s D value (TODO what???).
+
+[WXPIN](#wxpin) is used to configure the update mode and  word length.
+
+X[5] selects the update mode:
+
+X[5] = 0 sets continuous mode, where a first word is written via WYPIN during reset (DIR=0) to prime the shifter. Then, after reset (DIR=1), the second word is buffered via WYPIN and continuous clocking is started. Upon shifting each word, the buffered data written via WYPIN is advanced into the shifter and IN is raised, indicating that a new output word can be buffered via WYPIN. This mode allows steady data transmission with a continuous clock, as long as the WYPIN's after each IN-rise occur before the current word transmission is complete.
+
+X[5] = 1 sets start-stop mode, where the current output word can always be updated via WYPIN before the first clock, flowing right through the buffer into the shifter. Any WYPIN issued after the first clock will be buffered and loaded into the shifter after the last clock of the current output word, at which time it could be changed again via WYPIN. This mode is useful for setting up the output word before a stream of clocks are issued to shift it out.
+
+X[4:0] sets the number of bits, minus 1. For example, a value of 7 will set the word size to 8 bits.
+
+[WYPIN](#wypin) is used to load the output words. The words first go into a single-stage buffer before being advanced to the shifter for output. Each time the buffer is advanced into the shifter, IN is raised, indicating that a new output word can be written via WYPIN. During reset, the buffer flows straight into the shifter.
+
+If you intend to send MSB-first data, you must first shift and then reverse it. For example, if you had a byte in D that you wanted to send MSB-first, you would do a `SHL D,#32-8` and then a `REV D`.
+
+During reset (DIR=0) the output is held low. Upon release of reset, the output will reflect the LSB of the output word written by any WYPIN during reset.
+
 
 <%=p2smartinfo('p-sync-rx')%>
-**TODO**
+Words of 1 to 32 bits are shifted in by sampling the A input around the positive edge of the B input. For negative-edge clocking, the B input may be inverted by setting B[3] in [WRPIN](#wrpin)'s D value (TODO what???).
+
+[WXPIN](#wxpin) is used to configure the sampling and word length.
+
+X[5] selects the A input sample position relative to the B input edge:
+
+X[5] = 0 selects the A input sample just before the B input edge was registered. This requires no hold time on the part of the sender.
+
+X[5] = 1 selects the sample coincident with the B edge being registered. This is useful where transmitted data remains steady after the B edge for a brief time. In the synchronous serial transmit mode, the data is steady for two internal clocks after the B edge was registered, so employing this complementary feature would enable the fastest data transmission when receiving from another smart pin in synchronous serial transmit mode.
+
+X[4:0] sets the number of bits, minus 1. For example, a value of 7 will set the word size to 8 bits.
+
+When a word is received, IN is raised and the data can then be read via [RDPIN](#rdpin)/[RQPIN](#rqpin). The data read will be MSB-justified.
+
+If you received LSB-first data, it will require right-shifting, unless the word size was 32 bits. For a word size of 8 bits, you would need to do a 'SHR D,#32-8' to get the data LSB-justified.
+
+If you received MSB-first data, it will need to be reversed and possibly masked, unless the word size was 32 bits. For example, if you received a 9-bit word, you would do `REV D` + `ZEROX D,#8` to get the data LSB-justified.
+
 
 
 <%=p2smartinfo('p-async-tx')%>

@@ -1,6 +1,6 @@
 NOP: Do nothing
 MOV: Move value
-MOVBYTS: Swizzle bytes in register
+MOVBYTS: Shuffle bytes in register
 SETS: Set S field
 SETD: Set D field
 SETR: Set R field

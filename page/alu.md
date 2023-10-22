@@ -16,7 +16,7 @@ If the **WZ** or **WCZ** effect is specified, the Z flag is set (1) if the **D**
 
 
 <%=p2instrinfo('movbyts')%>
-MOVBYTS swizzles the bytes of **D**estination based on bottom 8 bits in **S**ource. Each bit pair in **S**ource[7:0] corrosponds to one byte slot of the result and selects which of the input bytes will appear there. It is useful to use base-4 literals (`%%0123`) with MOVBYTS, since each digit corrosponds to one bit pair.
+MOVBYTS shuffles the bytes of **D**estination based on bottom 8 bits in **S**ource. Each bit pair in **S**ource[7:0] corrosponds to one byte slot of the result and selects which of the input bytes will appear there. It is useful to use base-4 literals (`%%0123`) with MOVBYTS, since each digit corrosponds to one bit pair.
 
 - `MOVBYTS D,#%%3210` leaves D as-is.
 - `MOVBYTS D,#%%0123` reverses the bytes of D ("endian swap").

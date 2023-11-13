@@ -256,5 +256,14 @@ FLTNOT: Invert pin OUT and set DIR low
 SETDACS: Set DAC channel values
 SETSCP: Setup scope pipe
 GETSCP: Get scope pipe data
-
+SETXFRQ: Set Streamer NCO frequency
+XINIT: Initialize Streamer
+XCONT: Continue Streamer
+XZERO: Continue Streamer and reset NCO phase
+GETXACC: Get Goertzel accumulator
+SETCMOD: Configure colorspace converter
+SETCY: Set colorspace Y coefficients
+SETCI: Set colorspace I coefficients
+SETCQ: Set colorspace Q coefficients
+SETCFREQ: Set IQ modulator frequency
 

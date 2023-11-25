@@ -527,7 +527,7 @@ X[31:16] establishes the number of clocks in a bit period, and in case X[31:26] 
 
 X[4:0] sets the number of bits, minus 1. For example, a value of 7 will set the word size to 8 bits.
 
-[WYPIN](#wypin) is used to load the output words. The words first go into a single-stage buffer before being advanced to a shifter for output. This buffering mechanism makes it possible to keep the shifter constantly busy, so that gapless transmissions can be achieved. Any time a word is advanced from the buffer to the shifter, IN is raised, indicating that a new word can be loaded.
+[WYPIN](#wypin) is used to load the output words. The words first go into a single-stage buffer before being advanced to a shifter for output. This buffering mechanism makes it possible to keep the shifter constantly busy, so that gapless transmissions can be achieved. Any time a word is advanced from the buffer to the shifter, IN is raised, indicating that a new word can be loaded. **IN is not raised on startup/reset**.
 
 Here is the internal state sequence:
 

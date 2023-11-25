@@ -15,9 +15,9 @@ SETCMOD sets the CMOD register. This register has 9 bits that control the genera
 |Bits |Function                 |
 |:---:|-------------------------|
 |0    |Sync polarity invert (mode 01 only)|
-|1    |Add DAC 0 into Y term    |
-|2    |Add DAC 0 into I term    |
-|3    |Add DAC 0 into Q term    |
+|1    |Add DAC0 into Y term     |
+|2    |Add DAC0 into I term     |
+|3    |Add DAC0 into Q term     |
 |4    |Sign-extend coefficents (zero-extend otherwise)  |
 |6:5  |Mode selection           |
 |7    |Reverse TMDS pin order   |

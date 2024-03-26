@@ -141,7 +141,7 @@ Note: if **D**estination is zero, REP does nothing.
 
 <%=p2instrinfo('callpa')%>
 <%=p2instrinfo('callpb',joinup:true)%>
-CALLPA and CALLPB call the address given by **S**ource and copies the value of **D**estination into PA or PB.
+CALLPA and CALLPB call the address given by **S**ource and copy the value of **D**estination into PA or PB.
 
 See [Short branch addressing](#short-branch-addressing) for details on how **S**ource encodes the branch target. 
 

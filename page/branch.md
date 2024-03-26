@@ -187,7 +187,7 @@ See [RETA](#reta), but substitute **PTRA** with **PTRB**.
 
 ## Short branch addressing
 
-For conditional branches (TJ\*/DJ\*/IJ\*) the address (**S**ource) can be absolute or relative.
+For conditional branches (TJ\*/DJ\*/IJ\*) and some call instructions(CALLPA/CALLPB/CALLD) the address (**S**ource) can be absolute or relative.
 To specify an absolute address, **S**ource must be a register containing a 20-bit address value.
 To specify a relative address, use #Label for a 9-bit signed offset (a range of -256 to +255 instructions) or use ##Label (or insert a prior AUGS instruction) for a 20-bit signed offset (a range of -524288 to +524287).
 Offsets are relative to the instruction following the conditional branch instruction.

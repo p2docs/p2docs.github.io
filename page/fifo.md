@@ -14,7 +14,9 @@ It can either be used to feed the [Streamer](streamer.html), to execute code fro
 <%=p2instrinfo('rdfast')%>
 RDFAST prepares the FIFO queue to read from the address given in **S**ource. Additionally, if **D**estination[13:0] is non-zero, it is used as a count of 64-byte blocks after which the FIFO read address wraps back around. If this is used, the address in **S**ource must be long-aligned.
 
-Normally, RDFAST will block while the FIFO completes any pending writes and fills up with read data, but if **D**estination[31] is set, it doesn't. Attempting to use the FIFO while it is not yet ready may result in garbled data.
+Normally, RDFAST will block while the FIFO completes any pending writes and fills up with read data, but if **D**estination[31] is set, it doesn't. Attempting to use the FIFO while it is not yet ready will cause zeroes to be read. After 13 cycles, the FIFO is guaranteed to be ready.
+
+**SILICON ERRATA:** When using RDFAST with **D**estination[31] set, using other, non-FIFO instructions while the FIFO is not yet ready to access Hub RAM can cause corrupt data to be read/written.
 
 **TODO reword more detail**
 

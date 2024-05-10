@@ -16,7 +16,7 @@ RDFAST prepares the FIFO queue to read from the address given in **S**ource. Add
 
 Normally, RDFAST will block while the FIFO completes any pending writes and fills up with read data, but if **D**estination[31] is set, it doesn't. Attempting to use the FIFO while it is not yet ready will cause zeroes to be read. After 13 cycles, the FIFO is guaranteed to be ready.
 
-**SILICON ERRATA:** When using RDFAST with **D**estination[31] set, using other, non-FIFO instructions while the FIFO is not yet ready to access Hub RAM can cause corrupt data to be read/written.
+**SILICON ERRATA:** When using RDFAST with **D**estination[31] set, using other, (non-FIFO) Hub RAM read/write instructions while the FIFO is not yet ready can cause corrupt data to be read/written.
 
 **TODO reword more detail**
 

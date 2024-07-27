@@ -222,7 +222,7 @@ Therefore, you would coordinate updating Y[15:0] with IN going high.
 <%=p2smartinfo('p-dac-dither-pwm')%>
  - **Only available when using pin DAC, otherwise [repository mode](#p-repository) is selected.**
  - Overrides MP[7:0] to feed the pin's 8-bit DAC with PWM-dithered data on every clock. M[12:10] must be set to %101 to configure the low-level pin for DAC output.
- - X[15:0] establishes the sample period in clock cycles. The sample period must be a multiple of 256 (X[7:0]=0), so that an integral number of 256 steps are afforded the PWM, which dithers the DAC between adjacent 8-bit levels.
+ - X[15:0] establishes the sample period in clock cycles. The sample period is ideally a multiple of 256 (X[7:0]=0), so that an integral number of 256 steps are afforded the PWM, which dithers the DAC between adjacent 8-bit levels.
  - Y[15:0] establishes the DAC output value which gets captured at each sample period and used for its duration.
  - On completion of each sample period, Y[15:0] is captured for the next output value and IN is raised. Therefore, you would coordinate updating Y[15:0] with IN going high.
  - PWM dithering will give better dynamic range than pseudo-random dithering, since a maximum of only two transitions occur for every 256 clocks. This means, though, that a frequency of Fclock/256 will be present in the output at -48dB.

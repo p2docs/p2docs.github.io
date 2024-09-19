@@ -152,9 +152,11 @@ WYPIN sets the Y register of the pin(s) indicated by **S**ource to the value in 
 
 <%=p2instrinfo('rdpin')%>
 <%=p2instrinfo('rqpin')%>
-RQPIN reads the value of the Z register of the pin indicated by **S**ource into **D**estination and sends the pin an acknowledge signal.
+RDPIN reads the value of the Z output register of the smart pin indicated by **S**ource into **D**estination and sends the pin an acknowledge signal.
 
-RDPIN does the same but additionally sends an acknowledge signal to the pin.
+RQPIN (Q for "quiet") does the same but does not send an acknowledge signal.
+
+If the **WC** effect is specified, the C flag is set to an additional value that depends on the pin mode.
 
 <%=p2instrinfo('akpin')%>
 AKPIN is an alias for [WRPIN **#1**,{#}S](#wrpin) **TODO**

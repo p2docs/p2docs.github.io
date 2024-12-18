@@ -67,6 +67,7 @@ Short specs:
 ### Auxillary Topics
 
  - [Assembler Syntax](asm_syntax.html) (TODO)
+ - [Common Idioms and Tricks](idiom.html)
  - [External RAM](psram.html) (TODO)
  - [Useful Documents](documents.html)
 

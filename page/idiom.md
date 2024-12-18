@@ -10,7 +10,7 @@ Here are some common P2ASM code patterns for operations not obviously provided b
 
 ## 32x16 multiply
 
-Chain two 16-bit [MUL](alu.html#mul) instructions together. Often a better idea than using QMUL.
+Chain two 16-bit [MUL](alu.html#mul) instructions together to multiply a 32-bit number with a 16-bit number. Often a better idea than using QMUL.
 
 ~~~
             getword res,x,#0
@@ -74,7 +74,7 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
   if_c_ne_z neg res
 ~~~
 
-... but you could also store the flags into a registrer.
+... but you could also store the flags into a registre.
 
 
 ## 64-bit absolute

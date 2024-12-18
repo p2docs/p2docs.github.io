@@ -74,7 +74,7 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
   if_c_ne_z neg res
 ~~~
 
-... but you could also store the flags into a registre.
+... but you could also store the flags into a register.
 
 
 ## 64-bit absolute

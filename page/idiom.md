@@ -50,6 +50,31 @@ In case the entire result is needed:
             sub hi,temp
 ~~~
 
+## Signed QDIV
+
+If only the dividend is signed (as is commonly the case):
+
+~~~
+            abs x wc
+            qdiv x,y
+            getqx res
+            negc res
+~~~
+
+If both operands are signed, a slightly ugly construction is needed to XOR the signs. A somewhat nice way:
+
+~~~
+            abs x wc
+            modz _c wz
+            abs y wc
+            qdiv x,y
+            getqx res
+  if_c_ne_z neg res
+~~~
+
+... but you could also store the flags into a registrer.
+
+
 ## 64-bit absolute
 
 ~~~

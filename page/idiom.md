@@ -1,5 +1,7 @@
 ---
 title: Common Idioms and Tricks
+hyperjump:
+    -   type: Topic
 ---
 
 # Common Idioms and Tricks

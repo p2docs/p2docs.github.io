@@ -84,3 +84,14 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
         if_c  neg low wz
   if_c_and_nz sub high,#1
 ~~~
+
+## Fast Cog/LUT RAM clearing
+
+To clear (i.e. set to zero) a large area of cog RAM quickly, perform a [block read](hubmem.html#block-transfers) from the unused area at `$80000`
+
+~~~
+              setq #size-1
+              rdlong buffer,##$80000
+~~~
+
+The same works using SETQ2 for LUT RAM.

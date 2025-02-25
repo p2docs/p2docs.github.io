@@ -49,6 +49,7 @@ Short specs:
  - [Cog Resources](cog.html)
  - [LUT Memory](lutmem.html)
  - [Hub Memory](hubmem.html)
+ - [Hub FIFO](fifo.html)
  - [Math and Logic Instructions](alu.html)
  - [CORDIC Coprocessor](cordic.html)
  - [Pixel Mixer](mixpix.html)

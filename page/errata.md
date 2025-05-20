@@ -48,6 +48,17 @@ See also: [Bypassing DEBUG protection](https://forums.parallax.com/discussion/17
 The dual-port RAM blocks making up [Cog RAM](cog.md) and [LUT RAM](lutmem.md) can, when the same memory location is read and written at the same time, return an inderminate value to the reading port, where some bits belong to the newly written value and some belong to the previous one.
 This effect depends on the exact RAM cell used and the current clock frequency.
 
+In particular, a simultaneous read+write in Cog RAM is created by self-modifying code with **exactly one** other instruction between the modification and the instruction being modified:
+
+~~~
+        SETD .x,#123 ' ----\
+        NOP          '     | SETD result written on same cycle as ADD opcode fetch!!!
+.x      ADD	0-0,#1 ' <-----/
+~~~
+
+This pattern is _very common_ in P1 code, so take care when porting!
+
+
 **TODO:** Simultaneous writes? (only possible on LUT)
 
 ## Composite video encoder design flaws

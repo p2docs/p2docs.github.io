@@ -192,3 +192,9 @@ bit31   long 1<<31
 ~~~
 
 This trick has proven itself to be essential to super-heavy random read use-cases such as texture mapping.
+
+### Hub slice alignment
+
+When you do need to use the random Hub RAM access instructions, it is possible to minimize wait cycles by spacing the instructions appropriately according to the slice alignment of the addresses.
+
+**TODO: [finally figure this out](hubmem.html#hub-timing)**

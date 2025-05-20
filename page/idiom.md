@@ -89,6 +89,19 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
   if_c_and_nz sub high,#1
 ~~~
 
+## Nibble reverse
+{:.anchor}
+
+For reversing the order of nibbles in a long, i.e. `$12345678 <-> $87654321`. Useful for interacting with PSRAM and other QPI devices.
+
+~~~
+
+              splitb  x
+              rev     x
+              movbyts x, #%%0123
+              mergeb  x
+~~~
+
 ## Fast Cog/LUT RAM clearing
 {:.anchor}
 

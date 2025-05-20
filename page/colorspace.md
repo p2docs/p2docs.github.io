@@ -40,7 +40,7 @@ The data-carrying pairs are named after the RGB channel they carry. For easier r
 |RED+/-   |Channel 2  |Preambles     |Red                  |Cr                           |(Sub-)Packet odd bits        |
 
 
-Important: **Other than being configured through CMOD, the TMDS encoder is independent from the colorspace converter!** The TMDS encoder only operates directly on the _pin outputs_ from the [Streamer](streamer.html)! No color transformation can be performed in the digital video pipeline!
+Important: **Other than being configured through the CMOD register, the TMDS encoder is independent from the colorspace converter!** The TMDS encoder only operates directly on the _pin outputs_ from the [Streamer](streamer.html)! No color transformation can be performed in the digital video pipeline!
 
 ### Simultaneous TMDS + analog RGBHV
 
@@ -68,6 +68,13 @@ SETCMOD sets the CMOD register. This register has 9 bits that control the genera
 <%=p2instrinfo('setcy')%>
 <%=p2instrinfo('setci')%>
 <%=p2instrinfo('setcq')%>
+
 <%=p2instrinfo('setcfrq')%>
+SETCFREQ sets the frequency of the NTSC/PAL chroma carrier to the value in **D**estination.
+
+This frequency is expressed as a binary fraction of the system clock, so a value of `$1000000` would result in a 1/16 division.
+You could calculate a correct value with an expression such as: `round(4_294_967_296.0*3_579_545.0/float(CLKFREQ_))` (for NTSC's 3.58 MHz carrier). If there is disturbing dot-crawl, it may be worth trying adjacent values (±1).
+
+Though normally a constant CFRQ is set once before starting video signalling, the change is instantaneous and glitch-free, opening up [other uses](https://forums.parallax.com/discussion/174989/fm-radio-transmission-using-colorspace-converter) for this hardware.
 
 <%p2instr_checkall :colorspace%>

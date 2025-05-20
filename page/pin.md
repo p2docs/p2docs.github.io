@@ -15,6 +15,8 @@ hyperjump:
 
 # I/O Pins
 
+<img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
+
 **TODO**
 
 Each I/O pin has the following inputs:

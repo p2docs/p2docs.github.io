@@ -3,7 +3,7 @@ title: Front Page
 ---
 # IRQsoft Propeller 2 Docs
 
-<img src="/common/construction.gif" alt="This site is under construction." class="dark-invert">
+Unoffical documentation page for the Propeller 2 microcontroller.
 
 ## This site uses _<span style="font-family: 'Orbitron';">HyperJump!</span>_ (Pat. ponding) technology!
 
@@ -69,6 +69,7 @@ Short specs:
 
  - [Assembler Syntax](asm_syntax.html) (TODO)
  - [Common Idioms and Tricks](idiom.html)
+ - [Optimization and Coding for Speed](faster.html) (TODO)
  - [Hardware Bugs & Errata](errata.html)
  - [External RAM](psram.html) (TODO)
  - [Useful Documents](documents.html)

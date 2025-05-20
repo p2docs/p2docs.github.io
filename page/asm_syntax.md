@@ -14,6 +14,8 @@ hyperjump:
 
 TODO.
 
+<img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
+
 ## Case Sensitivity
 The Spin2/PASM2 syntax is completely case-insensitive. That means not only that `addpix`, `AddPix` and `ADDPIX` are all valid spellings of the [ADDPIX](mixpix.html#addpix) instruction, but also that user defined labels and constants can be used with different casing than their definition.
 

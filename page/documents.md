@@ -3,6 +3,7 @@ title: Useful Documents
 hyperjump:
     -   type: Topic
         hidden: PDF
+        # google docs intentionally not in jumplist
     -   id: psram-datasheet
         name: PSRAM Datasheet
         type: Document
@@ -13,6 +14,18 @@ hyperjump:
 # Useful Documents
 
 Here are collected various PDF documents that may or may not be helpful to P2 programming
+
+## Chip's Google Docs
+{:.anchor}
+
+The official (and not always complete, either) documentation.
+Get out the HazMat suit for these, sure to slow your browser to a crawl with JavaScript malware.
+Also frequently vandalized...
+
+- [Silicon documentation](https://docs.google.com/document/d/1gn6oaT5Ib7CytvlZHacmrSbVBJsD9t_-kmvjd7nUR6o/edit)
+- [Instruction Table](https://docs.google.com/spreadsheets/d/1_vJk-Ad569UMwgXTKTdfJkHYHpc1rZwxB-DcIiAZNdk/edit) (though really, [ours is better](p2_optable.html)!)
+- [Spin2 documentation](https://docs.google.com/document/d/16qVkmA6Co5fUNKJHF6pBfGfDupuRwDtf-wyieh_fbqw/edit)
+
 
 ## PSRAM Datasheet
 {:.anchor}

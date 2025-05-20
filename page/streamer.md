@@ -7,6 +7,8 @@ hyperjump:
 
 Make dots go brr.
 
+<img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
+
 <%=p2instrinfo('setxfrq')%>
 <%=p2instrinfo('xinit')%>
 <%=p2instrinfo('xcont')%>

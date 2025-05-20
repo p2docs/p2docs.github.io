@@ -11,6 +11,8 @@ hyperjump:
 
 Try the rainbow, taste the rainbow!
 
+<img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
+
 ## TMDS Encoder
 {:.anchor}
 

@@ -9,6 +9,7 @@ hyperjump:
 Here are some common P2ASM code patterns for operations not obviously provided by the instruction set.
 
 ## 32x16 multiply
+{:.anchor}
 
 Chain two 16-bit [MUL](alu.html#mul) instructions together to multiply a 32-bit number with a 16-bit number. Often a better idea than using QMUL.
 
@@ -35,6 +36,7 @@ TODO: Variant where Y is signed.
 
 
 ## Signed QMUL
+{:.anchor}
 
 For the common case of only needing the bottom half of the result, there is no difference between signed/unsigned multiplication.
 
@@ -53,6 +55,7 @@ In case the entire result is needed:
 ~~~
 
 ## Signed QDIV
+{:.anchor}
 
 If only the dividend is signed (as is commonly the case):
 
@@ -78,6 +81,7 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
 
 
 ## 64-bit absolute
+{:.anchor}
 
 ~~~
               abs high wc
@@ -86,6 +90,7 @@ If both operands are signed, a slightly ugly construction is needed to XOR the s
 ~~~
 
 ## Fast Cog/LUT RAM clearing
+{:.anchor}
 
 To clear (i.e. set to zero) a large area of cog RAM quickly, perform a [block read](hubmem.html#block-transfers) from the unused area at `$80000`
 

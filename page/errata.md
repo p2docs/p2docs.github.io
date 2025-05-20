@@ -53,7 +53,7 @@ In particular, a simultaneous read+write in Cog RAM is created by self-modifying
 ~~~
         SETD .x,#123 ' ----\
         NOP          '     | SETD result written on same cycle as ADD opcode fetch!!!
-.x      ADD	0-0,#1 ' <-----/
+.x      ADD 0-0,#1 ' <-----/
 ~~~
 
 This pattern is _very common_ in P1 code, so take care when porting!

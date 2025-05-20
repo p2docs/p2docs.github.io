@@ -69,6 +69,7 @@ Short specs:
 
  - [Assembler Syntax](asm_syntax.html) (TODO)
  - [Common Idioms and Tricks](idiom.html)
+ - [Hardware Bugs & Errata](errata.html)
  - [External RAM](psram.html) (TODO)
  - [Useful Documents](documents.html)
 

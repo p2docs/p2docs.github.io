@@ -5,9 +5,13 @@ hyperjump:
 ---
 
 # Hardware Bugs & Errata
+{:no_toc}
 
 This is a list of known hardware bugs in the current Propeller 2 Hardware (P2X8C4M64P Rev. C)
 All titles/headings are tenative.
+
+- placeholder
+{:toc}
 
 ## Incorrect PTRx update on Block Transfer with ALTx or AUGD
 
@@ -37,8 +41,6 @@ Intervening ALTx instructions with an immediate #S operand, between AUGS and the
 
 When [RDFAST](fifo.html#rdfast) is used in no-wait mode (**D**estination[31] set), other hub memory instructions like [RDLONG](hubmem.html#rdlong) can behave in unexpected ways while the FIFO is starting up in the background. It appears that read instructions can skip execution entirely.
 
-(original research)
-
 See also: [Bypassing DEBUG protection](https://forums.parallax.com/discussion/175960/yes-a-silicon-bug-bypassing-debug-protection)
 
 ## Dual-Port RAM simultaneous read+write Hazard
@@ -46,6 +48,24 @@ See also: [Bypassing DEBUG protection](https://forums.parallax.com/discussion/17
 The dual-port RAM blocks making up [Cog RAM](cog.md) and [LUT RAM](lutmem.md) can, when the same memory location is read and written at the same time, return an inderminate value to the reading port, where some bits belong to the newly written value and some belong to the previous one.
 This effect depends on the exact RAM cell used and the current clock frequency.
 
-(original research)
-
 **TODO:** Simultaneous writes? (only possible on LUT)
+
+## Composite video encoder design flaws
+
+While generally functional, there are a few issues affecting the composite video encoder (part of the [Colorspace Converter](colorspace.html)) that make it less than ideal.
+
+### DAC range issue
+
+The `P_DAC_75R_2V` 75Ω DAC mode only provides a 1V peak-to-peak range. This is ideal for a luminace+sync signal (as in S-Video/YPbPr/SoG), but composite modulation can exceed that range. In particular, 100% saturated yellow _should_ have its modulation peak slightly above white level.
+This can be worked around by using the higher-impedance `P_DAC_124R_3V` mode.
+
+### Clamping issue
+
+None of the colorspace operations are internally clamped, including the final sum of luma+chroma in the composite video path.
+Can be worked around by careful choice of coefficients.
+
+### No simultaneous RGB+Composite video mode
+
+This would be required for a spec-compliant SCART output.
+
+

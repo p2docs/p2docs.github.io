@@ -56,7 +56,7 @@ While generally functional, there are a few issues affecting the composite video
 
 ### DAC range issue
 
-The `P_DAC_75R_2V` 75Ω DAC mode only provides a 1V peak-to-peak range. This is ideal for a luminace+sync signal (as in S-Video/YPbPr/SoG), but composite modulation can exceed that range. In particular, 100% saturated yellow _should_ have its modulation peak slightly above white level.
+The `P_DAC_75R_2V` 75Ω DAC mode only provides a 1V peak-to-peak range. This is ideal for a luminance+sync signal (as in S-Video/YPbPr/SoG), but composite modulation can exceed that range. In particular, 100% saturated yellow _should_ have its modulation peak slightly above white level.
 This can be worked around by using the higher-impedance `P_DAC_124R_3V` mode.
 
 ### Clamping issue
@@ -68,4 +68,8 @@ Can be worked around by careful choice of coefficients.
 
 This would be required for a spec-compliant SCART output.
 
+### No crosstalk filter
+
+Lack of luma/chroma crosstalk filters causes excessive dot crawl and false color artifacts.
+Could be worked around by using S-Video mode in conjunction with external analog filters (untested).
 

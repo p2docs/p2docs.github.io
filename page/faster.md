@@ -135,7 +135,7 @@ The following table tries (and likely fails) to explain the strengths and weakne
 
 |      |Cog RAM   |LUT RAM|Hub RAM|Ext. PSRAM (on P2EDGE)|
 |------|:----------:|:-------:|:-------:|:----------:|
-|Size  |2016 bytes<br>(as 504 longs)|2048 bytes<br>(as 504 longs)|512 KiB|32 MiB|
+|Size  |2016 bytes<br>(as 504 longs)|2048 bytes<br>(as 512 longs)|512 KiB|32 MiB|
 |Address granularity|32 bits<br>(16,8,4 or 1 bit with special instructions)|32 bits|8 bits|32 bits|
 |Special Feature|Can be directly used as operands.|Can be synchronized between pairs of Cogs. ([SETLUTS](lutmem.html#setluts))<br>Can hold streamer lookup data.<br>Can hold XBYTE tables.|Fast block transfers.<br>Fast FIFO interface.<br>Byte-masked writes ([WMLONG](hubmem.html#wmlong))|HUGE!|
 |Code Execution|YES|YES|YES<br>(slow branches, FIFO tied up)|**NO**|

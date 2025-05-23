@@ -130,7 +130,7 @@ A basic example might look like
 
 ## Memory access
 
-With 3 different memory types (4 if [external PSRAM](psram.html) is considered), it is not always obviosu to decide which should be used.
+With 3 different memory types (4 if [external PSRAM](psram.html) is considered), it is not always obvious to decide which should be used.
 The following table tries (and likely fails) to explain the strengths and weaknesses in short:
 
 |      |Cog RAM   |LUT RAM|Hub RAM|Ext. PSRAM (on P2EDGE)|
@@ -196,6 +196,6 @@ This trick has proven itself to be essential to super-heavy random read use-case
 
 ### Hub slice alignment
 
-When you do need to use the random Hub RAM access instructions, it is possible to minimize wait cycles by spacing the instructions appropriately according to the slice alignment of the addresses.
+When you do need to use the random Hub RAM access instructions, it is possible to minimize wait cycles by spacing the instructions appropriately according to the relative slice alignment of the addresses accessed.
 
 **TODO: [finally figure this out](hubmem.html#hub-timing)**

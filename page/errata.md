@@ -37,6 +37,14 @@ Intervening ALTx instructions with an immediate #S operand, between AUGS and the
 
 (from offical docs)
 
+## Crystal Oscillator crosstalk
+
+When using a passive crystal oscillator across XO/XI, it is possible to introduce clock glitches by outputting high-frequency digital signals on the P28..P31 I/O group.
+
+Can be worked around by using an active oscillator part instead.
+
+See [forum post](https://forums.parallax.com/discussion/comment/1520712/#Comment_1520712)
+
 ## RDFAST startup bug
 
 When [RDFAST](fifo.html#rdfast) is used in no-wait mode (**D**estination[31] set), other hub memory instructions like [RDLONG](hubmem.html#rdlong) can behave in unexpected ways while the FIFO is starting up in the background. It appears that read instructions can skip execution entirely.

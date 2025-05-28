@@ -53,7 +53,7 @@ See also: [Bypassing DEBUG protection](https://forums.parallax.com/discussion/17
 
 ## Dual-Port RAM simultaneous read+write Hazard
 
-The dual-port RAM blocks making up [Cog RAM](cog.md) and [LUT RAM](lutmem.md) can, when the same memory location is read and written at the same time, return an inderminate value to the reading port, where some bits belong to the newly written value and some belong to the previous one.
+The dual-port RAM blocks making up [Cog RAM](cog.md) ~~and [LUT RAM](lutmem.md)~~ can, when the same memory location is read and written at the same time, return an inderminate value to the reading port, where some bits belong to the newly written value and some belong to the previous one.
 This effect depends on the exact RAM cell used and the current clock frequency.
 
 In particular, this simultaneous read+write conditon is created in Cog RAM by self-modifying code with **exactly one** other instruction between the modification and the instruction being modified:

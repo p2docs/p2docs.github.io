@@ -19,7 +19,7 @@ hyperjump:
 
 **TODO**
 
-Each I/O pin has the following inputs:
+Each I/O pin has the following inputs from the CPU cores:
 
  - A DIR signal, produced by logical OR of all cog's corrosponding DIRA/DIRB register bits
  - An OUT signal, produced by logical OR of all cog's corrosponding OUTA/OUTB register bits

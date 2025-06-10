@@ -106,7 +106,7 @@ QSQRT instructs the CORDIC coprocessor to compute the square root of the unsigne
 When it is done, **GETQX** will return the result, rounded down. **? TODO verify rounding. Also what happens to Y???**
 
 <%=p2instrinfo('qlog')%>
-QLOG instructs the CORDIC coprocessor to compute the base-2 logarithm of the unsigned 32-bit number in **D**estination. When it is done, **GETQX** returns the logarithm, in 5.27 fixed-point format (i.e. the top five bits containing the whole part).
+QLOG instructs the CORDIC coprocessor to compute the base-2 logarithm of the unsigned 32-bit number in **D**estination. When it is done, **GETQX** returns the logarithm, in 5.27 fixed-point format (i.e. the top five bits containing the whole part), rounded to the nearest value.
 
 $$
 \mathit{QX} \approx 2^{27}(\log _{2} D)
@@ -114,7 +114,7 @@ $$
 
 
 <%=p2instrinfo('qexp')%>
-QLOG instructs the CORDIC coprocessor to compute two to the power of the 5.27 fixed-point exponent in **D**estination. When it is done, **GETQX** returns the result (**TODO rounded down?**).
+QLOG instructs the CORDIC coprocessor to compute two to the power of the 5.27 fixed-point exponent in **D**estination. When it is done, **GETQX** returns the result, rounded to the nearest value.
 
 $$
 \mathit{QX} \approx 2^{D/2^{27}}

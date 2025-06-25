@@ -113,3 +113,38 @@ To clear (i.e. set to zero) a large area of cog RAM quickly, perform a [block re
 ~~~
 
 The same works using SETQ2 for LUT RAM.
+
+## Encoding/Decoding Manchester Encoded Data
+{:.anchor}
+
+[Manchester code](https://en.wikipedia.org/wiki/Manchester_code) is a DC free encoding scheme that uses two bits to encode a single logical bit, so a `0` is encoded as `%01`, while a `1` is encoded as `%10`. This can easily be achieved with the [MERGEW](alu.html#mergew) and [SPLITW](alu.html#splitw) instructions.
+
+Encoding is done like this:
+
+~~~
+              SETWORD data, data, #1        ' duplicate the data into the upper word
+              BITNOT  data, #16 addbits 15  ' invert all bits of the upper word
+              MERGEW  data                  ' now interleave the bits, which is the manchester encoding
+~~~
+
+Decoding is done by using [SPLITW](alu.html#splitw) to reverse the interleaving:
+
+~~~
+              SPLITW data          ' de-interleave the bits, which reverses the manchester encoding
+              ZEROX  data, #(16-1) ' clear the upper 16 bits
+~~~
+
+If error handling is necessary, the check can be done with [XOR](alu.html#xor), as the upper word must contain the inverse of the lower word. This requires a temporary register:
+
+~~~
+              SPLITW  data
+              GETWORD temp, data, #1      ' fetch the upper word to process it later
+              ZEROX   data, #(16-1)
+              BITNOT  temp, #0 addbits 15 ' invert the "upper" word (which is now stored in bits 0..15)
+              CMP     temp, data WZ       ' and compare the input to the expected
+~~~
+
+Afterwards, if `Z` contains `1`, the data was uncorrupted and has a sequence of `%01` and `%10` patterns. Otherwise, `Z` is `0` and marks an error.
+
+This works, because we fetch the upper data word before clearing, and then comparing if the upper word is the inverse of the lower word.
+

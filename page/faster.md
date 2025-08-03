@@ -183,7 +183,7 @@ Reading is trickier, since **reading the data too early will cause zeroes to be 
 ~~~
         RDFAST bit31, address
         WAITX #13-2 ' wait for FIFO to become ready, 13 cycles.
-        RDBYTE data
+        RFBYTE data
 ~~~
 
 In either case a constant (named `bit31` by convention) must be created in Cog RAM:

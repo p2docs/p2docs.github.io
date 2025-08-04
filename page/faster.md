@@ -139,10 +139,10 @@ The following table tries (and likely fails) to explain the strengths and weakne
 |Address granularity|32 bits<br>(16,8,4 or 1 bit with special instructions)|32 bits|8 bits|32 bits|
 |Special Feature|Can be directly used as operands.|Can be synchronized between pairs of Cogs. ([SETLUTS](lutmem.html#setluts))<br>Can hold streamer lookup data.<br>Can hold XBYTE tables.|Fast block transfers.<br>Fast FIFO interface.<br>Byte-masked writes ([WMLONG](hubmem.html#wmlong))|HUGE!|
 |Code Execution|YES|YES|YES<br>(slow branches, FIFO tied up)|**NO**|
-|Random Read|4 cycles (with MOV or GETBYTE/etc)<br>2 cycles (ALTS immediately consumed)|3 cycles (RDLUT)|**9..17 cycles** (RDLONG)<br>2 cycles (**FIFO**)<br>4+(13) cycles (RDFAST random access trick, see below)|~100 cylces (depends on implementation)|
-|Random Write|4 cycles (with MOV or SETBYTE/etc)<br>2 cycles (ALTD/ALTR from operation)|2 cycles (WRLUT)|**3..11 cycles** (WRLONG)<br>2 cycles (**FIFO**)<br>4 cycles (RDFAST random access trick, see below)|~80 cylces (depends on implementation)|
-|Block copy<br>**to Cog RAM**|**SLOW**<br>4\*N cycles (REP/ALTI/MOV)<br>2\*N cycles (Hub round-trip)|**SLOW**<br>5\*N cycles (REP/ALTD/RDLUT)<br>2\*N cycles (Hub round-trip)|**FAST**<br>1\*N cylces (SETQ+RDLONG)|N/A|
-|Block copy<br>**to LUT RAM**|**SLOW**<br>4\*N cycles (REP/ALTS/WRLUT)<br>2\*N cycles (Hub round-trip)|**SLOW**<br>5\*N cycles (REP/RDLUT/WRLUT)<br>2\*N cycles (Hub round-trip)|**FAST**<br>1\*N cylces (SETQ2+RDLONG)|N/A|
+|Random Read|4 cycles (with MOV or GETBYTE/etc)<br>2 cycles (ALTS immediately consumed)|3 cycles (RDLUT)|**9..17 cycles** (RDLONG)<br>2 cycles (**FIFO**)<br>4+(13) cycles (RDFAST random access trick, see below)|~100 cycles (depends on implementation)|
+|Random Write|4 cycles (with MOV or SETBYTE/etc)<br>2 cycles (ALTD/ALTR from operation)|2 cycles (WRLUT)|**3..11 cycles** (WRLONG)<br>2 cycles (**FIFO**)<br>4 cycles (RDFAST random access trick, see below)|~80 cycles (depends on implementation)|
+|Block copy<br>**to Cog RAM**|**SLOW**<br>4\*N cycles (REP/ALTI/MOV)<br>2\*N cycles (Hub round-trip)|**SLOW**<br>5\*N cycles (REP/ALTD/RDLUT)<br>2\*N cycles (Hub round-trip)|**FAST**<br>1\*N cycles (SETQ+RDLONG)|N/A|
+|Block copy<br>**to LUT RAM**|**SLOW**<br>4\*N cycles (REP/ALTS/WRLUT)<br>2\*N cycles (Hub round-trip)|**SLOW**<br>5\*N cycles (REP/RDLUT/WRLUT)<br>2\*N cycles (Hub round-trip)|**FAST**<br>1\*N cycles (SETQ2+RDLONG)|N/A|
 |Block copy<br>**to Hub RAM**|**FAST**<br>1\*N cycles (SETQ+WRLONG)|**FAST**<br>1\*N cycles (SETQ2+WRLONG)|**SLOW**<br>(must round-trip through Cog/LUT, 2\*N cycles _asymptotically_)|4\*N cycles (Streamer DMA)|
 {: #memtypetbl}
 

@@ -10,6 +10,9 @@ hyperjump:
     -   id: accessory-boards-product-guide
         name: Accessory Boards Product Guide
         type: Document
+    -   id: p1-manual
+        name: P1 Manual
+        type: Document
 ---
 # Useful Documents
 
@@ -35,4 +38,11 @@ Also frequently vandalized...
 - [Silicon documentation](https://docs.google.com/document/d/1gn6oaT5Ib7CytvlZHacmrSbVBJsD9t_-kmvjd7nUR6o/edit) (try [our mirror](mirror/p2silicon.html)!)
 - [Instruction Table](https://docs.google.com/spreadsheets/d/1_vJk-Ad569UMwgXTKTdfJkHYHpc1rZwxB-DcIiAZNdk/edit) (though really, [ours is better](p2_optable.html)!)
 - [Spin2 documentation](https://docs.google.com/document/d/16qVkmA6Co5fUNKJHF6pBfGfDupuRwDtf-wyieh_fbqw/edit)
+
+## P1 Manual
+{:.anchor}
+
+The official Manual for the previous generation Propeller chip.
+
+May it enlighten you to some of the P2 conventions and design decisions: [Download](common/download/P8X32A-Web-PropellerManual-v1.2_0.pdf)
 

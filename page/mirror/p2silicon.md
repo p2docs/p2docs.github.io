@@ -44,17 +44,23 @@ hyperjump:
 
 ## KNOWN SILICON BUGS
 
+(Editor's Note: Our list is more comprehensive: [Hardware Bugs & Errata](../errata.html))
+
 Intervening ALTx/AUGS/AUGD instructions between SETQ/SETQ2 and RDLONG/WRLONG/WMLONG-PTRx instructions will cancel the special-case block-size PTRx deltas. The expected number of longs will transfer, but PTRx will only be modified according to normal PTRx expression behavior:
 
-	**SETQ	\#16-1		'ready to load 16 longs**  
-	**ALTD	start\_reg	'alter start register (ALTD cancels block-size PTRx deltas)**  
-	**RDLONG	0,ptra++	'ptra will only be incremented by 4 (1 long), not 16\*4 as anticipated\!\!\!**
+~~~
+    SETQ    #16-1       'ready to load 16 longs
+    ALTD    start_reg   'alter start register (ALTD cancels block-size PTRx deltas)
+    RDLONG  0,ptra++    'ptra will only be incremented by 4 (1 long), not 16*4 as anticipated!!!
+~~~
 
 Intervening ALTx instructions with an immediate \#S operand, between AUGS and the AUGS' intended target instruction (which would have an immediate \#S operand), will use the AUGS value, but not cancel it. So, the intended AUGS target instruction will use and cancel the AUGS value, as expected, but the intervening ALTx instruction will also use the AUGS value (if it has an immediate \#S operand). To avoid problems in these circumstances, use a register for the S operand of the ALTx instruction, and not an immediate \#S operand.
 
-	**AUGS	\#$FFFFF123	'This AUGS is intended for the ADD instruction.**  
-	**ALTD	index,\#base	'Look out\! AUGS will affect \#base, too. Use a register, instead.**  
-	**ADD	0-0,\#$123	'\#$123 will be augmented by the AUGS and cancel the AUGS.**
+~~~
+    AUGS    #$FFFFF123  'This AUGS is intended for the ADD instruction.
+    ALTD    index,#base 'Look out! AUGS will affect #base, too. Use a register, instead.
+    ADD     0-0,#$123   '#$123 will be augmented by the AUGS and cancel the AUGS.
+~~~
 
 # OVERVIEW
 
@@ -147,7 +153,6 @@ Six different clock modes, all under software control with glitch-free switching
 
 ![](pinlayout.png){:.dark-invert}
 
-# 
 
 # PIN DESCRIPTIONS
 
@@ -224,10 +229,12 @@ When the PC is in the range of $00400 and $FFFFF, the cog is fetching instructio
 
 While in hub execution mode, the FIFO cannot be used for anything else. So, during hub execution these instructions cannot be used:
 
-RDFAST / WRFAST / FBLOCK  
-RFBYTE / RFWORD / RFLONG / RFVAR / RFVARS  
-WFBYTE / WFWORD / WFLONG  
-XINIT / XZERO / XCONT \- when the streamer mode engages the FIFO
+~~~
+    RDFAST / WRFAST / FBLOCK  
+    RFBYTE / RFWORD / RFLONG / RFVAR / RFVARS  
+    WFBYTE / WFWORD / WFLONG  
+    XINIT / XZERO / XCONT - when the streamer mode engages the FIFO
+~~~
 
 It is usually not possible to execute code from hub addresses $00000 through $003FF, as the cog will instead read instructions from the cog register or lookup RAM as indicated above.
 
@@ -237,59 +244,67 @@ Any cog can start or stop any other cog, or restart or stop itself. Each of the 
 
 The COGINIT instruction is used to start cogs:
 
-**COGINIT D/\#,S/\# {WC}**
+~~~
+COGINIT D/#,S/# {WC}
 
-**D/\# \= 	%0\_x\_xxxx	The target cog loads its own registers $000..$1F7 from the hub,**  
-**starting at address S/\#, then begins execution at register address $000.**
+D/# =   %0_x_xxxx   The target cog loads its own registers $000..$1F7 from the hub,  
+                    starting at address S/#, then begins execution at register address $000.
 
-	**%1\_x\_xxxx	The target cog begins execution at register/LUT/hub address S/\#.**
+        %1_x_xxxx   The target cog begins execution at register/LUT/hub address S/#.
 
-	**%x\_0\_CCCC	The target cog's ID is %CCCC.**
+        %x_0_CCCC   The target cog's ID is %CCCC.
 
-	**%x\_1\_xxx0	If a cog is free (stopped), then start it.**  
-			**To know if this succeeded, D must be a register and WC must be**  
-**used. If successful, C will be cleared and D will be over-**  
-**written with the target cog's ID. Otherwise, C will be set and D will be overwritten with $F.**
+        %x_1_xxx0   If a cog is free (stopped), then start it.  
+                    To know if this succeeded, D must be a register and WC must be  
+                    used. If successful, C will be cleared and D will be over-  
+                    written with the target cog's ID. Otherwise, C will be set and D will be overwritten with $F.
 
-	**%x\_1\_xxx1	If an even/odd cog pair is free (stopped), then start them.**  
-**To know if this succeeded, D must be a register and WC must be**  
-**used. If successful, C will be cleared and D will be over-**  
-**written with the even/lower target cog's ID. Otherwise, C will be set**  
-**and D will be overwritten with $F.**
+        %x_1_xxx1   If an even/odd cog pair is free (stopped), then start them.  
+                    To know if this succeeded, D must be a register and WC must be  
+                    used. If successful, C will be cleared and D will be over-  
+                    written with the even/lower target cog's ID. Otherwise, C will be set  
+                    and D will be overwritten with $F.
 
-**S/\# \= address		This value is either the hub address from which the target cog will**  
-**load from, or it is the cog/hub address from which the target cog**  
-**will begin executing at, depending on D\[5\]. This 32-bit value will be**  
-**written into the target cog's PTRB register.**
+S/# = address       This value is either the hub address from which the target cog will  
+                    load from, or it is the cog/hub address from which the target cog  
+                    will begin executing at, depending on D[5]. This 32-bit value will be  
+                    written into the target cog's PTRB register.
+~~~
 
 If COGINIT is preceded by SETQ, the SETQ value will be written into the target cog's PTRA register. This is intended as a convenient means of pointing the target cog's program to some runtime data structure or passing it a 32-bit parameter. If no SETQ is used, the target cog's PTRA register will be cleared to zero.
 
-**COGINIT \#1,\#$100		'load and start cog 1 from $100**
+~~~
+    COGINIT #1,#$100        'load and start cog 1 from $100
 
-**COGINIT \#%1\_0\_0101,PTRA	'start cog 5 at PTRA**
+    COGINIT #%1_0_0101,PTRA 'start cog 5 at PTRA
 
-**SETQ    ptra\_val		'ptra\_val will go into target cog's PTRA register**  
-**COGINIT \#%0\_1\_0000,addr	'load and start a free cog at addr**
+    SETQ    ptra_val        'ptra_val will go into target cog's PTRA register  
+    COGINIT #%0_1_0000,addr 'load and start a free cog at addr
 
-**COGINIT \#%1\_1\_0001,addr	'start a pair of free cogs at addr (lookup RAM sharing)**
+    COGINIT #%1_1_0001,addr 'start a pair of free cogs at addr (lookup RAM sharing)
 
-**COGINIT id,addr WC		'(id=$30) start a free cog at addr, C=0 and id=cog if okay**
+    COGINIT id,addr WC      '(id=$30) start a free cog at addr, C=0 and id=cog if okay
 
-**COGID   myID			'reload and restart me at PTRB**  
-**COGINIT myID,PTRB**
+    COGID   myID            'reload and restart me at PTRB  
+    COGINIT myID,PTRB
+~~~
 
 The COGSTOP instruction is used to stop cogs. The 4 LSB's of the D/\# operand supply the target cog ID.
 
-**COGSTOP \#0			'stop cog 0**
+~~~
+    COGSTOP #0              'stop cog 0
 
-**COGID   myID			'stop me**  
-**COGSTOP myID**
+    COGID   myID            'stop me 
+    COGSTOP myID
+~~~
 
 A cog can discover its own ID by doing a COGID instruction, which will return its ID into D\[3:0\], with upper bits cleared. This is useful, in case the cog wants to restart or stop itself, as shown above.
 
 If COGID is used with WC, it will not overwrite D, but will return the status of cog D/\# into C, where C=0 indicates the cog is free (stopped or never started) and C=1 indicates the cog is busy (started).
 
-**COGID   ThatCog  WC		'C=1 if ThatCog is busy**
+~~~
+    COGID   ThatCog  WC     'C=1 if ThatCog is busy
+~~~
 
 ## COG RAM
 
@@ -306,30 +321,34 @@ RAM registers $000 through $1EF are general-purpose registers for code and data 
 
 RAM registers $1F0 through $1F7 may either be used as general-purpose registers, or may be used as special-purpose registers if their associated functions are enabled.
 
-**$1F0		RAM / IJMP3		interrupt call   address for INT3**  
-**$1F1		RAM / IRET3		interrupt return address for INT3**  
-**$1F2		RAM / IJMP2		interrupt call   address for INT2**  
-**$1F3		RAM / IRET2		interrupt return address for INT2**  
-**$1F4		RAM / IJMP1		interrupt call   address for INT1**  
-**$1F5		RAM / IRET1		interrupt return address for INT1**  
-**$1F6		RAM / PA		CALLD-imm return, CALLPA parameter, or LOC address**  
-**$1F7		RAM / PB		CALLD-imm return, CALLPB parameter, or LOC address**
+~~~
+$1F0        RAM / IJMP3     interrupt call   address for INT3  
+$1F1        RAM / IRET3     interrupt return address for INT3  
+$1F2        RAM / IJMP2     interrupt call   address for INT2  
+$1F3        RAM / IRET2     interrupt return address for INT2  
+$1F4        RAM / IJMP1     interrupt call   address for INT1  
+$1F5        RAM / IRET1     interrupt return address for INT1  
+$1F6        RAM / PA        CALLD-imm return, CALLPA parameter, or LOC address  
+$1F7        RAM / PB        CALLD-imm return, CALLPB parameter, or LOC address
+~~~
 
 ### SPECIAL-PURPOSE REGISTERS
 
 Each cog contains 8 special-purpose registers that are mapped into the RAM register address space from $1F8 to $1FF.  In general, when specifying an address between $1F8 and $1FF, the instruction is accessing a special-purpose register, *not* just the underlying RAM.
 
-**$1F8		PTRA			pointer A to hub RAM**  
-**$1F9		PTRB			pointer B to hub RAM**  
-**$1FA		DIRA			output enables for P31..P0**  
-**$1FB		DIRB			output enables for P63..P32**  
-**$1FC		OUTA			output states for P31..P0**  
-**$1FD		OUTB			output states for P63..P32**  
-**$1FE		INA \*			input states for P31..P0**  
-**$1FF		INB \*\*			input states for P63..P32**
+~~~
+$1F8        PTRA            pointer A to hub RAM  
+$1F9        PTRB            pointer B to hub RAM  
+$1FA        DIRA            output enables for P31..P0  
+$1FB        DIRB            output enables for P63..P32  
+$1FC        OUTA            output states for P31..P0  
+$1FD        OUTB            output states for P63..P32  
+$1FE        INA *           input states for P31..P0  
+$1FF        INB **          input states for P63..P32
 
- **\* also debug interrupt call address**  
-**\*\* also debug interrupt return address**
+ * also debug interrupt call address  
+** also debug interrupt return address
+~~~
 
 ## LOOKUP RAM
 
@@ -366,8 +385,10 @@ Adjacent cogs whose ID numbers differ by only the LSB (cogs 0 and 1, 2 and 3, 4 
 
 The 'SETLUTS D/\#' instruction is used to enable the lookup RAM to receive writes from the adjacent cog:
 
-	**SETLUTS \#0				'disallow writes from other cog (default)**  
-	**SETLUTS \#1				'allow writes from other cog**
+~~~
+    SETLUTS #0              'disallow writes from other cog (default)
+    SETLUTS #1              'allow writes from other cog
+~~~
 
 Lookup-RAM writes from the adjacent cog are implemented on the 2nd port of the lookup RAM. The 2nd port is also shared by the streamer in DDS/LUT modes. If an external write occurs on the same clock as a streamer read, the external write gets priority. It is not intended that external writes would be enabled at the same time the streamer is in DDS/LUT mode.
 
@@ -381,133 +402,153 @@ Cog registers can be accessed indirectly most easily by using the ALTS/ALTD/ALTR
 
 Additionally, S\[17:9\] is always sign-extended and added to the D register for index updating. Normally, a nine-bit \#address will be used for S, causing S\[17:9\] to be zero, so that D is unaffected:
 
-**ALTS    index,\#table	'set next S field to table+index**  
-**MOV     OUTA,0		'output register\[table+index\] to OUTA**
+~~~
+    ALTS    index,#table    'set next S field to table+index  
+    MOV     OUTA,0          'output register[table+index] to OUTA
 
-**ALTD    index,\#table	'set next D field to table+index**  
-**MOV     0,INA			'write INA to register\[table+index\]**
+    ALTD    index,#table    'set next D field to table+index  
+    MOV     0,INA           'write INA to register[table+index]
 
-**ALTR    index,\#table	'set next write to table+index**  
-**XOR     INA,INB		'write INA^INB to register\[table+index\]**
+    ALTR    index,#table    'set next write to table+index  
+    XOR     INA,INB         'write INA^INB to register[table+index]
+~~~
 
 For cases where base+index is not required, and a register holds the desired address, the S/\# field can be omitted and it will be set to '\#0' by the assembler:
 
-**ALTS    pointer		'set next S field to pointer**  
-**MOV     OUTA,0		'output register\[pointer\] to OUTA**
+~~~
+    ALTS    pointer         'set next S field to pointer
+    MOV     OUTA,0          'output register[pointer] to OUTA
 
-**ALTD    pointer		'set next D field to pointer**  
-**MOV     0,INA			'write INA to register\[pointer\]**
+    ALTD    pointer         'set next D field to pointer
+    MOV     0,INA           'write INA to register[pointer]
 
-**ALTR    pointer		'set next write to pointer**  
-**XOR     INA,INB		'write INA^INB to register\[pointer\]**
+    ALTR    pointer         'set next write to pointer
+    XOR     INA,INB         'write INA^INB to register[pointer]
+~~~
 
 For accessing bit fields that span multiple registers, there is the ALTB instruction which sums D\[13:5\] and S/\#\[8:0\] values to compute an address which is substituted into the next instruction's D field. It can be used with and without S/\#:
 
-**ALTB    bitindex,\#base	'set next D field to base+bitindex\[13:5\]**  
-**BITC    0,bitindex		'write C to bit\[bitindex\[4:0\]\]**
-
-**ALTB    bitindex		'set next D field to bitindex\[13:5\]**  
-**TESTB   0,bitindex	WC	'read bit\[bitindex\[4:0\]\] into C**
+~~~
+    ALTB    bitindex,#base  'set next D field to base+bitindex[13:5]
+    BITC    0,bitindex      'write C to bit[bitindex[4:0]]
+    
+    ALTB    bitindex        'set next D field to bitindex[13:5]
+    TESTB   0,bitindex  WC  'read bit[bitindex[4:0]] into C
+~~~
 
 There are also ALTxx instructions for facilitating nibble (4-bit), byte (8-bit), and word (16-bit) sub-addressing of registers. They modify either the S or D field, as well as the N field of their associated and subsequent nibble, byte, or word instruction. Like the other ALTx instructions, they can be used with or without S/\#. Note that the associated nibble, byte, or word instruction can be a shortened-syntax alias of the full instruction, since two of its three fields will be filled in by the ALTxx instruction.
 
 Nibble addressing:
 
-**ALTSN   index,\#base		'set next D field to base+index\[11:3\], next N to index\[2:0\]**  
-**SETNIB  value			'set nibble to value ('SETNIB S/\#' \= 'SETNIB 0,S/\#,\#0')**
+~~~
+    ALTSN   index,#base     'set next D field to base+index[11:3], next N to index[2:0]  
+    SETNIB  value           'set nibble to value ('SETNIB S/#' = 'SETNIB 0,S/#,#0')
 
-**ALTGN   index,\#base		'set next S field to base+index\[11:3\], next N to index\[2:0\]**  
-**GETNIB  value			'get nibble into value ('GETNIB D' \= 'GETNIB D,0,\#0')**
+    ALTGN   index,#base     'set next S field to base+index[11:3], next N to index[2:0]  
+    GETNIB  value           'get nibble into value ('GETNIB D' = 'GETNIB D,0,#0')
 
-**ALTGN   index,\#base		'set next S field to base+index\[11:3\], next N to index\[2:0\]**  
-**ROLNIB  value			'ROL nibble into value ('ROLNIB D' \= 'ROLNIB D,0,\#0')**
+    ALTGN   index,#base     'set next S field to base+index[11:3], next N to index[2:0]  
+    ROLNIB  value           'ROL nibble into value ('ROLNIB D' = 'ROLNIB D,0,#0')
+~~~
 
 Byte addressing:
 
-**ALTSB   index,\#base		'set next D field to base+index\[10:2\], next N to index\[1:0\]**  
-**SETBYTE value			'set byte to value ('SETBYTE S/\#' \= 'SETBYTE 0,S/\#,\#0')**
+~~~
+    ALTSB   index,#base     'set next D field to base+index[10:2], next N to index[1:0]  
+    SETBYTE value           'set byte to value ('SETBYTE S/#' = 'SETBYTE 0,S/#,#0')
 
-**ALTGB   index,\#base		'set next S field to base+index\[10:2\], next N to index\[1:0\]**  
-**GETBYTE value			'get byte into value ('GETBYTE D' \= 'GETBYTE D,0,\#0')**
+    ALTGB   index,#base     'set next S field to base+index[10:2], next N to index[1:0]  
+    GETBYTE value           'get byte into value ('GETBYTE D' = 'GETBYTE D,0,#0')
 
-**ALTGB   index,\#base		'set next S field to base+index\[10:2\], next N to index\[1:0\]**  
-**ROLBYTE value			'ROL byte into value ('ROLBYTE D' \= 'ROLBYTE D,0,\#0')**
+    ALTGB   index,#base     'set next S field to base+index[10:2], next N to index[1:0]  
+    ROLBYTE value           'ROL byte into value ('ROLBYTE D' = 'ROLBYTE D,0,#0')
+~~~
 
 Word addressing:
 
-**ALTSW   index,\#base		'set next D field to base+index\[9:1\], next N to index\[0\]**  
-**SETWORD value			'set word to value ('SETWORD S/\#' \= 'SETWORD 0,S/\#,\#0')**
+~~~
+    ALTSW   index,#base     'set next D field to base+index[9:1], next N to index[0]  
+    SETWORD value           'set word to value ('SETWORD S/#' = 'SETWORD 0,S/#,#0')
 
-**ALTGW   index,\#base		'set next S field to base+index\[9:1\], next N to index\[0\]**  
-**GETWORD value			'get word into value ('GETWORD D' \= 'GETWORD D,0,\#0')**
+    ALTGW   index,#base     'set next S field to base+index[9:1], next N to index[0]  
+    GETWORD value           'get word into value ('GETWORD D' = 'GETWORD D,0,#0')
 
-**ALTGW   index,\#base		'set next S field to base+index\[9:1\], next N to index\[0\]**  
-**ROLWORD value			'ROL word into value ('ROLWORD D' \= 'ROLWORD D,0,\#0')**
+    ALTGW   index,#base     'set next S field to base+index[9:1], next N to index[0]  
+    ROLWORD value           'ROL word into value ('ROLWORD D' = 'ROLWORD D,0,#0')
+~~~
 
 For more complex S field, D field, and result register substitutions, there is the ALTI instruction. ALTI actually does a few different things. First, ALTI can be used to individually increment or decrement three different nine-bit fields within a register. Second, ALTI can substitute each of those fields (before incrementing or decrementing) into the next instruction's S field, D field, or result register address, in the same way ALTS, ALTD, and ALTR do. Lastly, ALTI can substitute D\[31..18\] into the next instruction's upper bits \[31..18\] to enable full instruction substitution with a register's contents.
 
-**ALTI    D,S/\#			'modify D and/or next instruction's fields according to S/\#**
+~~~
+        ALTI    D,S/#           'modify D and/or next instruction's fields according to S/#
 
-**S/\# \= %rrr\_ddd\_sss\_RRR\_DDD\_SSS**
+S/# = %rrr_ddd_sss_RRR_DDD_SSS
 
-**%rrr		Result register field D\[27..19\] increment/decrement masking**  
-**%ddd		D register field D\[17..9\] increment/decrement masking**  
-**%sss		S register field D\[8..0\] increment/decrement masking**
+%rrr        Result register field D[27..19] increment/decrement masking  
+%ddd        D register field D[17..9] increment/decrement masking  
+%sss        S register field D[8..0] increment/decrement masking
 
-**%rrr/%ddd/%sss:**  
-**000 \= 9 bits increment/decrement (default, full span)**  
-**001 \= 8 LSBs increment/decrement (256-register looped buffer)**  
-**010 \= 7 LSBs increment/decrement (128-register looped buffer)**  
-**011 \= 6 LSBs increment/decrement (64-register looped buffer)**  
-**100 \= 5 LSBs increment/decrement (32-register looped buffer)**  
-**101 \= 4 LSBs increment/decrement (16-register looped buffer)**  
-**110 \= 3 LSBs increment/decrement (8-register looped buffer)**  
-**111 \= 2 LSBs increment/decrement (4-register looped buffer)**
+%rrr/%ddd/%sss:  
+            000 = 9 bits increment/decrement (default, full span)  
+            001 = 8 LSBs increment/decrement (256-register looped buffer)  
+            010 = 7 LSBs increment/decrement (128-register looped buffer)  
+            011 = 6 LSBs increment/decrement (64-register looped buffer)  
+            100 = 5 LSBs increment/decrement (32-register looped buffer)  
+            101 = 4 LSBs increment/decrement (16-register looped buffer)  
+            110 = 3 LSBs increment/decrement (8-register looped buffer)  
+            111 = 2 LSBs increment/decrement (4-register looped buffer)
 
-**%RRR		result register / instruction modification:**  
-**000 \= D\[27..19\] stays same, no result register substitution**  
-**001 \= D\[27..19\] stays same, but result register writing is canceled**  
-**010 \= D\[27..19\] decrements per %rrr, no result register substitution**  
-**011 \= D\[27..19\] increments per %rrr, no result register substitution**  
-**100 \= D\[27..19\] sets next instruction's result register, stays same**  
-**101 \= D\[31..18\] substitutes into next instruction's \[31..18\] (execute D)**  
-**110 \= D\[27..19\] sets next instruction's result register, decrements per %rrr**  
-**111 \= D\[27..19\] sets next instruction's result register, increments per %rrr**
+%RRR        result register / instruction modification:  
+            000 = D[27..19] stays same, no result register substitution  
+            001 = D[27..19] stays same, but result register writing is canceled  
+            010 = D[27..19] decrements per %rrr, no result register substitution  
+            011 = D[27..19] increments per %rrr, no result register substitution  
+            100 = D[27..19] sets next instruction's result register, stays same  
+            101 = D[31..18] substitutes into next instruction's [31..18] (execute D)  
+            110 = D[27..19] sets next instruction's result register, decrements per %rrr  
+            111 = D[27..19] sets next instruction's result register, increments per %rrr
 
-**%DDD		D field modification:**  
-**x0x \= D\[17..9\] stays same**  
-**x10 \= D\[17..9\] decrements per %ddd**  
-**x11 \= D\[17..9\] increments per %ddd**  
-**0xx \= no D field substitution**  
-**1xx \= D\[17..9\] substitutes into next instruction's D field \[17..9\]**
+%DDD        D field modification:  
+            x0x = D[17..9] stays same  
+            x10 = D[17..9] decrements per %ddd  
+            x11 = D[17..9] increments per %ddd  
+            0xx = no D field substitution  
+            1xx = D[17..9] substitutes into next instruction's D field [17..9]
 
-**%SSS		S field modification:**  
-**x0x \= D\[8..0\] stays same**  
-**x10 \= D\[8..0\] decrements per %sss**  
-**x11 \= D\[8..0\] increments per %sss**  
-**0xx \= no S field substitution**  
-**1xx \= D\[8..0\] substitutes into next instruction's S field \[8..0\]**
+%SSS        S field modification:  
+            x0x = D[8..0] stays same  
+            x10 = D[8..0] decrements per %sss  
+            x11 = D[8..0] increments per %sss  
+            0xx = no S field substitution  
+            1xx = D[8..0] substitutes into next instruction's S field [8..0]
+~~~
 
 Here are some examples of ALTI usage:
 
-**ALTI    ptrs,\#%111\_111	'set next D and S fields, increment ptrs\[17:9\] and ptrs\[8:0\]**  
-**ADD     0,0			'add registers**
+~~~
+        ALTI    ptrs,#%111_111      'set next D and S fields, increment ptrs[17:9] and ptrs[8:0]  
+        ADD     0,0                 'add registers
 
-**ALTI    inst,\#%101\_100\_100	'execute inst (same as 'ALTI inst')**  
-**NOP				'NOP becomes inst**
+        ALTI    inst,#%101_100_100  'execute inst (same as 'ALTI inst')  
+        NOP                         'NOP becomes inst
+~~~
 
-The SETS/SETD/SETR instructions allow you to write the S field, D field and instruction field of a register without affecting other bits. They copy the lower 9 bits of S/\# into their respective 9-bit field within D. These instructions are useful for establishing the fields that will be used by ALTI:
+The SETS/SETD/SETR instructions allow you to write the S field, D field and instruction field of a register without affecting other bits. They copy the lower 9 bits of S/# into their respective 9-bit field within D. These instructions are useful for establishing the fields that will be used by ALTI:
 
-**SETS    D,S/\#			'set D\[8:0\] to S/\#\[8:0\]**  
-**SETD    D,S/\#			'set D\[17:9\] to S/\#\[8:0\]**  
-**SETR    D,S/\#			'set D\[27:19\] to S/\#\[8:0\]**
+~~~
+        SETS    D,S/#           'set D[8:0] to S/#[8:0]  
+        SETD    D,S/#           'set D[17:9] to S/#[8:0]  
+        SETR    D,S/#           'set D[27:19] to S/#[8:0]
+~~~
 
 SETS/SETD/SETR can also be used in self-modifying cog-register code. After modifying a cog register, It is necessary to elapse two instructions before executing the modified register, due to pipelining:
 
-**SETR    inst,op		'set register\[27:19\] to op\[8:0\]**  
-**NOP				'first spacer instruction, could be anything**  
-**NOP				'second spacer instruction, could be anything**  
-**inst	MOV     x,y			'operate on x using y, MOV can become AND/OR/XOR/etc.**
+~~~
+        SETR    inst,op         'set register[27:19] to op[8:0]  
+        NOP                     'first spacer instruction, could be anything  
+        NOP                     'second spacer instruction, could be anything  
+inst    MOV     x,y             'operate on x using y, MOV can become AND/OR/XOR/etc.
+~~~
 
 ## BRANCH ADDRESSING
 

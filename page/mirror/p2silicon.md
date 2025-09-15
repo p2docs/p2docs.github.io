@@ -1215,8 +1215,76 @@ D\[23\]	Mode		Accumulations (SIN\_ACC/COS\_ACC are read and cleared by GETXACC)
 
 The program below demonstrates both SINC1 and SINC2 modes in a looped Goertzel measurement of 100 cycles of 1MHz, taking 100us per measurement. The 4th line of the program must be changed to "sinc2 \= 1" to select SINC2 mode:
 
-| ' Goertzel input and display con             adcpin  \= 0                 dacpin  \= 1                 cycles  \= 100                   'number of cycles to measure                 sinc2   \= 0                     '0 for SINC1, 1 for SINC2                 ampl    \= sinc2 ? 10 : 127      'small sin/cos amplitude for SINC2                 shifts  \= sinc2 ? 23 : 12       'more right-shifts for SINC2 acc's                \_clkfreq \= 256\_000\_000 ' Setup dat             org                 wrpin   adcmode,\#adcpin         'init ADC pin                 dirh    \#dacpin                 'enable DAC pin                 setxfrq freq                    'set streamer NCO frequency ' Make sine and cosine tables in LUT bytes 3 and 2                 mov     z,\#$1FF                 'make 512-sample sin/cos table in LUT sincos          shl     z,\#32-9                 'get angle into top 9 bits of z                 qrotate \#ampl,z                 'rotate (ampl,0) by z                 shr     z,\#32-9                 'restore z                 getqy   y                       'get y                 getqx   x                       'get x                 shl     y,\#24                   'y into byte3                 setbyte y,x,\#2                  'x into byte2                 wrlut   y,z                     'write sin:cos:0:0 into LUT                 djnf    z,\#sincos               'loop until 512 samples ' Input Goertzel measurements from adcpin and output power level to dacpin loop            xcont   dds\_d,dds\_s             'issue Goertzel command                 getxacc x                       'get prior Goertzel acc's, cos first                 mov     y,0                     '..then sin                 modc    sinc2 \* %1111   wc      'if SINC2, get differences         if\_c    sub     x,xdiff         if\_c    add     xdiff,x         if\_c    sub     y,ydiff         if\_c    add     ydiff,y                 qvector x,y                     'convert (x,y) to (rho,theta)                 getqx   x                       'get rho (power measurement)                 shr     x,\#shifts               'shift power down to byte                 setbyte dacmode,x,\#1            'insert into dacmode                 wrpin   dacmode,\#dacpin         'update DAC pin                 jmp     \#loop                   'loop 'Data adcmode         long    %0000\_0000\_000\_100011\_0000000\_00\_00000\_0        'ADC mode dacmode         long    %0000\_0000\_000\_10110\_00000000\_00\_00000\_0        'DAC mode freq            long    round(1\_000\_000.0/256\_000\_000.0 \* 65536.0 \* 32768.0)    '1.000000 MHz dds\_d           long    %1111\_0000\_0000\_0111\<\<16 \+ sinc2\<\<23 \+ cycles   'Goertzel mode, pin 0..3 in dds\_s           long    %0000\_0001\_000\_000000000                        'input on pin \+0, 512 table x               res     1 y               res     1 z               res     1 xdiff           res     1 ydiff           res     1 |
-| :---- |
+~~~
+' Goertzel input and display
+
+con             adcpin  = 0
+                dacpin  = 1
+                cycles  = 100                   'number of cycles to measure
+                sinc2   = 0                     '0 for SINC1, 1 for SINC2
+                ampl    = sinc2 ? 10 : 127      'small sin/cos amplitude for SINC2
+                shifts  = sinc2 ? 23 : 12       'more right-shifts for SINC2 acc's
+               _clkfreq = 256_000_000
+
+' Setup
+
+dat             org
+
+                wrpin   adcmode,#adcpin         'init ADC pin
+                dirh    #dacpin                 'enable DAC pin
+
+                setxfrq freq                    'set streamer NCO frequency
+
+' Make sine and cosine tables in LUT bytes 3 and 2
+
+                mov     z,#$1FF                 'make 512-sample sin/cos table in LUT
+sincos          shl     z,#32-9                 'get angle into top 9 bits of z
+                qrotate #ampl,z                 'rotate (ampl,0) by z
+                shr     z,#32-9                 'restore z
+                getqy   y                       'get y
+                getqx   x                       'get x
+                shl     y,#24                   'y into byte3
+                setbyte y,x,#2                  'x into byte2
+                wrlut   y,z                     'write sin:cos:0:0 into LUT
+                djnf    z,#sincos               'loop until 512 samples
+
+' Input Goertzel measurements from adcpin and output power level to dacpin
+
+loop            xcont   dds_d,dds_s             'issue Goertzel command
+                getxacc x                       'get prior Goertzel acc's, cos first
+                mov     y,0                     '..then sin
+
+                modc    sinc2 * %1111   wc      'if SINC2, get differences
+        if_c    sub     x,xdiff
+        if_c    add     xdiff,x
+        if_c    sub     y,ydiff
+        if_c    add     ydiff,y
+
+                qvector x,y                     'convert (x,y) to (rho,theta)
+                getqx   x                       'get rho (power measurement)
+
+                shr     x,#shifts               'shift power down to byte
+                setbyte dacmode,x,#1            'insert into dacmode
+                wrpin   dacmode,#dacpin         'update DAC pin
+
+                jmp     #loop                   'loop
+
+'Data
+
+adcmode         long    %0000_0000_000_100011_0000000_00_00000_0        'ADC mode
+dacmode         long    %0000_0000_000_10110_00000000_00_00000_0        'DAC mode
+
+freq            long    round(1_000_000.0/256_000_000.0 * 65536.0 * 32768.0)    '1.000000 MHz
+
+dds_d           long    %1111_0000_0000_0111<<16 + sinc2<<23 + cycles   'Goertzel mode, pin 0..3 in
+dds_s           long    %0000_0001_000_000000000                        'input on pin +0, 512 table
+
+x               res     1
+y               res     1
+z               res     1
+xdiff           res     1
+ydiff           res     1
+~~~
 
 In the pictures that follow, you can see the program's DAC output pin while a function generator drives a 0-3.3V frequency-swept sine wave into the ADC input pin, going from 950-1050KHz over 12ms, while the program measures the energy level at 1MHz:
 
@@ -1254,8 +1322,94 @@ The NCO frequency must be set to 1/10 of the main clock using the value $0CCCCCC
 
 The following program displays a 16bpp image in 640x480 HDMI mode:
 
-| '\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\* '\*  VGA 640 x 480 x 16bpp 5:6:5 RGB \- HDMI  \* '\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\* CON             hdmi\_base \= 16          'must be a multiple of 8 DAT             org ' ' ' Setup '                 hubset  \#\#%1\_000001\_0000011000\_1111\_10\_00       'config PLL, 20MHz/2\*25\*1 \= 250MHz                 waitx   \#\#20\_000\_000 / 200                      'allow crystal+PLL 5ms to stabilize                 hubset  \#\#%1\_000001\_0000011000\_1111\_10\_11       'switch to PLL                 rdfast  \#\#640\*350\*2/64,\#\#$1000  'set rdfast to wrap on bitmap                 setxfrq \#\#$0CCCCCCC+1           'set streamer freq to 1/10th clk                 setcmod \#$100                   'enable HDMI mode                 drvl    \#7\<\<6 \+ hdmi\_base       'enable HDMI pins                 wrpin   \#\#%100100\_00\_00000\_0,\#7\<\<6 \+ hdmi\_base  'set 1mA drive on HDMI pins ' ' ' Field loop ' fieldloop       mov     hsync0,sync\_000         'vsync off                 mov     hsync1,sync\_001                 callpa  \#90,\#blank              'top blanks                 mov     x,\#350                  'set visible lines line            call    \#hsync                  'do horizontal sync                 xcont   m\_rf,\#0                 'do visible line                 djnz    x,\#line                 'another line?                 callpa  \#83,\#blank              'bottom blanks                 mov     hsync0,sync\_222         'vsync on                 mov     hsync1,sync\_223                 callpa  \#2,\#blank               'vertical sync blanks                 jmp     \#fieldloop              'loop ' ' ' Subroutines ' blank           call    \#hsync                  'blank lines                 xcont   m\_vi,hsync0         \_ret\_   djnz    pa,\#blank hsync           xcont   m\_bs,hsync0             'horizontal sync                 xzero   m\_sn,hsync1         \_ret\_   xcont   m\_bv,hsync0 ' ' ' Initialized data ' sync\_000        long    %1101010100\_1101010100\_1101010100\_10    ' sync\_001        long    %1101010100\_1101010100\_0010101011\_10    '        hsync sync\_222        long    %0101010100\_0101010100\_0101010100\_10    'vsync sync\_223        long    %0101010100\_0101010100\_1010101011\_10    'vsync \+ hsync m\_bs            long    $70810000 \+ hdmi\_base\<\<17 \+ 16          'before sync m\_sn            long    $70810000 \+ hdmi\_base\<\<17 \+ 96          'sync m\_bv            long    $70810000 \+ hdmi\_base\<\<17 \+ 48          'before visible m\_vi            long    $70810000 \+ hdmi\_base\<\<17 \+ 640         'visible m\_rf            long    $B0850000 \+ hdmi\_base\<\<17 \+ 640         'visible rfword rgb16 (5:6:5) ' ' ' Uninitialized data ' x               res     1 hsync0          res     1 hsync1          res     1 ' ' ' Bitmap '                 orgh    $1000 \- 70              'justify pixels at $1000                 file    "birds\_16bpp.bmp"       'rayman's picture (640 x 350\) |
-| :---- |
+~~~
+'********************************************
+'*  VGA 640 x 480 x 16bpp 5:6:5 RGB - HDMI  *
+'********************************************
+
+CON             hdmi_base = 16          'must be a multiple of 8
+
+DAT             org
+'
+'
+' Setup
+'
+                hubset  ##%1_000001_0000011000_1111_10_00       'config PLL, 20MHz/2*25*1 = 250MHz
+                waitx   ##20_000_000 / 200                      'allow crystal+PLL 5ms to stabilize
+                hubset  ##%1_000001_0000011000_1111_10_11       'switch to PLL
+
+                rdfast  ##640*350*2/64,##$1000  'set rdfast to wrap on bitmap
+
+                setxfrq ##$0CCCCCCC+1           'set streamer freq to 1/10th clk
+
+                setcmod #$100                   'enable HDMI mode
+
+                drvl    #7<<6 + hdmi_base       'enable HDMI pins
+
+                wrpin   ##%100100_00_00000_0,#7<<6 + hdmi_base  'set 1mA drive on HDMI pins
+'
+'
+' Field loop
+'
+fieldloop       mov     hsync0,sync_000         'vsync off
+                mov     hsync1,sync_001
+
+                callpa  #90,#blank              'top blanks
+
+                mov     x,#350                  'set visible lines
+line            call    #hsync                  'do horizontal sync
+                xcont   m_rf,#0                 'do visible line
+                djnz    x,#line                 'another line?
+
+                callpa  #83,#blank              'bottom blanks
+
+                mov     hsync0,sync_222         'vsync on
+                mov     hsync1,sync_223
+
+                callpa  #2,#blank               'vertical sync blanks
+
+                jmp     #fieldloop              'loop
+'
+'
+' Subroutines
+'
+blank           call    #hsync                  'blank lines
+                xcont   m_vi,hsync0
+        _ret_   djnz    pa,#blank
+
+hsync           xcont   m_bs,hsync0             'horizontal sync
+                xzero   m_sn,hsync1
+        _ret_   xcont   m_bv,hsync0
+'
+'
+' Initialized data
+'
+sync_000        long    %1101010100_1101010100_1101010100_10    '
+sync_001        long    %1101010100_1101010100_0010101011_10    '        hsync
+sync_222        long    %0101010100_0101010100_0101010100_10    'vsync
+sync_223        long    %0101010100_0101010100_1010101011_10    'vsync + hsync
+
+m_bs            long    $70810000 + hdmi_base<<17 + 16          'before sync
+m_sn            long    $70810000 + hdmi_base<<17 + 96          'sync
+m_bv            long    $70810000 + hdmi_base<<17 + 48          'before visible
+m_vi            long    $70810000 + hdmi_base<<17 + 640         'visible
+
+m_rf            long    $B0850000 + hdmi_base<<17 + 640         'visible rfword rgb16 (5:6:5)
+'
+'
+' Uninitialized data
+'
+x               res     1
+
+hsync0          res     1
+hsync1          res     1
+'
+'
+' Bitmap
+'
+                orgh    $1000 - 70              'justify pixels at $1000
+                file    "birds_16bpp.bmp"       'rayman's picture (640 x 350)
+~~~
 
 ## COLORSPACE CONVERTER
 

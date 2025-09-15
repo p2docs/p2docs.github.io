@@ -2023,17 +2023,21 @@ The FBLOCK instruction provides a way to set a new start address and a new 64-by
 
 Here are the RDFAST, WRFAST, and FBLOCK instructions:
 
-**EEEE 1100011 1LI DDDDDDDDD SSSSSSSSS    	RDFAST  D/\#,S/\#**  
-**EEEE 1100100 0LI DDDDDDDDD SSSSSSSSS    	WRFAST  D/\#,S/\#**  
-**EEEE 1100100 1LI DDDDDDDDD SSSSSSSSS    	FBLOCK  D/\#,S/\#**
+~~~
+EEEE 1100011 1LI DDDDDDDDD SSSSSSSSS    	RDFAST  D/#,S/#  
+EEEE 1100100 0LI DDDDDDDDD SSSSSSSSS    	WRFAST  D/#,S/#  
+EEEE 1100100 1LI DDDDDDDDD SSSSSSSSS    	FBLOCK  D/#,S/#
+~~~
 
-For these instructions, the D/\# operand provides the block count, while the S/\# operand provides the hub RAM start address:
+For these instructions, the D/# operand provides the block count, while the S/# operand provides the hub RAM start address:
 
-    D/\#	**%xxxx\_xxxx\_xxxx\_xxxx\_xx00\_0000\_0000\_0000 \= block count for limited r/w**  
-	**%xxxx\_xxxx\_xxxx\_xxxx\_xxBB\_BBBB\_BBBB\_BBBB \= block count for wrapping**
+~~~
+  D/#   %xxxx_xxxx_xxxx_xxxx_xx00_0000_0000_0000 = block count for limited r/w
+        %xxxx_xxxx_xxxx_xxxx_xxBB_BBBB_BBBB_BBBB = block count for wrapping
 
-    S/\#	**%xxxx\_xxxx\_xxxx\_AAAA\_AAAA\_AAAA\_AAAA\_AAAA \= start address for limited r/w**  
-	**%xxxx\_xxxx\_xxxx\_AAAA\_AAAA\_AAAA\_AAAA\_AA00 \= start address for wrapping (long-aligned)**
+  S/#   %xxxx_xxxx_xxxx_AAAA_AAAA_AAAA_AAAA_AAAA = start address for limited r/w
+        %xxxx_xxxx_xxxx_AAAA_AAAA_AAAA_AAAA_AA00 = start address for wrapping (long-aligned)
+~~~
 
 RDFAST and WRFAST each have two modes of operation.
 
@@ -2045,11 +2049,13 @@ FBLOCK doesn't need to wait for anything, so it always takes two clocks.
 
 Once RDFAST has been used to configure the hub FIFO interface for reading, you can enable the streamer for any hub-reading modes or use the following instructions to manually read sequential data from the hub:
 
-**EEEE 1101011 CZ0 DDDDDDDDD 000010000    	RFBYTE  D       	{WC/WZ/WCZ}**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000010001    	RFWORD  D       	{WC/WZ/WCZ}**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000010010    	RFLONG  D       	{WC/WZ/WCZ}**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000010011    	RFVAR   D       	{WC/WZ/WCZ}**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000010100    	RFVARS  D       	{WC/WZ/WCZ}**
+~~~
+EEEE 1101011 CZ0 DDDDDDDDD 000010000    	RFBYTE  D       	{WC/WZ/WCZ}  
+EEEE 1101011 CZ0 DDDDDDDDD 000010001    	RFWORD  D       	{WC/WZ/WCZ}  
+EEEE 1101011 CZ0 DDDDDDDDD 000010010    	RFLONG  D       	{WC/WZ/WCZ}  
+EEEE 1101011 CZ0 DDDDDDDDD 000010011    	RFVAR   D       	{WC/WZ/WCZ}  
+EEEE 1101011 CZ0 DDDDDDDDD 000010100    	RFVARS  D       	{WC/WZ/WCZ}
+~~~
 
 These instructions all take 2 clocks and read bytes, words, longs, and variable-length data from the hub into D, via the hub FIFO interface.
 
@@ -2070,9 +2076,11 @@ This table shows the relationship between upcoming bytes in the FIFO and what RF
 
 Once WRFAST has been used to configure the hub FIFO interface for writing, you can enable the streamer for any hub-writing modes or use the following instructions to manually write sequential data:
 
-**EEEE 1101011 00L DDDDDDDDD 000010101        WFBYTE  D/\#**  
-**EEEE 1101011 00L DDDDDDDDD 000010110        WFWORD  D/\#**  
-**EEEE 1101011 00L DDDDDDDDD 000010111        WFLONG  D/\#**
+~~~
+EEEE 1101011 00L DDDDDDDDD 000010101        WFBYTE  D/#
+EEEE 1101011 00L DDDDDDDDD 000010110        WFWORD  D/#
+EEEE 1101011 00L DDDDDDDDD 000010111        WFLONG  D/#
+~~~
 
 These instructions all take 2 clocks and write byte, word, or long data in D into the hub via the hub FIFO interface.
 
@@ -2082,9 +2090,11 @@ If a cog has been writing to the hub via WRFAST, and it wants to immediately COG
 
 Here are the random-access hub RAM read instructions:
 
-**EEEE 1010110 CZI DDDDDDDDD SSSSSSSSS        RDBYTE  D,S/\#/PTRx  {WC/WZ/WCZ}**  
-**EEEE 1010111 CZI DDDDDDDDD SSSSSSSSS        RDWORD  D,S/\#/PTRx  {WC/WZ/WCZ}**  
-**EEEE 1011000 CZI DDDDDDDDD SSSSSSSSS        RDLONG  D,S/\#/PTRx  {WC/WZ/WCZ}**
+~~~
+EEEE 1010110 CZI DDDDDDDDD SSSSSSSSS        RDBYTE  D,S/#/PTRx  {WC/WZ/WCZ}
+EEEE 1010111 CZI DDDDDDDDD SSSSSSSSS        RDWORD  D,S/#/PTRx  {WC/WZ/WCZ}
+EEEE 1011000 CZI DDDDDDDDD SSSSSSSSS        RDLONG  D,S/#/PTRx  {WC/WZ/WCZ}
+~~~
 
 For these instructions, the D operand is the register which will receive the data read from the hub.
 
@@ -2096,10 +2106,12 @@ If WZ is expressed, Z will be set if the data read from the hub equaled zero, ot
 
 Here are the random-access hub RAM write instructions:
 
-**EEEE 1100010 0LI DDDDDDDDD SSSSSSSSS        WRBYTE  D/\#,S/\#/PTRx**  
-**EEEE 1100010 1LI DDDDDDDDD SSSSSSSSS        WRWORD  D/\#,S/\#/PTRx**  
-**EEEE 1100011 0LI DDDDDDDDD SSSSSSSSS        WRLONG  D/\#,S/\#/PTRx**  
-**EEEE 1010011 11I DDDDDDDDD SSSSSSSSS        WMLONG  D,S/\#/PTRx**
+~~~
+EEEE 1100010 0LI DDDDDDDDD SSSSSSSSS        WRBYTE  D/#,S/#/PTRx 
+EEEE 1100010 1LI DDDDDDDDD SSSSSSSSS        WRWORD  D/#,S/#/PTRx 
+EEEE 1100011 0LI DDDDDDDDD SSSSSSSSS        WRLONG  D/#,S/#/PTRx 
+EEEE 1010011 11I DDDDDDDDD SSSSSSSSS        WMLONG  D,S/#/PTRx
+~~~
 
 For these instructions, the D/\# operand supplies the data to be written to the hub.
 
@@ -2109,101 +2121,127 @@ WMLONG writes longs, like WRLONG; however, it does not write any D byte fields w
 
 In the case of the 'S/\#/PTRx' operand used by RDBYTE, RDWORD, RDLONG, WRBYTE, WRWORD, WRLONG, and WMLONG, there are five ways to express a hub address:
 
-    **$000..$1FF**		\- register whose 20 LSBs will be used as the hub address  
-    **\#$00..$FF**			\- 8-bit immediate hub address  
-    **\#\#$00000..$FFFFF**	\- 20-bit immediate hub address (invokes AUGS)  
-    **PTRx {\[index5\]}**		\- PTR expression with a 5-bit scaled index  
-    **PTRx {\[\#\#index20\]}**	\- PTR expression with a 20-bit unscaled index (invokes AUGS)
+~~~
+    $000..$1FF          - register whose 20 LSBs will be used as the hub address  
+    #$00..$FF           - 8-bit immediate hub address  
+    ##$00000..$FFFFF    - 20-bit immediate hub address (invokes AUGS)  
+    PTRx {[index5]}     - PTR expression with a 5-bit scaled index  
+    PTRx {[##index20]}  - PTR expression with a 20-bit unscaled index (invokes AUGS)
+~~~
 
 If AUGS is used to augment the \#S value to 32 bits, the \#S value will be interpreted differently:
 
-    **\#%0AAAAAAAA**					\- No AUGS, 8-bit immediate address  
-    **\#%1SUPNNNNN**					\- No AUGS, PTR expression with a 5-bit scaled index  
-    **\#\#%000000000000AAAAAAAAAAA\_AAAAAAAAA**	\- AUGS, 20-bit immediate address  
-    **\#\#%000000001SUPNNNNNNNNNNN\_NNNNNNNNN**	\- AUGS, PTR expression with a 20-bit unscaled index
+~~~
+    #%0AAAAAAAA                             - No AUGS, 8-bit immediate address  
+    #%1SUPNNNNN                             - No AUGS, PTR expression with a 5-bit scaled index  
+    ##%000000000000AAAAAAAAAAA_AAAAAAAAA    - AUGS, 20-bit immediate address  
+    ##%000000001SUPNNNNNNNNNNN_NNNNNNNNN    - AUGS, PTR expression with a 20-bit unscaled index
+~~~
 
 **PTRx expressions without AUGS:**
 
-    **INDEX6 \= \-32..+31 for non-updating offsets**  
-    **INDEX \= 1..16 for \++'s and \--'s**  
-    **SCALE \= 1 for RDBYTE/WRBYTE, 2 for RDWORD/WRWORD, 4 for RDLONG/WRLONG/WMLONG**
+~~~
+    INDEX6 = -32..+31 for non-updating offsets
+    INDEX = 1..16 for ++'s and --'s
+    SCALE = 1 for RDBYTE/WRBYTE, 2 for RDWORD/WRWORD, 4 for RDLONG/WRLONG/WMLONG
 
-    **S \= 0 for PTRA, 1 for PTRB**  
-    **U \= 0 to keep PTRx same, 1 to update PTRx (PTRx \+= INDEX\*SCALE)**  
-    **P \= 0 to use PTRx \+ INDEX\*SCALE, 1 to use PTRx (post-modify)**  
-    **IIIIII \= INDEX6, uses %100000..%111111 for \-32..-1 and %000000..%011111 for 0..31**  
-    **NNNNN \= INDEX, uses %00001..%01111 for 1..15 and %00000 for 16**  
-    **nnnnn \= \-INDEX, uses %10000..%11111 for \-16..-1**
+    S = 0 for PTRA, 1 for PTRB
+    U = 0 to keep PTRx same, 1 to update PTRx (PTRx += INDEX*SCALE)
+    P = 0 to use PTRx + INDEX*SCALE, 1 to use PTRx (post-modify)
+    IIIIII = INDEX6, uses %100000..%111111 for -32..-1 and %000000..%011111 for 0..31
+    NNNNN = INDEX, uses %00001..%01111 for 1..15 and %00000 for 16
+    nnnnn = -INDEX, uses %10000..%11111 for -16..-1
 
-    **1SUPNNNNN     PTR expression**  
-    **\------------------------------------------------------------------------------**  
-    **100000000     PTRA              'use PTRA**  
-    **110000000     PTRB              'use PTRB**  
-    **100IIIIII     PTRA\[INDEX6\]      'use PTRA \+ INDEX6\*SCALE**  
-    **110IIIIII     PTRB\[INDEX6\]      'use PTRB \+ INDEX6\*SCALE**
+    1SUPNNNNN     PTR expression
+    ------------------------------------------------------------------------------
+    100000000     PTRA              'use PTRA_  
+    110000000     PTRB              'use PTRB_  
+    100IIIIII     PTRA[INDEX6]      'use PTRA + INDEX6*SCALE_  
+    110IIIIII     PTRB[INDEX6]      'use PTRB + INDEX6*SCALE_
 
-    **101100001     PTRA++            'use PTRA,                PTRA \+= SCALE**  
-    **111100001     PTRB++            'use PTRB,                PTRB \+= SCALE**  
-    **101111111     PTRA--            'use PTRA,                PTRA \-= SCALE**  
-    **111111111     PTRB--            'use PTRB,                PTRB \-= SCALE**  
-    **101000001     \++PTRA            'use PTRA \+ SCALE,        PTRA \+= SCALE**  
-    **111000001     \++PTRB            'use PTRB \+ SCALE,        PTRB \+= SCALE**  
-    **101011111     \--PTRA            'use PTRA \- SCALE,        PTRA \-= SCALE**  
-    **111011111     \--PTRB            'use PTRB \- SCALE,        PTRB \-= SCALE**
+    101100001     PTRA++            'use PTRA,                PTRA += SCALE  
+    111100001     PTRB++            'use PTRB,                PTRB += SCALE  
+    101111111     PTRA--            'use PTRA,                PTRA -= SCALE  
+    111111111     PTRB--            'use PTRB,                PTRB -= SCALE  
+    101000001     ++PTRA            'use PTRA + SCALE,        PTRA += SCALE  
+    111000001     ++PTRB            'use PTRB + SCALE,        PTRB += SCALE  
+    101011111     --PTRA            'use PTRA - SCALE,        PTRA -= SCALE  
+    111011111     --PTRB            'use PTRB - SCALE,        PTRB -= SCALE
 
-    **1011NNNNN     PTRA++\[INDEX\]     'use PTRA,                PTRA \+= INDEX\*SCALE**  
-    **1111NNNNN     PTRB++\[INDEX\]     'use PTRB,                PTRB \+= INDEX\*SCALE**  
-    **1011nnnnn     PTRA--\[INDEX\]     'use PTRA,                PTRA \-= INDEX\*SCALE**  
-    **1111nnnnn     PTRB--\[INDEX\]     'use PTRB,                PTRB \-= INDEX\*SCALE**  
-    **1010NNNNN     \++PTRA\[INDEX\]     'use PTRA \+ INDEX\*SCALE,  PTRA \+= INDEX\*SCALE**  
-    **1110NNNNN     \++PTRB\[INDEX\]     'use PTRB \+ INDEX\*SCALE,  PTRB \+= INDEX\*SCALE**  
-    **1010nnnnn     \--PTRA\[INDEX\]     'use PTRA \- INDEX\*SCALE,  PTRA \-= INDEX\*SCALE**  
-    **1110nnnnn     \--PTRB\[INDEX\]     'use PTRB \- INDEX\*SCALE,  PTRB \-= INDEX\*SCALE**
+    1011NNNNN     PTRA++[INDEX]     'use PTRA,                PTRA += INDEX*SCALE  
+    1111NNNNN     PTRB++[INDEX]     'use PTRB,                PTRB += INDEX*SCALE  
+    1011nnnnn     PTRA--[INDEX]     'use PTRA,                PTRA -= INDEX*SCALE  
+    1111nnnnn     PTRB--[INDEX]     'use PTRB,                PTRB -= INDEX*SCALE  
+    1010NNNNN     ++PTRA[INDEX]     'use PTRA + INDEX*SCALE,  PTRA += INDEX*SCALE  
+    1110NNNNN     ++PTRB[INDEX]     'use PTRB + INDEX*SCALE,  PTRB += INDEX*SCALE  
+    1010nnnnn     --PTRA[INDEX]     'use PTRA - INDEX*SCALE,  PTRA -= INDEX*SCALE  
+    1110nnnnn     --PTRB[INDEX]     'use PTRB - INDEX*SCALE,  PTRB -= INDEX*SCALE
+~~~
 
 Examples:
 
 Read byte at PTRA into D
 
-    **1111 1010110 001 DDDDDDDDD 100000000     RDBYTE  D,PTRA**
+~~~
+    1111 1010110 001 DDDDDDDDD 100000000     RDBYTE  D,PTRA
+~~~
 
 Write lower word in D to PTRB \- 7\*2
 
-    **1111 1100010 101 DDDDDDDDD 110111001     WRWORD  D,PTRB\[-7\]**
+~~~
+    1111 1100010 101 DDDDDDDDD 110111001     WRWORD  D,PTRB[-7]
+~~~
 
 Write long value 10 at PTRB, PTRB \+= 1\*4
 
-    **1111 1100011 011 000001010 111100001     WRLONG  \#10,PTRB++**
+~~~
+    1111 1100011 011 000001010 111100001     WRLONG  #10,PTRB++
+~~~
 
 Read word at PTRA into D, PTRA \-= 1\*2
 
-    **1111 1010111 001 DDDDDDDDD 101111111     RDWORD  D,PTRA--**
+~~~
+    1111 1010111 001 DDDDDDDDD 101111111     RDWORD  D,PTRA--
+~~~
 
 Write lower byte in D at PTRA \- 1\*1, PTRA \-= 1\*1
 
-    **1111 1100010 001 DDDDDDDDD 101011111     WRBYTE  D,--PTRA**
+~~~
+    1111 1100010 001 DDDDDDDDD 101011111     WRBYTE  D,--PTRA
+~~~
 
 Read long at PTRB \+ 10\*4 into D, PTRB \+= 10\*4
 
-    **1111 1011000 001 DDDDDDDDD 111001010     RDLONG  D,++PTRB\[10\]**
+~~~
+    1111 1011000 001 DDDDDDDDD 111001010     RDLONG  D,++PTRB[10]
+~~~
 
 Write lower byte in D to PTRA, PTRA \+= 15\*1
 
-    **1111 1100010 001 DDDDDDDDD 101101111     WRBYTE  D,PTRA++\[15\]**
+~~~
+    1111 1100010 001 DDDDDDDDD 101101111     WRBYTE  D,PTRA++[15]
+~~~
 
 Read word at PTRB into D, PTRB \+= 16\*2
 
-    **1111 1010111 001 DDDDDDDDD 111100000     RDWORD  D,PTRB++\[16\]**
+~~~
+    1111 1010111 001 DDDDDDDDD 111100000     RDWORD  D,PTRB++[16]
+~~~
 
 **PTRx expressions with AUGS:**
 
 If "\#\#" is used before the index value in a PTRx expression, the assembler will automatically insert an AUGS instruction and assemble the 20-bit index instruction pair:
 
-    **RDBYTE  D,++PTRB\[\#\#$12345\]**
+~~~
+    RDBYTE  D,++PTRB[##$12345]
+~~~
 
 **...becomes...**
 
-    **1111 1111000 000 000111000 010010001     AUGS    \#$00E12345**  
-    **1111 1010110 001 DDDDDDDDD 101000101     RDBYTE  D,\#$00E12345 & $1FF**
+~~~
+    1111 1111000 000 000111000 010010001     AUGS    #$00E12345
+    1111 1010110 001 DDDDDDDDD 101000101     RDBYTE  D,#$00E12345 & $1FF
+~~~
 
 ### FAST BLOCK MOVES
 
@@ -2211,44 +2249,54 @@ By preceding RDLONG with either SETQ or SETQ2, multiple hub RAM longs can be rea
 
 Use SETQ+RDLONG to read multiple hub longs into cog register RAM:
 
-	**SETQ    \#x				'x \= number of longs, minus 1, to read**  
-	**RDLONG  first\_reg,S/\#/PTRx		'read x+1 longs starting at first\_reg**
+~~~
+    SETQ    #x                  'x = number of longs, minus 1, to read  
+    RDLONG  first_reg,S/#/PTRx  'read x+1 longs starting at first_reg
+~~~
 
 Use SETQ2+RDLONG to read multiple hub longs into cog lookup RAM:
 
-	**SETQ2   \#x				'x \= number of longs, minus 1, to read**  
-	**RDLONG  first\_lut,S/\#/PTRx		'read x+1 longs starting at first\_lut**
+~~~
+    SETQ2   #x                  'x = number of longs, minus 1, to read  
+    RDLONG  first_lut,S/#/PTRx  'read x+1 longs starting at first_lut
+~~~
 
 Similarly, WRLONG and WMLONG can be preceded by either SETQ or SETQ2 to write either multiple register RAM longs or lookup RAM longs into hub RAM. When WRLONG/WMLONG‘s D field is an immediate, it instead writes that immediate value to RAM, functioning as a memory filler.
 
 Use SETQ+WRLONG/WMLONG to write multiple register RAM longs into hub RAM:
 
-	**SETQ    \#x				'x \= number of longs, minus 1, to write**  
-	**WRLONG  first\_reg,S/\#/PTRx		'write x+1 longs starting at first\_reg**
+~~~
+    SETQ    #x                  'x = number of longs, minus 1, to write  
+    WRLONG  first_reg,S/#/PTRx  'write x+1 longs starting at first_reg
+~~~
 
 RAM registers $1F8..$1FF are special-purpose registers which cannot be transferred to hub RAM via SETQ+WRLONG/WMLONG.
 
 Use SETQ2+WRLONG/WMLONG to write multiple lookup RAM longs into hub RAM:
 
-	**SETQ2   \#x				'x \= number of longs, minus 1, to write**  
-	**WRLONG  first\_lut,S/\#/PTRx		'write x+1 longs starting at first\_lut**
+~~~
+    SETQ2   #x                  'x = number of longs, minus 1, to write  
+    WRLONG  first_lut,S/#/PTRx  'write x+1 longs starting at first_lut
+~~~
 
 For fast block moves, PTRx expressions cannot have arbitrary index values, since the index will be overridden with the number of longs, with bit 4 of the encoded index value serving as the \++/-- indicator. In plain PTRA/PTRB cases, the index will be overridden with zero:
 
-	**SETQ    \#x				'x \= number of longs, minus 1**  
-	**RDLONG  first\_reg,PTRA		'read x+1 longs from PTRA**
+~~~
+    SETQ    #x                  'x = number of longs, minus 1  
+    RDLONG  first_reg,PTRA      'read x+1 longs from PTRA
 
-	**SETQ    \#x				'x \= number of longs, minus 1**  
-	**RDLONG  first\_reg,PTRA++		'read x+1 longs from PTRA, PTRA \+= (x+1)\*4**
+    SETQ    #x                  'x = number of longs, minus 1  
+    RDLONG  first_reg,PTRA++    'read x+1 longs from PTRA, PTRA += (x+1)*4
 
-	**SETQ    \#x				'x \= number of longs, minus 1**  
-	**RDLONG  first\_reg,PTRA--		'read x+1 longs from PTRA, PTRA \-= (x+1)\*4**
+    SETQ    #x                  'x = number of longs, minus 1  
+    RDLONG  first_reg,PTRA--    'read x+1 longs from PTRA, PTRA -= (x+1)*4
 
-	**SETQ    \#x				'x \= number of longs, minus 1**  
-	**RDLONG  first\_reg,++PTRA		'read x+1 longs from PTRA+(x+1)\*4, PTRA \+= (x+1)\*4**
+    SETQ    #x                  'x = number of longs, minus 1  
+    RDLONG  first_reg,++PTRA    'read x+1 longs from PTRA+(x+1)*4, PTRA += (x+1)*4
 
-	**SETQ    \#x				'x \= number of longs, minus 1**  
-	**RDLONG  first\_reg,--PTRA		'read x+1 longs from PTRA-(x+1)\*4, PTRA \-= (x+1)\*4**
+    SETQ    #x                  'x = number of longs, minus 1  
+    RDLONG  first_reg,--PTRA    'read x+1 longs from PTRA-(x+1)*4, PTRA -= (x+1)*4
+~~~
 
 Because these fast block moves yield to the hub FIFO interface, they can be used during hub execution.
 
@@ -2393,11 +2441,13 @@ Because each cog's hub slot comes around every 1/2/4/8/16 clocks (8 clocks for t
 
 The hub contains a pool of 16 semaphore bits, called locks.  Locks can be used by cogs to coordinate exclusive access of a shared resource.  In order to use a lock, one cog must first allocate a lock with LOCKNEW.  Once allocated, cooperative cogs use LOCKTRY and LOCKREL to respectively take or release the allocated lock.  When the lock is no longer needed, it may be returned to the unallocated lock pool by executing LOCKRET.
 
-The LOCK instructions are:  
-**LOCKNEW    D {WC}**  
-**LOCKRET {\#}D**  
-**LOCKTRY {\#}D {WC}**  
-**LOCKREL {\#}D {WC}**
+The LOCK instructions are:
+~~~
+    LOCKNEW    D {WC} 
+    LOCKRET {#}D 
+    LOCKTRY {#}D {WC} 
+    LOCKREL {#}D {WC}
+~~~
 
 What a lock represents is completely up to the application using it. locks are just a means of allowing one cog at a time the exclusive status of 'owner'. All participant cogs must agree on a lock's number and its purpose for a lock to be useful.
 
@@ -2413,9 +2463,11 @@ A cog may attempt to *take* an allocated lock by executing LOCKTRY with the lock
 
 Because lock arbitration is performed by the hub in a round-robin fashion, any cog waiting in a loop to capture a lock will get its fair turn:
 
-**'Keep trying to capture lock until successful**  
-**.try            LOCKTRY write\_lock WC**       
-        **IF\_NC   JMP \#.try**
+~~~
+'Keep trying to capture lock until successful**  
+.try            LOCKTRY write_lock WC
+        IF_NC   JMP #.try
+~~~
 
 When a cog is done with a held lock, it must execute LOCKREL to *release* it for other cogs to take.  Only the cog that has taken the lock can release it.  
 
@@ -2431,19 +2483,22 @@ Normally, an I/O pin's output enable is controlled by its DIR bit and its output
 
 Smart pins have four 32-bit registers inside of them:
 
-mode	\- smart pin mode, as well as low-level I/O pin mode (write-only)  
-X	\- mode-specific parameter (write-only)  
-Y	\- mode-specific parameter (write-only)  
-Z	\- mode-specific result (read-only)
+|-:|:-|
+|mode   | smart pin mode, as well as low-level I/O pin mode (write-only)|
+|X  | mode-specific parameter (write-only)|
+|Y  | mode-specific parameter (write-only)|
+|Z  | mode-specific result (read-only)|
 
 These four registers are written and read via the following 2-clock instructions, in which S/\# is used to select the pin number (0..63) and D/\# is the 32-bit data conduit:
 
-    **WRPIN   D/\#,S/\#         \- Set smart pin S/\# mode to D/\#, ack pin**  
-    **WXPIN   D/\#,S/\#         \- Set smart pin S/\# parameter X to D/\#, ack pin**  
-    **WYPIN   D/\#,S/\#         \- Set smart pin S/\# parameter Y to D/\#, ack pin**  
-    **RDPIN   D,S/\# {WC}      \- Get smart pin S/\# result Z into D, flag into C, ack pin**  
-    **RQPIN   D,S/\# {WC}      \- Get smart pin S/\# result Z into D, flag into C, don't ack pin**  
-    **AKPIN   S/\#             \- Acknowledge pin S/\#**
+~~~
+    WRPIN   D/#,S/#         - Set smart pin S/# mode to D/#, ack pin
+    WXPIN   D/#,S/#         - Set smart pin S/# parameter X to D/#, ack pin
+    WYPIN   D/#,S/#         - Set smart pin S/# parameter Y to D/#, ack pin
+    RDPIN   D,S/# {WC}      - Get smart pin S/# result Z into D, flag into C, ack pin
+    RQPIN   D,S/# {WC}      - Get smart pin S/# result Z into D, flag into C, don't ack pin
+    AKPIN   S/#             - Acknowledge pin S/#
+~~~
 
 Each cog has a 34-bit bus to each smart pin for write data and acknowledgment signaling. Each smart pin OR's all incoming 34-bit buses from the cogs in the same way DIR and OUT bits are OR'd before going to the pins. Therefore, if you intend to have multiple cogs execute WRPIN / WXPIN / WYPIN / RDPIN / AKPIN instructions on the same smart pin, you must be sure that they do so at different times, in order to avoid clobbering each other's bus data. Any number of cogs can read a smart pin simultaneously, without bus conflict, though, by using RQPIN ('read quiet'), since it does not utilize the 34-bit cog-to-smart-pin bus for acknowledgement signaling, like RDPIN does.
 
@@ -2451,128 +2506,134 @@ Each smart pin has an outgoing 33-bit bus which conveys its Z result and a speci
 
 For the WRPIN instruction, which establishes both the low-level and smart-pin configuration for each I/O pin, the D operand is composed as:
 
-**D/\# \= %AAAA\_BBBB\_FFF\_MMMMMMMMMMMMM\_TT\_SSSSS\_0**
+~~~
+D/# = %AAAA_BBBB_FFF_MMMMMMMMMMMMM_TT_SSSSS_0
 
- **%AAAA:  'A' input selector**  
-             **0xxx \= true (default)**  
-             **1xxx \= inverted**  
-             **x000 \= this pin's read state (default)**  
-             **x001 \= relative \+1 pin's read state**  
-             **x010 \= relative \+2 pin's read state**  
-             **x011 \= relative \+3 pin's read state**  
-             **x100 \= this pin's OUT bit from cogs**  
-             **x101 \= relative \-3 pin's read state**  
-             **x110 \= relative \-2 pin's read state**  
-             **x111 \= relative \-1 pin's read state**
+ %AAAA:  'A' input selector  
+             0xxx = true (default)  
+             1xxx = inverted  
+             x000 = this pin's read state (default)  
+             x001 = relative +1 pin's read state  
+             x010 = relative +2 pin's read state  
+             x011 = relative +3 pin's read state  
+             x100 = this pin's OUT bit from cogs  
+             x101 = relative -3 pin's read state  
+             x110 = relative -2 pin's read state  
+             x111 = relative -1 pin's read state
 
- **%BBBB:  'B' input selector**  
-             **0xxx \= true (default)**  
-             **1xxx \= inverted**  
-             **x000 \= this pin's read state (default)**  
-             **x001 \= relative \+1 pin's read state**  
-             **x010 \= relative \+2 pin's read state**  
-             **x011 \= relative \+3 pin's read state**  
-             **x100 \= this pin's OUT bit from cogs**  
-             **x101 \= relative \-3 pin's read state**  
-             **x110 \= relative \-2 pin's read state**  
-             **x111 \= relative \-1 pin's read state**
+ %BBBB:  'B' input selector  
+             0xxx = true (default)  
+             1xxx = inverted  
+             x000 = this pin's read state (default)  
+             x001 = relative +1 pin's read state  
+             x010 = relative +2 pin's read state  
+             x011 = relative +3 pin's read state  
+             x100 = this pin's OUT bit from cogs  
+             x101 = relative -3 pin's read state  
+             x110 = relative -2 pin's read state  
+             x111 = relative -1 pin's read state
 
-  **%FFF:  'A' and 'B' input logic/filtering (after 'A' and 'B' input selectors)**  
-             **000 \= A, B (default)**  
-             **001 \= A AND B, B**  
-             **010 \= A OR  B, B**  
-             **011 \= A XOR B, B**  
-             **100 \= A, B, both filtered using global filt0 settings**  
-             **101 \= A, B, both filtered using global filt1 settings**  
-             **110 \= A, B, both filtered using global filt2 settings**  
-             **111 \= A, B, both filtered using global filt3 settings**
+  %FFF:  'A' and 'B' input logic/filtering (after 'A' and 'B' input selectors)  
+             000 = A, B (default)  
+             001 = A AND B, B  
+             010 = A OR  B, B  
+             011 = A XOR B, B  
+             100 = A, B, both filtered using global filt0 settings  
+             101 = A, B, both filtered using global filt1 settings  
+             110 = A, B, both filtered using global filt2 settings  
+             111 = A, B, both filtered using global filt3 settings
 
-             **The resultant 'A' will drive the IN signal in non-smart-pin modes.**
+             The resultant 'A' will drive the IN signal in non-smart-pin modes.
 
- **%M..M:  low-level pin control**
+ %M..M:  low-level pin control
+~~~
 
 **In the Spin2 documentation, there are many predefined labels documented, which cover these pin configurations, as well as the smart pin modes.**
 
 ![](pinconfig.png){:.dark-invert}
 
-   **%TT:  pin DIR/OUT control (default \= %00)**
+~~~
+   %TT:  pin DIR/OUT control (default = %00)
 
-         **for odd pins,  'OTHER' \= even pin's NOT output state (diff source)**  
-         **for even pins, 'OTHER' \= unique pseudo-random bit (noise source)**  
-         **for all pins,  'SMART' \= smart pin output which overrides OUT/OTHER**  
-         **'DAC\_MODE' is enabled when M\[12:10\] \= %101**  
-         **'BIT\_DAC' outputs {2{M\[7:4\]}} for 'high' or {2{M\[3:0\]}} for 'low' in DAC\_MODE**
+         for odd pins,  'OTHER' = even pin's NOT output state (diff source)
+         for even pins, 'OTHER' = unique pseudo-random bit (noise source)
+         for all pins,  'SMART' = smart pin output which overrides OUT/OTHER
+         'DAC_MODE' is enabled when M\[12:10\] = %101
+         'BIT_DAC' outputs {2{M\[7:4\]}} for 'high' or {2{M\[3:0\]}} for 'low' in DAC_MODE
 
-         **for smart pin mode off (%SSSSS \= %00000):**
+         for smart pin mode off (%SSSSS = %00000):
 
-             **DIR enables output**
+             DIR enables output
 
-             **for non-DAC\_MODE:**  
-                 **0x \= OUT drives output**  
-                 **1x \= OTHER drives output**  
-             **for DAC\_MODE:**  
-                 **00 \= OUT enables ADC, M.\[7..0\] sets DAC level**  
-                 **01 \= OUT enables ADC, M.\[3..0\] selects cog DAC channel**  
-                 **10 \= OUT drives BIT\_DAC**  
-                 **11 \= OTHER drives BIT\_DAC**
+             for non-DAC_MODE:
+                 0x = OUT drives output
+                 1x = OTHER drives output
+             for DAC_MODE:
+                 00 = OUT enables ADC, M.\[7..0\] sets DAC level
+                 01 = OUT enables ADC, M.\[3..0\] selects cog DAC channel
+                 10 = OUT drives BIT_DAC
+                 11 = OTHER drives BIT_DAC
 
-         **for all smart pin modes (%SSSSS \> %00000):**  
-             **x0 \= output disabled, regardless of DIR**  
-             **x1 \= output enabled, regardless of DIR**
+         for all smart pin modes (%SSSSS \> %00000):
+             x0 = output disabled, regardless of DIR
+             x1 = output enabled, regardless of DIR
 
-         **for DAC smart pin modes (%SSSSS \= %00001..%00011):**  
-             **0x \= OUT enables ADC in DAC\_MODE, M.\[7..0\] overridden**  
-             **1x \= OTHER enables ADC in DAC\_MODE, M.\[7..0\] overridden**
+         for DAC smart pin modes (%SSSSS = %00001..%00011):
+             0x = OUT enables ADC in DAC_MODE, M.\[7..0\] overridden
+             1x = OTHER enables ADC in DAC_MODE, M.\[7..0\] overridden
 
-         **for non-DAC smart pin modes (%SSSSS \= %00100..%11111):**  
-             **0x \= SMART/OUT drives output or BIT\_DAC if DAC\_MODE**  
-             **1x \= SMART/OTHER drives output or BIT\_DAC if DAC\_MODE**
+         for non-DAC smart pin modes (%SSSSS = %00100..%11111):
+             0x = SMART/OUT drives output or BIT_DAC if DAC_MODE
+             1x = SMART/OTHER drives output or BIT_DAC if DAC_MODE
 
-**%SSSSS:  00000   \= smart pin off (default)**  
-         **00001   \= long repository              (M.\[12..10\] \!= %101)**  
-         **00010   \= long repository              (M.\[12..10\] \!= %101)**  
-         **00011   \= long repository              (M.\[12..10\] \!= %101)**  
-         **00001   \= DAC noise                    (M.\[12..10\]  \= %101)**  
-         **00010   \= DAC 16-bit dither, noise     (M.\[12..10\]  \= %101)**  
-         **00011   \= DAC 16-bit dither, PWM       (M.\[12..10\]  \= %101)**  
-         **00100\*  \= pulse/cycle output**  
-         **00101\*  \= transition output**  
-         **00110\*  \= NCO frequency**  
-         **00111\*  \= NCO duty**  
-         **01000\*  \= PWM triangle**  
-         **01001\*  \= PWM sawtooth**  
-         **01010\*  \= PWM switch-mode power supply, V and I feedback**  
-         **01011   \= periodic/continuous: A-B quadrature encoder**  
-         **01100   \= periodic/continuous: inc on A-rise & B-high**  
-         **01101   \= periodic/continuous: inc on A-rise & B-high / dec on A-rise & B-low**  
-         **01110   \= periodic/continuous: inc on A-rise {/ dec on B-rise}**  
-         **01111   \= periodic/continuous: inc on A-high {/ dec on B-high}**  
-         **10000   \= time A-states**  
-         **10001   \= time A-highs**  
-         **10010   \= time X A-highs/rises/edges \-or- timeout on X A-high/rise/edge**  
-         **10011   \= for X periods, count time**  
-         **10100   \= for X periods, count states**  
-         **10101   \= for periods in X+ clocks, count time**  
-         **10110   \= for periods in X+ clocks, count states**  
-         **10111   \= for periods in X+ clocks, count periods**  
-         **11000   \= ADC sample/filter/capture, internally clocked**  
-         **11001   \= ADC sample/filter/capture, externally clocked**  
-         **11010   \= ADC scope with trigger**  
-         **11011\*  \= USB host/device              (even/odd pin pair \= DM/DP)**  
-         **11100\*  \= sync serial transmit         (A-data, B-clock)**  
-         **11101   \= sync serial receive          (A-data, B-clock)**  
-         **11110\*  \= async serial transmit        (baudrate)**  
-         **11111   \= async serial receive         (baudrate)**
+%SSSSS:  00000   = smart pin off (default)
+         00001   = long repository              (M.[12..10] != %101)
+         00010   = long repository              (M.[12..10] != %101)
+         00011   = long repository              (M.[12..10] != %101)
+         00001   = DAC noise                    (M.[12..10]  = %101)
+         00010   = DAC 16-bit dither, noise     (M.[12..10]  = %101)
+         00011   = DAC 16-bit dither, PWM       (M.[12..10]  = %101)
+         00100*  = pulse/cycle output
+         00101*  = transition output
+         00110*  = NCO frequency
+         00111*  = NCO duty
+         01000*  = PWM triangle
+         01001*  = PWM sawtooth
+         01010*  = PWM switch-mode power supply, V and I feedback
+         01011   = periodic/continuous: A-B quadrature encoder
+         01100   = periodic/continuous: inc on A-rise & B-high
+         01101   = periodic/continuous: inc on A-rise & B-high / dec on A-rise & B-low
+         01110   = periodic/continuous: inc on A-rise {/ dec on B-rise}
+         01111   = periodic/continuous: inc on A-high {/ dec on B-high}
+         10000   = time A-states
+         10001   = time A-highs
+         10010   = time X A-highs/rises/edges -or- timeout on X A-high/rise/edge
+         10011   = for X periods, count time
+         10100   = for X periods, count states
+         10101   = for periods in X+ clocks, count time
+         10110   = for periods in X+ clocks, count states
+         10111   = for periods in X+ clocks, count periods
+         11000   = ADC sample/filter/capture, internally clocked
+         11001   = ADC sample/filter/capture, externally clocked
+         11010   = ADC scope with trigger
+         11011*  = USB host/device              (even/odd pin pair = DM/DP)
+         11100*  = sync serial transmit         (A-data, B-clock)
+         11101   = sync serial receive          (A-data, B-clock)
+         11110*  = async serial transmit        (baudrate)
+         11111   = async serial receive         (baudrate)
 
-         **\* OUT signal overridden**
+         * OUT signal overridden
+~~~
 
 When a mode-related event occurs in a smart pin, it raises its IN signal to alert the cog(s) that new data is ready, new data can be loaded, or some process has finished. A cog acknowledges a smart pin whenever it does a WRPIN, WXPIN, WYPIN, RDPIN or AKPIN on it. This causes the smart pin to lower its IN signal so that it can be raised again on the next event. Note that since the RQPIN instruction (read quiet) does not do an acknowledge, it can be used by any number of cogs, concurrently, to read a pin without bus conflict.
 
 After WRPIN/WXPIN/WYPIN/RDPIN/AKPIN, it will take two clocks for IN to drop, before it can be polled again:
 
-       **WRPIN/WXPIN/WYPIN/RDPIN/AKPIN   'acknowledge smart pin, releases IN from high**  
-       **NOP                             'elapse 2 clocks (or more)**  
-       **TESTP   pin     WC              'IN can now be polled again**
+~~~
+       WRPIN/WXPIN/WYPIN/RDPIN/AKPIN   'acknowledge smart pin, releases IN from high
+       NOP                             'elapse 2 clocks (or more)
+       TESTP   pin     WC              'IN can now be polled again
+~~~
 
 A smart pin should be configured while its DIR bit is low, holding it in reset. During that time, WRPIN/WXPIN/WYPIN can be used to establish the mode and related parameters. Once configured, DIR can be raised high and the smart pin will begin operating. After that, depending on the mode, you may feed it new data via WXPIN/WYPIN or retrieve results using RDPIN/RQPIN. These activities are usually coordinated with the IN signal going high.
 
@@ -3003,17 +3064,21 @@ Because the accumulators are 27 bits wide, 32-bit integer adds and subtracts in 
 
 You can either prescale the 27-bit values to 32-bit values:
 
-       **RDPIN   x,\#adcpin              'get SINC2 accumulator**  
-       **SHL     x,\#5                   'prescale 27-bit to 32-bit**  
-       **SUB     x,diff                 'compute sample**  
-       **ADD     diff,x                 'update diff value**
+~~~
+       RDPIN   x,#adcpin              'get SINC2 accumulator  
+       SHL     x,#5                   'prescale 27-bit to 32-bit  
+       SUB     x,diff                 'compute sample  
+       ADD     diff,x                 'update diff value
+~~~
 
 Or you can post-trim them to 27-bit values:
 
-       **RDPIN   x,\#adcpin              'get SINC2 accumulator**  
-       **SUB     x,diff                 'compute sample**  
-       **ADD     diff,x                 'update diff value**  
-       **ZEROX   x,\#26                  'trim to 27-bit**
+~~~
+       RDPIN   x,#adcpin              'get SINC2 accumulator  
+       SUB     x,diff                 'compute sample  
+       ADD     diff,x                 'update diff value  
+       ZEROX   x,#26                  'trim to 27-bit
+~~~
 
 #### SINC2 Sampling Mode (%00)
 
@@ -3021,15 +3086,19 @@ This mode performs complete SINC2 conversions, updating the ADC output sample at
 
 To begin SINC2 sampling:
 
-       **WRPIN   \#\#%100011\_0000000\_00\_11000\_0,adcpin    'configure ADC+sample pin(s)**  
-       **WXPIN   \#%00\_0111,adcpin                       'SINC2 sampling at 8 bits**  
-       **DIRH    adcpin                                 'enable smart pin(s)**
+~~~
+       WRPIN   ##%100011_0000000_00_11000_0,adcpin    'configure ADC+sample pin(s)
+       WXPIN   #%00_0111,adcpin                       'SINC2 sampling at 8 bits
+       DIRH    adcpin                                 'enable smart pin(s)
+~~~
 
 NOTE: The variable 'adcpin' could enable multiple pins by having the additional number of pins in bits 10..6. For example, if 'adcpin' held %00111\_010000, pins 16 through 23 would have been simultaneously configured by the above code.
 
 To read the latest ADC sample, just do a RDPIN/RQPIN:
 
-       **RDPIN   sample,adcpin                          'read sample at any time**
+~~~
+       RDPIN   sample,adcpin                          'read sample at any time
+~~~
 
 SINC2 Filtering Mode (%01)
 
@@ -3037,25 +3106,29 @@ This mode performs SINC2 filtering, which requires some software interaction in 
 
 To begin SINC2 filtering:
 
-       **WRPIN   \#\#%100011\_0000000\_00\_11000\_0,\#adcpin   'configure ADC+filter pin(s)**  
-       **WXPIN   \#%01\_0111,\#adcpin                      'SINC2 filtering at 128 clocks**  
-       **DIRH    \#adcpin                                'enable smart pin(s)**
+~~~
+       WRPIN   \#\#%100011\_0000000\_00\_11000\_0,\#adcpin   'configure ADC+filter pin(s)  
+       WXPIN   \#%01\_0111,\#adcpin                      'SINC2 filtering at 128 clocks  
+       DIRH    \#adcpin                                'enable smart pin(s)
+~~~
 
 Pin interaction must occur after each sample period, so it may be good to set up an event to detect the pin's IN going high:
 
-       **SETSE1  \#%001\<\<6 \+ adcpin                      'SE1 triggers on pin high**
+~~~
+       SETSE1  \#%001\<\<6 \+ adcpin                      'SE1 triggers on pin high
 
-**.loop  WAITSE1                                        'wait for sample period done**  
-       **RDPIN   x,\#adcpin                              'get SINC2 accumulator**  
-       **SUB     x,diff                                 'compute sample**  
-       **ADD     diff,x                                 'update diff value**  
-       **SHR     x,\#6                                   'justify 8-bit sample**  
-       **ZEROX   x,\#7                                   'trim 8-bit sample**  
-       **'use x here                                    'use sample somehow**  
-       **JMP     \#.loop                                 'loop for next period**
+.loop  WAITSE1                                        'wait for sample period done  
+       RDPIN   x,\#adcpin                              'get SINC2 accumulator  
+       SUB     x,diff                                 'compute sample  
+       ADD     diff,x                                 'update diff value  
+       SHR     x,\#6                                   'justify 8-bit sample  
+       ZEROX   x,\#7                                   'trim 8-bit sample  
+       'use x here                                    'use sample somehow  
+       JMP     \#.loop                                 'loop for next period
 
-**x      RES     1                                      'sample value**  
-**diff   RES     1                                      'diff value**
+x      RES     1                                      'sample value  
+diff   RES     1                                      'diff value
+~~~
 
 Note that it is necessary to shift the computed sample right by some number of bits to leave the ENOBs intact. For SINC2 filtering, you must shift right by LOG2(clocks per period)-1, which in this case is LOG2(128)-1 \= 6\.
 
@@ -3065,28 +3138,33 @@ This mode performs SINC3 filtering, which requires some software interaction in 
 
 To begin SINC3 filtering:
 
-       **WRPIN   \#\#%100011\_0000000\_00\_11000\_0,\#adcpin   'configure ADC+filter pin(s)**  
-       **WXPIN   \#%10\_0111,\#adcpin                      'SINC3 filtering at 128 clocks**  
-       **DIRH    \#adcpin                                'enable smart pin(s)**
+~~~
+       WRPIN   ##%100011_0000000_00_11000_0,#adcpin   'configure ADC+filter pin(s)  
+       WXPIN   #%10_0111,#adcpin                      'SINC3 filtering at 128 clocks  
+       DIRH    #adcpin                                'enable smart pin(s)
+~~~
 
 Pin interaction must occur after each sample period, so it may be good to set up an event to detect the pin's IN going high:
 
-       **SETSE1  \#%001\<\<6 \+ adcpin                      'SE1 triggers on pin high**
+~~~
+       SETSE1  #%001<<6 + adcpin                      'SE1 triggers on pin high
 
-**.loop  WAITSE1                                        'wait for sample period done**  
-       **RDPIN   x,\#adcpin                              'get SINC3 accumulator**  
-       **SUB     x,diff1                                'compute sample**  
-       **ADD     diff1,x                                'update diff1 value**  
-       **SUB     x,diff2                                'compute sample**  
-       **ADD     diff2,x                                'update diff2 value**  
-       **SHR     x,\#7                                   'justify 14-bit sample**  
-       **ZEROX   x,\#13                                  'trim 14-bit sample**  
-       **'use x here                                    'use sample somehow**  
-       **JMP     \#.loop                                 'loop for next period**
+.loop  WAITSE1                                        'wait for sample period done  
+       RDPIN   x,#adcpin                              'get SINC3 accumulator  
+       SUB     x,diff1                                'compute sample  
+       ADD     diff1,x                                'update diff1 value  
+       SUB     x,diff2                                'compute sample  
+       ADD     diff2,x                                'update diff2 value  
+       SHR     x,#7                                   'justify 14-bit sample  
+       ZEROX   x,#13                                  'trim 14-bit sample  
+       'use x here                                    'use sample somehow  
+       JMP     #.loop                                 'loop for next period
 
-**x      RES     1                                      'sample value**  
-**diff1  RES     1                                      'diff1 value**  
-**diff2  RES     1                                      'diff2 value**
+x      RES     1                                      'sample value  
+diff1  RES     1                                      'diff1 value  
+diff2  RES     1                                      'diff2 value
+~~~
+
 
 Note that it is necessary to shift the computed sample right by some number of bits to leave the ENOBs intact. For SINC3 filtering, you must shift right by LOG2(clocks per period), which in this case is LOG2(128) \= 7\.
 
@@ -3096,13 +3174,17 @@ This mode captures the raw bitstream coming from the ADC. It buffers 32 bits and
 
 To begin raw bitstream capturing:
 
-       **WRPIN   \#\#%100011\_0000000\_00\_11000\_0,adcpin    'configure ADC+sample pin(s)**  
-       **WXPIN   \#%11\_0101,adcpin                       'raw sampling every 32 clocks**  
-       **DIRH    adcpin                                 'enable smart pin(s)**
+~~~
+       WRPIN   ##%100011_0000000_00_11000_0,adcpin    'configure ADC+sample pin(s)
+       WXPIN   #%11_0101,adcpin                       'raw sampling every 32 clocks
+       DIRH    adcpin                                 'enable smart pin(s)
+~~~
 
 To get a snapshot of the latest 32 bits of the ADC bitstream, just do a RDPIN/RQPIN:
 
-       **RDPIN   bitstream,adcpin                       'get snapshot of ADC bitstream**
+~~~
+       RDPIN   bitstream,adcpin                       'get snapshot of ADC bitstream
+~~~
 
 This mode can be used for purposes other than capturing ADC bitstreams. It's really just capturing the A-input without regard to pin configuration.
 
@@ -3139,22 +3221,28 @@ Each cog has a 32-bit SCOPE data pipe which is intended to be used with smart pi
 
 The SETSCP instruction enables the SCOPE data pipe and selects the 4-pin block whose lower bytes of RDPIN values it will continuously carry:
 
-        **SETSCP  {\#}D    'D\[6\] enables the SCOPE data pipe, D.\[5..2\] selects the 4-pin block**
+~~~
+        SETSCP  {#}D    'D[6] enables the SCOPE data pipe, D.[5..2] selects the 4-pin block
+~~~
 
 The GETSCP instruction gets the SCOPE data pipe's current four bytes:
 
-        **GETSCP  D       'Get the lower-byte RDPIN values of four pins into the bytes of D**
+~~~
+        GETSCP  D       'Get the lower-byte RDPIN values of four pins into the bytes of D
+~~~
 
 If the SCOPE data pipe didn't exist, the closest you could come to the GETSCP instruction would be this sequence, which would not have time-aligned samples:
 
-        **RQPIN   x,\#pinblock | 3     'read pin3 long into x**  
-        **ROLBYTE y,x                 'rotate pin3 byte into y**  
-        **RQPIN   x,\#pinblock | 2     'read pin2 long into x**  
-        **ROLBYTE y,x                 'rotate pin2 byte into y**  
-        **RQPIN   x,\#pinblock | 1     'read pin1 long into x**  
-        **ROLBYTE y,x                 'rotate pin1 byte into y**  
-        **RQPIN   x,\#pinblock | 0     'read pin0 long into x**  
-        **ROLBYTE y,x                 'rotate pin0 byte into y**
+~~~
+        RQPIN   x,#pinblock | 3     'read pin3 long into x
+        ROLBYTE y,x                 'rotate pin3 byte into y
+        RQPIN   x,#pinblock | 2     'read pin2 long into x
+        ROLBYTE y,x                 'rotate pin2 byte into y
+        RQPIN   x,#pinblock | 1     'read pin1 long into x
+        ROLBYTE y,x                 'rotate pin1 byte into y
+        RQPIN   x,#pinblock | 0     'read pin0 long into x
+        ROLBYTE y,x                 'rotate pin0 byte into y
+~~~
 
 The SCOPE data pipe is generic in function and may find other uses than carrying just 'scope' data.
 
@@ -3200,23 +3288,27 @@ At any time, a RDPIN/RQPIN can be executed on the lower pin to read the current 
 
 The receiver's status bits are as follows:
 
-\[31..16\]	\<unused\>		\- $0000  
-\[15..8\]	byte			\- last byte received  
-\[7\]	byte toggle		\- cleared on SOP, toggled on each byte received  
-\[6\]	error			\- cleared on SOP, set on bit-unstuff error or EOP SE0 \> 2 bit periods or SE1  
-\[5\]	EOP in			\- cleared on SOP or 7 bit periods of J or K, set on EOP  
-\[4\]	SOP in			\- cleared on EOP or 7 bit periods of J or K, set on SOP  
-\[3\]	steady state		\- cleared on DP/DM state change, set on 7 bit periods of no change  
-\[2\]	SE0 in			\- high when DP/DM state is SE0  
-\[1\]	K in			\- high when DP/DM state is K  
-\[0\]	J in			\- high when DP/DM state is J
+~~~
+[31..16]    <unused>		- $0000  
+[15..8]	    byte		    - last byte received  
+[7]	        byte toggle		- cleared on SOP, toggled on each byte received  
+[6]	        error			- cleared on SOP, set on bit-unstuff error or EOP SE0 > 2 bit periods or SE1  
+[5]	        EOP in			- cleared on SOP or 7 bit periods of J or K, set on EOP  
+[4]	        SOP in			- cleared on EOP or 7 bit periods of J or K, set on SOP  
+[3]	        steady state	- cleared on DP/DM state change, set on 7 bit periods of no change  
+[2]	        SE0 in			- high when DP/DM state is SE0  
+[1]	        K in			- high when DP/DM state is K  
+[0]	        J in			- high when DP/DM state is J
+~~~
 
 The result of a RDPIN/RQPIN can be bit-tested for events of interest. It can also be shifted right by 8 bits to LSB-justify the last byte received and get the byte toggle bit into C, in order to determine if you have a new byte. Assume that 'flag' is initially zero:
 
-       **SHR     D,\#8        WC   'get byte into D, get toggle bit into C**  
-       **RCL     flags,\#1         'rotate toggle bit into buffer**  
-       **TEST    flags,\#%11  WC   'if new and old toggle bits differ, C \= 1**  
-**IF\_C   \<use byte in D\>          'if new byte, do something with it**
+~~~
+       SHR     D,#8        WC   'get byte into D, get toggle bit into C
+       RCL     flags,#1         'rotate toggle bit into buffer
+       TEST    flags,#%11  WC   'if new and old toggle bits differ, C = 1
+IF_C   <use byte in D>          'if new byte, do something with it
+~~~
 
 ### %11100 \= synchronous serial transmit
 
@@ -3285,10 +3377,12 @@ Here is the internal state sequence:
 
 RDPIN/RQPIN with WC always returns the 'busy' flag into C. This is useful for knowing when a transmission has completed. The busy flag can be polled starting three clocks after the WYPIN, which loads the output words:
 
-       **WYPIN   x,\#txpin        'load output word**  
-       **WAITX   \#1              'wait 2+1 clocks before polling busy**  
-**wait   RDPIN   x,\#txpin  WC    'get busy flag into C**  
-**IF\_C   JMP     \#wait           'loop until C \= 0**
+~~~
+       WYPIN   x,#txpin        'load output word**  
+       WAITX   #1              'wait 2+1 clocks before polling busy**  
+wait   RDPIN   x,#txpin  WC    'get busy flag into C**  
+IF_C   JMP     #wait           'loop until C = 0
+~~~
 
 During reset (DIR=0) the output is held high.
 

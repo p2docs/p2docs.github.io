@@ -72,6 +72,7 @@ Short specs:
  - [Optimization and Coding for Speed](faster.html) (TODO)
  - [Hardware Bugs & Errata](errata.html)
  - [External RAM](psram.html) (TODO)
+ - [Mirrored Documents](mirror/)
  - [Useful Documents](documents.html)
 
 ## Recent changes

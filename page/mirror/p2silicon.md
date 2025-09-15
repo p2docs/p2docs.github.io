@@ -554,44 +554,52 @@ inst    MOV     x,y             'operate on x using y, MOV can become AND/OR/XOR
 
 The following are branch instructions which use D\[19:0\] as an absolute address:
 
-**EEEE 1101011 CZ0 DDDDDDDDD 000101100        JMP     D**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000101101        CALL    D**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000101110        CALLA   D**  
-**EEEE 1101011 CZ0 DDDDDDDDD 000101111        CALLB   D**
+~~~
+EEEE 1101011 CZ0 DDDDDDDDD 000101100        JMP     D  
+EEEE 1101011 CZ0 DDDDDDDDD 000101101        CALL    D  
+EEEE 1101011 CZ0 DDDDDDDDD 000101110        CALLA   D  
+EEEE 1101011 CZ0 DDDDDDDDD 000101111        CALLB   D
+~~~
 
 The JMPREL instruction uses D as a relative address that steps whole instructions. In cog mode, D\[19:0\] is added to the program counter and in hub mode, D\[17:0\] \<\< 2 is added to the program counter. This instruction is unique in its ability to make a relative jump (as opposed to an absolute jump) based on a register value. If \#D is used, the relative address will be a positive 9-bit value:
 
-**EEEE 1101011 00L DDDDDDDDD 000110000        JMPREL  {\#}D**
+~~~
+EEEE 1101011 00L DDDDDDDDD 000110000        JMPREL  {\#}D
+~~~
 
 These next branch instructions use S\[19:0\] as an absolute address, or, if S is immediate, they sign-extend the 9-bit S field and use that value as a relative address that steps whole instructions (in hub mode, the value gets shifted left two bits before being added to the program counter). This means that their immediate range is \-256 to \+255 instructions, relative to the instruction following the branch:
 
-**EEEE 1011010 0LI DDDDDDDDD SSSSSSSSS        CALLPA  {\#}D,{\#}S**  
-**EEEE 1011010 1LI DDDDDDDDD SSSSSSSSS        CALLPB  {\#}D,{\#}S**  
-**EEEE 1011001 CZI DDDDDDDDD SSSSSSSSS        CALLD   D,{\#}S**  
-**EEEE 1011011 00I DDDDDDDDD SSSSSSSSS        DJZ     D,{\#}S**  
-**EEEE 1011011 01I DDDDDDDDD SSSSSSSSS        DJNZ    D,{\#}S**  
-**EEEE 1011011 10I DDDDDDDDD SSSSSSSSS        DJF     D,{\#}S**  
-**EEEE 1011011 11I DDDDDDDDD SSSSSSSSS        DJNF    D,{\#}S**  
-**EEEE 1011100 00I DDDDDDDDD SSSSSSSSS        IJZ     D,{\#}S**  
-**EEEE 1011100 01I DDDDDDDDD SSSSSSSSS        IJNZ    D,{\#}S**  
-**EEEE 1011100 10I DDDDDDDDD SSSSSSSSS        TJZ     D,{\#}S**  
-**EEEE 1011100 11I DDDDDDDDD SSSSSSSSS        TJNZ    D,{\#}S**  
-**EEEE 1011101 00I DDDDDDDDD SSSSSSSSS        TJF     D,{\#}S**  
-**EEEE 1011101 01I DDDDDDDDD SSSSSSSSS        TJNF    D,{\#}S**  
-**EEEE 1011101 10I DDDDDDDDD SSSSSSSSS        TJS     D,{\#}S**  
-**EEEE 1011101 11I DDDDDDDDD SSSSSSSSS        TJNS    D,{\#}S**  
-**EEEE 1011110 00I DDDDDDDDD SSSSSSSSS        TJV     D,{\#}S**  
-**EEEE 1011110 01I 00000VVVV SSSSSSSSS        Jevent  {\#}S**  
-**EEEE 1011110 01I 00001VVVV SSSSSSSSS        JNevent {\#}S**
+~~~
+EEEE 1011010 0LI DDDDDDDDD SSSSSSSSS        CALLPA  {#}D,{#}S  
+EEEE 1011010 1LI DDDDDDDDD SSSSSSSSS        CALLPB  {#}D,{#}S  
+EEEE 1011001 CZI DDDDDDDDD SSSSSSSSS        CALLD   D,{#}S  
+EEEE 1011011 00I DDDDDDDDD SSSSSSSSS        DJZ     D,{#}S  
+EEEE 1011011 01I DDDDDDDDD SSSSSSSSS        DJNZ    D,{#}S  
+EEEE 1011011 10I DDDDDDDDD SSSSSSSSS        DJF     D,{#}S  
+EEEE 1011011 11I DDDDDDDDD SSSSSSSSS        DJNF    D,{#}S  
+EEEE 1011100 00I DDDDDDDDD SSSSSSSSS        IJZ     D,{#}S  
+EEEE 1011100 01I DDDDDDDDD SSSSSSSSS        IJNZ    D,{#}S  
+EEEE 1011100 10I DDDDDDDDD SSSSSSSSS        TJZ     D,{#}S  
+EEEE 1011100 11I DDDDDDDDD SSSSSSSSS        TJNZ    D,{#}S  
+EEEE 1011101 00I DDDDDDDDD SSSSSSSSS        TJF     D,{#}S  
+EEEE 1011101 01I DDDDDDDDD SSSSSSSSS        TJNF    D,{#}S  
+EEEE 1011101 10I DDDDDDDDD SSSSSSSSS        TJS     D,{#}S  
+EEEE 1011101 11I DDDDDDDDD SSSSSSSSS        TJNS    D,{#}S  
+EEEE 1011110 00I DDDDDDDDD SSSSSSSSS        TJV     D,{#}S  
+EEEE 1011110 01I 00000VVVV SSSSSSSSS        Jevent  {#}S  
+EEEE 1011110 01I 00001VVVV SSSSSSSSS        JNevent {#}S
+~~~
 
 There are five branch instructions and one 'locate' instruction which involve 20-bit immediate addresses. Their addresses can be either relative to the program counter (R=1) or absolute (R=0):
 
-**EEEE 1101100 RAA AAAAAAAAA AAAAAAAAA        JMP     \#{\\}A**  
-**EEEE 1101101 RAA AAAAAAAAA AAAAAAAAA        CALL    \#{\\}A**  
-**EEEE 1101110 RAA AAAAAAAAA AAAAAAAAA        CALLA   \#{\\}A**  
-**EEEE 1101111 RAA AAAAAAAAA AAAAAAAAA        CALLB   \#{\\}A**  
-**EEEE 11100WW RAA AAAAAAAAA AAAAAAAAA        CALLD   PA/PB/PTRA/PTRB,\#{\\}A**  
-**EEEE 11101WW RAA AAAAAAAAA AAAAAAAAA        LOC     PA/PB/PTRA/PTRB,\#{\\}A**
+~~~
+EEEE 1101100 RAA AAAAAAAAA AAAAAAAAA        JMP     #{\}A
+EEEE 1101101 RAA AAAAAAAAA AAAAAAAAA        CALL    #{\}A
+EEEE 1101110 RAA AAAAAAAAA AAAAAAAAA        CALLA   #{\}A
+EEEE 1101111 RAA AAAAAAAAA AAAAAAAAA        CALLB   #{\}A
+EEEE 11100WW RAA AAAAAAAAA AAAAAAAAA        CALLD   PA/PB/PTRA/PTRB,#{\}A
+EEEE 11101WW RAA AAAAAAAAA AAAAAAAAA        LOC     PA/PB/PTRA/PTRB,#{\}A
+~~~
 
 Relative addressing is convenient for relocatable code, or code which can run from either cog RAM or hub RAM. Relative addressing is the default when cog code references cog labels or hub code references hub labels. On the other hand, absolute addressing is highly recommended, and forced by the assembler, when crossing between cog and hub domains.
 
@@ -601,50 +609,58 @@ The "@" operator can be used before an address label to return the hub address o
 
 The cases below illustrate use of the 20-bit immediate-address instructions and "\\" and "@":
 
-        **ORGH    $01000**  
-        **ORG     0       'cog code**
+~~~
+        ORGH    $01000  
+        ORG     0       'cog code
 
-**cog     JMP     \#cog    '$FD9FFFFC      cog to cog, relative**  
-        **JMP     \#\\cog   '$FD800000      cog to cog, force absolute**  
-        **JMP     \#@cog   '$FD801000      cog to hub, always absolute**  
-        **JMP     \#\\@cog  '$FD801000      cog to hub, always absolute**
+cog     JMP     #cog    '$FD9FFFFC      cog to cog, relative  
+        JMP     #\cog   '$FD800000      cog to cog, force absolute  
+        JMP     #@cog   '$FD801000      cog to hub, always absolute  
+        JMP     #\@cog  '$FD801000      cog to hub, always absolute
 
-        **JMP     \#hub    '$FD802000      cog to hub, always absolute**  
-        **JMP     \#\\hub   '$FD802000      cog to hub, always absolute**  
-        **JMP     \#@hub   '$FD802000      cog to hub, always absolute**  
-        **JMP     \#\\@hub  '$FD802000      cog to hub, always absolute**
+        JMP     #hub    '$FD802000      cog to hub, always absolute  
+        JMP     #\hub   '$FD802000      cog to hub, always absolute  
+        JMP     #@hub   '$FD802000      cog to hub, always absolute  
+        JMP     #\@hub  '$FD802000      cog to hub, always absolute
 
-        **ORGH    $02000  'hub code**
+        ORGH    $02000  'hub code
 
-**hub     JMP     \#cog    '$FD800000      hub to cog, always absolute**  
-        **JMP     \#\\cog   '$FD800000      hub to cog, always absolute**  
-        **JMP     \#@cog   '$FD9FEFF4      hub to hub, relative**  
-        **JMP     \#\\@cog  '$FD801000      hub to hub, force absolute**
+hub     JMP     #cog    '$FD800000      hub to cog, always absolute  
+        JMP     #\cog   '$FD800000      hub to cog, always absolute  
+        JMP     #@cog   '$FD9FEFF4      hub to hub, relative  
+        JMP     #\@cog  '$FD801000      hub to hub, force absolute
 
-        **JMP     \#hub    '$FD9FFFEC      hub to hub, relative**  
-        **JMP     \#\\hub   '$FD802000      hub to hub, force absolute**  
-        **JMP     \#@hub   '$FD9FFFE4      hub to hub, relative**  
-        **JMP     \#\\@hub  '$FD802000      hub to hub, force absolute**
+        JMP     #hub    '$FD9FFFEC      hub to hub, relative  
+        JMP     #\hub   '$FD802000      hub to hub, force absolute  
+        JMP     #@hub   '$FD9FFFE4      hub to hub, relative  
+        JMP     #\@hub  '$FD802000      hub to hub, force absolute
+~~~
 
 ## INSTRUCTION REPEATING
 
 Single or multiple instructions can be repeated without branching delays in cog/LUT memory using the REP instruction:
 
-**REP     {\#}D,{\#}S		'execute {\#}D\[8:0\] instructions {\#}S\[31:0\] times**
+~~~
+        REP     {#}D,{#}S       'execute {#}D[8:0] instructions {#}S[31:0] times
+~~~
 
 If D\[8:0\] \= 0, nothing will be repeated. If D\[8:0\] \> 0 and S\[31:0\] \= 0 then D\[8:0\] instructions will be repeated indefinitely.
 
 By changing the \#1000 to \#0, the DRVNOT instruction would be repeated indefinitely:
 
-**REP     \#1,\#\#1000		'toggle pin 0 1000 times (1 instruction x 1000\)**  
-**DRVNOT  \#0			'output and toggle pin 0 (2 clocks per toggle)**
+~~~
+        REP     #1,##1000       'toggle pin 0 1000 times (1 instruction x 1000)  
+        DRVNOT  #0              'output and toggle pin 0 (2 clocks per toggle)
+~~~
 
 In cases where you'd rather have the assembler keep track of the number of instructions, @label can be used:
 
-**REP     @.end,reps		'repeat instruction block 'reps' times**  
-**WFBYTE  x			'write x to next byte in hub**  
-**ADD     x,\#1			'increment x**  
-**.end**
+~~~
+        REP     @.end,reps      'repeat instruction block 'reps' times  
+        WFBYTE  x               'write x to next byte in hub  
+        ADD     x,#1            'increment x  
+.end
+~~~
 
 REP works in hub memory, as well, but executes a hidden jump to get back to the top of the repeated instructions.
 
@@ -656,9 +672,11 @@ Cogs can initiate skipping sequences to selectively skip any of the next 32 inst
 
 There are three instructions that initiate skipping:
 
-**SKIP    {\#}D		'skip by cancelling instructions sequentially per D\[0\]..D\[31\]**  
-**SKIPF   {\#}D		'like SKIP, but fast due to PC steps of 1..8 \- cog/LUT only\!**  
-**EXECF   {\#}D		'jump to D\[9:0\] in cog/LUT and initiate SKIPF using D\[31:10\]**
+~~~
+        SKIP    {#}D            'skip by cancelling instructions sequentially per D[0]..D[31]
+        SKIPF   {#}D            'like SKIP, but fast due to PC steps of 1..8 - cog/LUT only!
+        EXECF   {#}D            'jump to D[9:0] in cog/LUT and initiate SKIPF using D[31:10]
+~~~
 
 In each case, D provides a bit pattern which is used LSB-first to determine whether the next instruction is cancelled/skipped (bit=1) or executed (bit=0). The D bit pattern is initially captured and subsequently shifted right by one bit for each instruction encountered.
 
@@ -668,75 +686,89 @@ While SKIP-initiated skipping can take place in both hub and cog/LUT memory, SKI
 
 Here is a simplistic example of SKIP:
 
-**SKIP	\#%010110	'initiate skip sequence (skip 2nd, 3rd, 5th instruction)**  
-**DRVN	\#0		'drive and invert pin 0 (executes)**  
-**DRVN	\#1		'drive and invert pin 1 (NOP)**  
-**DRVN	\#2		'drive and invert pin 2 (NOP)**  
-**DRVN	\#3		'drive and invert pin 3 (executes)**  
-**DRVN	\#4		'drive and invert pin 4 (NOP)**  
-**DRVN	\#5		'drive and invert pin 5 (executes)**
+~~~
+        SKIP    #%010110    'initiate skip sequence (skip 2nd, 3rd, 5th instruction)
+        DRVN    #0          'drive and invert pin 0 (executes)
+        DRVN    #1          'drive and invert pin 1 (NOP)
+        DRVN    #2          'drive and invert pin 2 (NOP)
+        DRVN    #3          'drive and invert pin 3 (executes)
+        DRVN    #4          'drive and invert pin 4 (NOP)
+        DRVN    #5          'drive and invert pin 5 (executes)
+~~~
 
 Skipping is very useful for getting increased functionality out of an otherwise-static sequence of instructions. Consider this sequence, which contains all the instructions needed to realize 36 different address calculations:
 
-**addr		RFBYTE	m		'offset \- one of these three (3 possibilities)**  
-**RFWORD	m**  
-**RFLONG	m**
+~~~
+addr    RFBYTE  m           'offset - one of these three (3 possibilities)  
+        RFWORD  m  
+        RFLONG  m
 
-**ADD	m,pbase	'base \- one of these three (3 possibilities)**  
-**ADD	m,vbase**  
-**ADD	m,dbase**
+        ADD     m,pbase     'base - one of these three (3 possibilities)  
+        ADD     m,vbase  
+        ADD     m,dbase
 
-**SHL	i,\#1		'index \- zero to two of these three (4 possibilities)**  
-**SHL	i,\#2**  
-**ADD	m,i**
+        SHL     i,#1        'index - zero to two of these three (4 possibilities)  
+        SHL     i,#2  
+        ADD     m,i
+~~~
 
 In the above sequence, the intention is to compute an address using an offset, a base, and an optional index. There are 3 x 3 x 4, or 36, useful permutations. If you wanted to use a byte offset, pbase, and a long index, you would want to execute only these four instructions from the 'addr' sequence:
 
-**RFBYTE	m		'offset**  
-**ADD	m,pbase	'base**  
-**SHL	i,\#2		'index**  
-**ADD	m,i**
+~~~
+        RFBYTE  m           'offset  
+        ADD     m,pbase     'base  
+        SHL     i,#2        'index  
+        ADD     m,i
+~~~
 
-The skip pattern for just those four instructions would be %001\_110\_110. Assuming 'pat' holds that pattern, here is what the execution would look like using SKIP. Note that the 'addr' instruction sequence, shown above, follows the SKIP instruction and skipped instructions in the 'addr' sequence are now shown as NOPs:
+The skip pattern for just those four instructions would be %001_110_110. Assuming 'pat' holds that pattern, here is what the execution would look like using SKIP. Note that the 'addr' instruction sequence, shown above, follows the SKIP instruction and skipped instructions in the 'addr' sequence are now shown as NOPs:
 
-**SKIP	pat		'initiate skip sequence (**%001\_110\_110 in this case)
+~~~
+        SKIP    pat         'initiate skip sequence (%001_110_110 in this case)
 
-**addr		RFBYTE	m		'offset**  
-**NOP**  
-**NOP**
+addr    RFBYTE  m           'offset  
+        NOP  
+        NOP
 
-**ADD	m,pbase	'base**  
-**NOP**  
-**NOP**
+        ADD     m,pbase     'base  
+        NOP  
+        NOP
 
-**NOP			'index**  
-**SHL	i,\#2**  
-**ADD	m,i**
+        NOP                 'index  
+        SHL     i,#2  
+        ADD     m,i
+~~~
 
 If this code were located in cog/LUT memory, SKIPF could be used to speed things up by stepping over skipped instructions, instead of canceling them in the pipeline. Here is what the execution would look like using SKIPF:
 
-**SKIPF	pat		'initiate skip sequence (**%001\_110\_110 in this case)
+~~~
+        SKIPF   pat         'initiate skip sequence (%001_110_110 in this case)
 
-**addr		RFBYTE	m		'offset**  
-**ADD	m,pbase	'base**  
-**SHL	i,\#2		'index**  
-**ADD	m,i**
+addr    RFBYTE  m           'offset  
+        ADD     m,pbase     'base  
+        SHL     i,#2        'index  
+        ADD     m,i
+~~~
 
 Now things are very efficient, with no cycles being wasted on NOPs. If SKIPF is used in hub exec, it will revert to SKIP behavior, canceling instructions in the pipeline, instead of stepping over them.
 
-Both SKIP and SKIPF can be preceded by \_RET\_ for an automatic branch before skipping commences:
+Both SKIP and SKIPF can be preceded by _RET_ for an automatic branch before skipping commences:
 
-**PUSH	\#addr		'point to the addr routine**  
-**\_RET\_	SKIPF	pat		'jump to addr and begin skipping fast using pat**
+~~~
+        PUSH    #addr       'point to the addr routine  
+_RET_   SKIPF   pat         'jump to addr and begin skipping fast using pat
+~~~
 
 The EXECF instruction performs a JMP and a SKIPF at the same time, getting a 10-bit branch address from D\[9:0\] and a 22-bit skip pattern from D\[31:10\]. Here is the heart of a simple bytecode interpreter which uses EXECF:
 
-**REP	\#1,\#8		'pre-stuff 8-level hardware stack with 'loop' address**  
-**PUSH	\#loop		'all RETs without CALLs will branch to 'loop'**
+~~~
+        REP #1,#8           'pre-stuff 8-level hardware stack with 'loop' address  
+        PUSH    #loop       'all RETs without CALLs will branch to 'loop'
 
-**loop		RFBYTE	i		'get a bytecode**  
-**RDLUT	e,i		'lookup long in LUT**  
-**EXECF	e		'jump to e\[9:0\] and SKIPF e\[31:10\], RETs branch to 'loop'**
+loop    RFBYTE  i           'get a bytecode  
+        RDLUT   e,i         'lookup long in LUT  
+        EXECF   e           'jump to e[9:0] and SKIPF e[31:10], RETs branch to 'loop'
+~~~
 
 That bytecode interpreter takes only 2+3+4, or 9, clocks to get the next bytecode, look it up, then execute that bytecode's routine in cog/LUT memory with a custom 22-bit SKIPF pattern. If that bytecode's routine is just a 2-clock instruction preceded by a \_RET\_, it will take 4 clocks, due to the \_RET\_, for a total of 13 clocks, looping. Those 13 clocks can be reduced to only 8 clocks by using XBYTE, which is explained in the next section.
 
@@ -765,14 +797,14 @@ XBYTE performs the following steps to make a complete bytecode executor:
 
 | Clock | Phase | XBYTE Activity | Description |
 | :---: | :---: | :---- | :---- |
-| 1 | go | RFBYTE bytecode SKIPF \#0 | *Last clock of the RET/\_RET\_ to $1FF* **Fetch bytecode from FIFO (initialized via prior RDFAST). Cancel any SKIPF pattern in progress (from prior bytecode).** |
-| 2 | get | MOV PA,bytecode RDLUT (per bytecode) | *1st clock of 1st canceled instruction* **Write bytecode to PA ($1F6). Read lookup-table RAM according to bytecode and mode.** |
-| 3 | go | RDLUT (data → D) | *2nd clock of 1st canceled instruction* **Get lookup RAM long into D for EXECF.** |
-| 4 | get | EXECF D (begin) | *1st clock of 2nd canceled instruction* **Execute EXECF.** |
-| 5 | go | MOV PB,(GETPTR) MODCZ bit1,bit0 {WCZ} EXECF D (branch) | *2nd clock of 2nd canceled instruction* **Write FIFO pointer to PB ($1F7). Write C,Z with bit1,bit0 of RDLUT address, if enabled. Do EXECF branch.** |
+| 1 | go | RFBYTE bytecode<br>SKIPF \#0 | *Last clock of the RET/\_RET\_ to $1FF*<br>**Fetch bytecode from FIFO (initialized via prior RDFAST).<br>Cancel any SKIPF pattern in progress (from prior bytecode).** |
+| 2 | get | MOV PA,bytecode<br>RDLUT (per bytecode) | *1st clock of 1st canceled instruction*<br>**Write bytecode to PA ($1F6).<br>Read lookup-table RAM according to bytecode and mode.** |
+| 3 | go | RDLUT (data → D) | *2nd clock of 1st canceled instruction*<br>**Get lookup RAM long into D for EXECF.** |
+| 4 | get | EXECF D (begin) | *1st clock of 2nd canceled instruction*<br>**Execute EXECF.** |
+| 5 | go | MOV PB,(GETPTR)<br>MODCZ bit1,bit0 {WCZ}<br>EXECF D (branch) | *2nd clock of 2nd canceled instruction*<br>**Write FIFO pointer to PB ($1F7).<br>Write C,Z with bit1,bit0 of RDLUT address, if enabled.<br>Do EXECF branch.** |
 | 6 | get | flush pipeline | *1st clock of 3rd canceled instruction* |
 | 7 | go | reload pipeline | *2nd clock of 3rd canceled instruction* |
-| 8 | get | \<none\> | *1st clock of 1st instruction of bytecode routine* **Loop to clock 1 if \_RET\_ or RET** |
+| 8 | get | \<none\> | *1st clock of 1st instruction of bytecode routine*<br>**Loop to clock 1 if \_RET\_ or RET** |
 
 The bytecode translation table in LUT memory must consist of long data which EXECF would use, where the 10 LSBs are an address to jump to in cog/LUT RAM and the 22 MSBs are a SKIPF pattern to be applied.
 
@@ -784,16 +816,16 @@ To alter the XBYTE mode for the next bytecode, only, a '\_RET\_ SETQ2 {\#}D' ins
 
 | Bits | SETQ/SETQ2 {\#}D value | LUT base address | LUT index b \= bytecode | LUT EXECF address |
 | :---: | :---: | :---: | ----- | :---: |
-| **8** | **%A000000xF** | **%A00000000** | **I \= b\[7:0\]** | **AIIIIIIII** |
-| **8** | **%ABBBB00xF %BBBB \> 0** | **%A00000000** | **if b\[7:4\] \<  %BBBB then I \= b\[7:0\] if b\[7:4\] \>= %BBBB then I \= b\[7:4\] \- %BBBB** | **%AIIIIIIII %ABBBBIIII** |
-| **7** | **%AAxx0010F** | **%AA0000000** | **I \= b\[6:0\]** | **%AAIIIIIII** |
-| **7** | **%AAxx0011F** | **%AA0000000** | **I \= b\[7:1\]** | **%AAIIIIIII** |
-| **6** | **%AAAx1010F** | **%AAA000000** | **I \= b\[5:0\]** | **%AAAIIIIII** |
-| **6** | **%AAAx1011F** | **%AAA000000** | **I \= b\[7:2\]** | **%AAAIIIIII** |
-| **5** | **%AAAAx100F** | **%AAAA00000** | **I \= b\[4:0\]** | **%AAAAIIIII** |
-| **5** | **%AAAAx101F** | **%AAAA00000** | **I \= b\[7:3\]** | **%AAAAIIIII** |
-| **4** | **%AAAAA110F** | **%AAAAA0000** | **I \= b\[3:0\]** | **%AAAAAIIII** |
-| **4** | **%AAAAA111F** | **%AAAAA0000** | **I \= b\[7:4\]** | **%AAAAAIIII** |
+| 8 | %A000000xF | %A00000000 | I \= b\[7:0\] | AIIIIIIII |
+| 8 | %ABBBB00xF<br>%BBBB \> 0 | %A00000000 | if b\[7:4\] \<  %BBBB then I \= b\[7:0\]<br>if b\[7:4\] \>= %BBBB then I \= b\[7:4\] \- %BBBB | %AIIIIIIII<br>%ABBBBIIII |
+| 7 | %AAxx0010F | %AA0000000 | I \= b\[6:0\] | %AAIIIIIII |
+| 7 | %AAxx0011F | %AA0000000 | I \= b\[7:1\] | %AAIIIIIII |
+| 6 | %AAAx1010F | %AAA000000 | I \= b\[5:0\] | %AAAIIIIII |
+| 6 | %AAAx1011F | %AAA000000 | I \= b\[7:2\] | %AAAIIIIII |
+| 5 | %AAAAx100F | %AAAA00000 | I \= b\[4:0\] | %AAAAIIIII |
+| 5 | %AAAAx101F | %AAAA00000 | I \= b\[7:3\] | %AAAAIIIII |
+| 4 | %AAAAA110F | %AAAAA0000 | I \= b\[3:0\] | %AAAAAIIII |
+| 4 | %AAAAA111F | %AAAAA0000 | I \= b\[7:4\] | %AAAAAIIII |
 
 The %ABBBB00xF setting allows sets of 16 bytecodes, which would use identical LUT values, to be represented by a single LUT value, effectively compressing blocks of 16 LUT values into single LUT values. This is useful when the bytecode, which is always written to PA, is used as an operand within the bytecode routine.
 
@@ -801,21 +833,127 @@ The %F bit of the SETQ/SETQ2 {\#}D value enables C and Z to receive bits 1 and 0
 
 | SETQ/SETQ2 {\#}D value | Flag Writing |
 | :---: | ----- |
-| **%xxxxxxxx0** | **Do not affect flags on XBYTE** |
-| **%xxxxxxxx1** | **Write the bytecode's index LSBs to C and Z** |
+| %xxxxxxxx0 | Do not affect flags on XBYTE |
+| %xxxxxxxx1 | Write the bytecode's index LSBs to C and Z |
 
 To start executing bytecodes, use the following instruction sequence, but with the appropriate SETQ operand:
 
-        **PUSH    \#$1FF		'push \#$1FF onto the hardware stack**  
-**\_RET\_   SETQ    \#$100		'256-long EXECF table at LUT $100, start XBYTE**
+~~~
+            PUSH    #$1FF       'push #$1FF onto the hardware stack  
+    _RET_   SETQ    #$100       '256-long EXECF table at LUT $100, start XBYTE
+~~~
 
-| con \_clkfreq \= 10\_000\_000 ' ' \*\* XBYTE Demo \*\* ' Automatically executes bytecodes via RET/\_RET\_ to $1FF. ' Overhead is 6 clocks, including \_RET\_ at the end of each bytecode routine. ' dat             org                 asmclk                  'set clock up                 setq2   \#$FF            'load bytecode table into LUT $100..$1FF                 rdlong  $100,\#bytetable                 rdfast  \#0,\#bytecodes   'init fifo read at start of bytecodes                 push    \#$1FF           'push $1FF for xbyte         \_ret\_   setq    \#$100           'start xbyte with LUT base \= $100, no stack pop ' ' Bytecode routines ' r0      \_ret\_   drvnot  \#0              'toggle pin 0 r1      \_ret\_   drvnot  \#1              'toggle pin 1 r2      \_ret\_   drvnot  \#2              'toggle pin 2 r3      \_ret\_   drvnot  \#3              'toggle pin 3 r4              rfvars  pa              'get offset                 add     pb,pa           'add offset         \_ret\_   rdfast  \#0,pb           'init fifo read at new address ' ' Bytecodes that form the XBYTE program in hub '                 orgh bytecodes       byte    0                       'toggle pin 0                 byte    1                       'toggle pin 1                 byte    2                       'toggle pin 2                 byte    3                       'toggle pin 3                 byte    4,(bytecodes-$) & $7F   'relative branch, loop to bytecodes ' ' Bytecode EXECF data, moved into lut $100..$1FF (no SKIPF patterns are used in this example) ' bytetable       long    r0                      '\#0     toggle pin 0                 long    r1                      '\#1     toggle pin 1                 long    r2                      '\#2     toggle pin 2                 long    r3                      '\#3     toggle pin 3                 long    r4                      '\#4     relative branch { clock   phase   hidden                          description \------------------------------------------------------------------------------------------------- 1       go      RFBYTE byte                     last clock of instruction which is executing a                                                 RET/\_RET\_ to $1FF 2       get     RDLUT @byte, write byte to PA   1st clock of 1st canceled instruction 3       go      LUT long \--\> next D             2nd clock of 1st canceled instruction 4       get     EXECF D,                        1st clock of 2nd canceled instruction 5       go      EXECF D, write GETPTR to PB     2nd clock of 2nd canceled instruction 6       get     flush pipe                      1st clock of 3rd canceled instruction 7       go      flush pipe                      2nd clock of 3rd canceled instruction 8       get                                     1st clock of 1st instruction of bytecode routine,                                                 loop to (clock) 1 if \_RET\_ } |
-| :---- |
+~~~
+con _clkfreq = 10_000_000
+'
+' ** XBYTE Demo **
+' Automatically executes bytecodes via RET/_RET_ to $1FF.
+' Overhead is 6 clocks, including _RET_ at the end of each bytecode routine.
+'
+dat             org
+
+                asmclk                  'set clock up
+
+                setq2   #$FF            'load bytecode table into LUT $100..$1FF
+                rdlong  $100,#bytetable
+
+                rdfast  #0,#bytecodes   'init fifo read at start of bytecodes
+
+                push    #$1FF           'push $1FF for xbyte
+        _ret_   setq    #$100           'start xbyte with LUT base = $100, no stack pop
+'
+' Bytecode routines
+'
+r0      _ret_   drvnot  #0              'toggle pin 0
+
+r1      _ret_   drvnot  #1              'toggle pin 1
+
+r2      _ret_   drvnot  #2              'toggle pin 2
+
+r3      _ret_   drvnot  #3              'toggle pin 3
+
+r4              rfvars  pa              'get offset
+                add     pb,pa           'add offset
+        _ret_   rdfast  #0,pb           'init fifo read at new address
+'
+' Bytecodes that form the XBYTE program in hub
+'
+                orgh
+
+bytecodes       byte    0                       'toggle pin 0
+                byte    1                       'toggle pin 1
+                byte    2                       'toggle pin 2
+                byte    3                       'toggle pin 3
+                byte    4,(bytecodes-$) & $7F   'relative branch, loop to bytecodes
+'
+' Bytecode EXECF data, moved into lut $100..$1FF (no SKIPF patterns are used in this example)
+'
+bytetable       long    r0                      '#0     toggle pin 0
+                long    r1                      '#1     toggle pin 1
+                long    r2                      '#2     toggle pin 2
+                long    r3                      '#3     toggle pin 3
+                long    r4                      '#4     relative branch
+
+{
+clock   phase   hidden                          description
+-------------------------------------------------------------------------------------------------
+1       go      RFBYTE byte                     last clock of instruction which is executing a
+                                                RET/_RET_ to $1FF
+
+2       get     RDLUT @byte, write byte to PA   1st clock of 1st canceled instruction
+3       go      LUT long --> next D             2nd clock of 1st canceled instruction
+4       get     EXECF D,                        1st clock of 2nd canceled instruction
+5       go      EXECF D, write GETPTR to PB     2nd clock of 2nd canceled instruction
+6       get     flush pipe                      1st clock of 3rd canceled instruction
+7       go      flush pipe                      2nd clock of 3rd canceled instruction
+
+8       get                                     1st clock of 1st instruction of bytecode routine,
+                                                loop to (clock) 1 if _RET_
+}
+~~~
 
 While developing XBYTE code, you may want to single-step the bytecode execution, in order to inspect what is happening. To do this, you must simulate normal XBYTE operation using a small program. Below is an example of how to do this for the simplest case of the full-8-bit mode which doesn't write the LSBs of the LUT address to C and Z. 
 
-| ' Normal XBYTE or single-step bytecode executor (must run from registers or LUT)           rdfast    \#0,bytecodes  'start FIFO read at bytecodes '          push      \#$1FF         'start xbyte                      UNCOMMENT FOR NORMAL XBYTE '   \_ret\_  setq      \#$000         '(full 8-bit lookup at LUT $000)  UNCOMMENT FOR NORMAL XBYTE           rep       @.r,\#8        'prepare to single-step by stuffing stack with byteloop address           push      \#\#byteloop    '(bottom stack value gets copied each \_RET\_ / RET) .r byteloop  nop                     '21-NOP landing strip for any trailing skip pattern           nop                     'that XBYTE would have canceled on \_RET\_ / RET           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           nop           rfbyte    pa                         'get next bytecode into pa           getptr    pb                         'get next bytecode address into pb           debug(uhex\_byte(pa),uhex\_long(pb))   'show bytecode and next bytecode address           rdlut     temp,pa                    'lookup EXECF long from LUT           execf     temp                       'do EXECF to execute bytecode, returns to byteloop |
-| :---- |
+
+~~~
+' Normal XBYTE or single-step bytecode executor (must run from registers or LUT)
+
+          rdfast    #0,bytecodes  'start FIFO read at bytecodes
+
+'          push      #$1FF         'start xbyte                      UNCOMMENT FOR NORMAL XBYTE
+'   _ret_  setq      #$000         '(full 8-bit lookup at LUT $000)  UNCOMMENT FOR NORMAL XBYTE
+
+          rep       @.r,#8        'prepare to single-step by stuffing stack with byteloop address
+          push      ##byteloop    '(bottom stack value gets copied each _RET_ / RET)
+.r
+byteloop  nop                     '21-NOP landing strip for any trailing skip pattern
+          nop                     'that XBYTE would have canceled on _RET_ / RET
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          nop
+          rfbyte    pa                         'get next bytecode into pa
+          getptr    pb                         'get next bytecode address into pb
+          debug(uhex_byte(pa),uhex_long(pb))   'show bytecode and next bytecode address
+          rdlut     temp,pa                    'lookup EXECF long from LUT
+          execf     temp                       'do EXECF to execute bytecode, returns to byteloop
+
+~~~
 
 ## SETQ CONSIDERATIONS
 
@@ -831,8 +969,10 @@ CRCNIB is the only instruction which both inputs Q and outputs Q, requiring it t
 
 It is possible to retrieve the current Q value by the following sequence:
 
-**MOV	qval,\#0		'reset qval**  
-**MUXQ	qval,\#\#$FFFFFFFF	'for each '1' bit in Q, set the same bit in qval**
+~~~
+        MOV     qval,#0             'reset qval
+        MUXQ    qval,##$FFFFFFFF    'for each '1' bit in Q, set the same bit in qval
+~~~
 
 SETQ/SETQ2 shields the next instruction from interruption to prevent an interrupt service routine from inadvertently altering Q before the intended instruction can utilize its value.
 
@@ -840,22 +980,28 @@ SETQ/SETQ2 shields the next instruction from interruption to prevent an interrup
 
 Each cog has a pixel mixer which can combine one pixel with another pixel in many different ways. A pixel consists of four byte fields within a 32-bit cog register. Pixel operations occur between each pair of D and S bytes, and they take seven clock cycles to complete:
 
-**ADDPIX  D,S/\#			'add bytes with saturation**  
-**MULPIX  D,S/\#			'multiply bytes ($FF \= 1.0)**  
-**BLNPIX  D,S/\#			'alpha-blend bytes according to SETPIV value**  
-**MIXPIX  D,S/\#			'mix bytes according to SETPIX/SETPIV value**
+~~~
+    ADDPIX  D,S/#           'add bytes with saturation  
+    MULPIX  D,S/#           'multiply bytes ($FF = 1.0)  
+    BLNPIX  D,S/#           'alpha-blend bytes according to SETPIV value  
+    MIXPIX  D,S/#           'mix bytes according to SETPIX/SETPIV value
+~~~
 
 There are two pixel mixer setup instructions:
 
-**SETPIV  D/\#			'set blend factor V\[7:0\] to D/\#\[7:0\]**  
-**SETPIX  D/\#			'set MIXPIX mode M\[5:0\] to D/\#\[5:0\]**
+~~~
+    SETPIV  D/#         'set blend factor V[7:0] to D/#[7:0]  
+    SETPIX  D/#         'set MIXPIX mode M[5:0] to D/#[5:0]
+~~~
 
 When a pixel mixer instruction executes, a sum-of-products-with-saturation computation is performed on each D and S byte pair:
 
-	**D\[31:24\] \= ((D\[31:24\] \* DMIX \+ S\[31:24\] \* SMIX \+ $FF) \>\> 8\) max $FF**  
-	**D\[23:16\] \= ((D\[23:16\] \* DMIX \+ S\[23:16\] \* SMIX \+ $FF) \>\> 8\) max $FF**  
-	**D\[15:08\] \= ((D\[15:08\] \* DMIX \+ S\[15:08\] \* SMIX \+ $FF) \>\> 8\) max $FF**  
-	**D\[07:00\] \= ((D\[07:00\] \* DMIX \+ S\[07:00\] \* SMIX \+ $FF) \>\> 8\) max $FF**
+~~~
+    D[31:24] = ((D[31:24] * DMIX + S[31:24] * SMIX + $FF) >> 8) max $FF  
+    D[23:16] = ((D[23:16] * DMIX + S[23:16] * SMIX + $FF) >> 8) max $FF  
+    D[15:08] = ((D[15:08] * DMIX + S[15:08] * SMIX + $FF) >> 8) max $FF  
+    D[07:00] = ((D[07:00] * DMIX + S[07:00] * SMIX + $FF) >> 8) max $FF
+~~~
 
 Here are the DMIX and SMIX terms, according to each instruction:
 
@@ -864,20 +1010,24 @@ Here are the DMIX and SMIX terms, according to each instruction:
 | ADDPIX | $FF | $FF |
 | MULPIX | S\[byte\] | $00 |
 | BLNPIX | \!V | V |
-| MIXPIX | M\[5:3\] \= %000 → $00 M\[5:3\] \= %001 → $FF M\[5:3\] \= %010 → V M\[5:3\] \= %011 → \!V M\[5:3\] \= %100 → S\[byte\] M\[5:3\] \= %101 → \!S\[byte\] M\[5:3\] \= %110 → D\[byte\] M\[5:3\] \= %111 → \!D\[byte\] | M\[2:0\] \= %000 → $00 M\[2:0\] \= %001 → $FF M\[2:0\] \= %010 → V M\[2:0\] \= %011 → \!V M\[2:0\] \= %100 → S\[byte\] M\[2:0\] \= %101 → \!S\[byte\] M\[2:0\] \= %110 → D\[byte\] M\[2:0\] \= %111 → \!D\[byte\] |
+| MIXPIX |M\[5:3\] \= %000 → $00<br>M\[5:3\] \= %001 → $FF<br>M\[5:3\] \= %010 → V<br>M\[5:3\] \= %011 → \!V<br>M\[5:3\] \= %100 → S\[byte\]<br>M\[5:3\] \= %101 → \!S\[byte\]<br>M\[5:3\] \= %110 → D\[byte\]<br>M\[5:3\] \= %111 → \!D\[byte\] |M\[2:0\] \= %000 → $00<br>M\[2:0\] \= %001 → $FF<br>M\[2:0\] \= %010 → V<br>M\[2:0\] \= %011 → \!V<br>M\[2:0\] \= %100 → S\[byte\]<br>M\[2:0\] \= %101 → \!S\[byte\]<br>M\[2:0\] \= %110 → D\[byte\]<br>M\[2:0\] \= %111 → \!D\[byte\] |
 
 ## DACs
 
 Each cog outputs four 8-bit DAC channels that can directly drive the DACs within the pins. For this to work, the pins of interest will need to be configured for DAC-channel output.
 
-	DAC0 can drive the DAC's of all pins numbered %XXXX00.  
-	DAC1 can drive the DAC's of all pins numbered %XXXX01.  
-	DAC2 can drive the DAC's of all pins numbered %XXXX10.  
-	DAC3 can drive the DAC's of all pins numbered %XXXX11.
+~~~
+    DAC0 can drive the DAC's of all pins numbered %XXXX00.  
+    DAC1 can drive the DAC's of all pins numbered %XXXX01.  
+    DAC2 can drive the DAC's of all pins numbered %XXXX10.  
+    DAC3 can drive the DAC's of all pins numbered %XXXX11.
+~~~
 
 The background state of these four 8-bit channels can be established by SETDACS:
 
-**SETDACS D/\#		\- Write bytes 3/2/1/0 of D/\# to DAC3/DAC2/DAC1/DAC0**
+~~~
+    SETDACS D/#         - Write bytes 3/2/1/0 of D/# to DAC3/DAC2/DAC1/DAC0
+~~~
 
 The DAC values established by SETDACS will be constantly output, except at times when the streamer and/or colorspace converter override them.
 
@@ -887,28 +1037,34 @@ Each cog has a streamer which can automatically output timed state sequences to 
 
 There are five instructions directly associated with the streamer:
 
-**SETXFRQ D/\#		\- Set NCO frequency**  
-**XINIT   D/\#,S/\#	\- Issue command immediately, zeroing phase**  
-**XZERO   D/\#,S/\#	\- Issue command on final NCO rollover (waits), zeroing phase**  
-**XCONT   D/\#,S/\#	\- Issue command on final NCO rollover (waits), continuing phase**  
-**GETXACC D		\- Get Goertzel X into D and Y into next S, clear X and Y**
+~~~
+    SETXFRQ D/#         - Set NCO frequency
+    XINIT   D/#,S/#     - Issue command immediately, zeroing phase
+    XZERO   D/#,S/#     - Issue command on final NCO rollover (waits), zeroing phase
+    XCONT   D/#,S/#     - Issue command on final NCO rollover (waits), continuing phase
+    GETXACC D           - Get Goertzel X into D and Y into next S, clear X and Y
+~~~
 
 The streamer uses a numerically-controlled oscillator (NCO) to time its operation. On every clock while the streamer is active, it adds a 32-bit frequency value into a 32-bit phase accumulator, while masking the MSB of the original phase. The NCO can be understood as such:
 
-**phase \= (phase & $7FFF\_FFFF) \+ frequency**
+~~~
+    phase = (phase & $7FFF_FFFF) + frequency
+~~~
 
 The MSB of the resultant phase value indicates NCO rollover and is used as a trigger to advance the state of the streamer. This is true for every mode except DDS/Goertzel, in which case the streamer runs continuously.
 
 The frequency of the streamer's NCO rollover is set by the 'SETXFRQ D/\#' instruction, where D/\# expresses a fractional 0-to-1 multiplier for the system clock, which value must be multiplied by $8000\_0000. Here are some system clock multipliers and the D/\# values that realize them:
 
-**1		$8000\_0000  (default value on cog start)**  
-**1 / 2 		$4000\_0000**  
-**1 / 3		$2AAA\_AAAA+1 \***  
-**1 / 4		$2000\_0000**  
-**1 / 5		$1999\_9999+1 \***  
-**1 / 6		$1555\_5555+1 \***  
-**1 / 7		$1249\_2492+1 \***  
-**1 / 8		$1000\_0000**
+~~~
+    1           $8000_0000  (default value on cog start)
+    1 / 2       $4000_0000
+    1 / 3       $2AAA_AAAA+1 *  
+    1 / 4       $2000_0000
+    1 / 5       $1999_9999+1 *
+    1 / 6       $1555_5555+1 *
+    1 / 7       $1249_2492+1 *
+    1 / 8       $1000_0000
+~~~
 
 \* For fractions with remainders, the computed D/\# value should be incremented, in order to produce proper initial rollover behavior.
 
@@ -920,88 +1076,90 @@ There is a single-level command buffer in the streamer, enabling you to give it 
 
 For the XINIT/XZERO/XCONT instructions, D/\#\[31:16\] conveys the command, while D/\#\[15:0\] conveys the number of NCO rollovers that the command will be active for. S/\# is used to select sub-modes for some commands:
 
-**D/\#\[31:16\]**  
-**Mode DACs Pins Misc   S/\#      Description                      Pins     DAC Channels $X3\_X2\_X1\_X0           .**
+~~~
+D/#[31:16]  
+Mode DACs Pins Misc   S/#      Description                      Pins     DAC Channels $X3_X2_X1_X0           
 
-                               **Immediate ⇢ LUT ⇢ Pins/DACs**
+                               Immediate ⇢ LUT ⇢ Pins/DACs
 
-**0000 dddd eppp bbbb   \<long\>   imm \-\> 32 x 1-bit LUT            32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0001 dddd eppp bbbb   \<long\>   imm \-\> 16 x 2-bit LUT            32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0010 dddd eppp bbbb   \<long\>   imm \-\>  8 x 4-bit LUT            32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0011 dddd eppp bbbb   \<long\>   imm \-\>  4 x 8-bit LUT            32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+0000 dddd eppp bbbb   <long>   imm -> 32 x 1-bit LUT            32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0001 dddd eppp bbbb   <long>   imm -> 16 x 2-bit LUT            32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0010 dddd eppp bbbb   <long>   imm ->  8 x 4-bit LUT            32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0011 dddd eppp bbbb   <long>   imm ->  4 x 8-bit LUT            32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
 
-                               **Immediate ⇢ Pins/DACs**
+                               Immediate ⇢ Pins/DACs
 
-**0100 dddd eppp pppa   \<long\>   imm 32 x 1  \-\>  1-pin \+ 1-DAC1    1 out   %00000000\_00000000\_00000000\_aaaaaaaa**  
-**0101 dddd eppp pp0a   \<long\>   imm 16 x 2  \-\>  2-pin \+ 2-DAC1    2 out   %00000000\_00000000\_bbbbbbbb\_aaaaaaaa**  
-**0101 dddd eppp pp1a   \<long\>   imm 16 x 2  \-\>  2-pin \+ 1-DAC2    2 out   %00000000\_00000000\_00000000\_babababa**  
-**0110 dddd eppp p00a   \<long\>   imm  8 x 4  \-\>  4-pin \+ 4-DAC1    4 out   %dddddddd\_cccccccc\_bbbbbbbb\_aaaaaaaa**  
-**0110 dddd eppp p01a   \<long\>   imm  8 x 4  \-\>  4-pin \+ 2-DAC2    4 out   %00000000\_00000000\_dcdcdcdc\_babababa**  
-**0110 dddd eppp p10a   \<long\>   imm  8 x 4  \-\>  4-pin \+ 1-DAC4    4 out   %00000000\_00000000\_00000000\_dcbadcba**  
-**0110 dddd eppp 0110   \<long\>   imm  4 x 8  \-\>  8-pin \+ 4-DAC2    8 out   %hghghghg\_fefefefe\_dcdcdcdc\_babababa**  
-**0110 dddd eppp 0111   \<long\>   imm  4 x 8  \-\>  8-pin \+ 2-DAC4    8 out   %00000000\_00000000\_hgfehgfe\_dcbadcba**  
-**0110 dddd eppp 1110   \<long\>   imm  4 x 8  \-\>  8-pin \+ 1-DAC8    8 out   %00000000\_00000000\_00000000\_hgfedcba**  
-**0110 dddd eppp 1111   \<long\>   imm  2 x 16 \-\> 16-pin \+ 4-DAC4   16 out   %ponmponm\_lkjilkji\_hgfehgfe\_dcbadcba**  
-**0111 dddd eppp 0000   \<long\>   imm  2 x 16 \-\> 16-pin \+ 2-DAC8   16 out   %00000000\_00000000\_ponmlkji\_hgfedcba**  
-**0111 dddd eppp 0001   \<long\>   imm  1 x 32 \-\> 32-pin \+ 4-DAC8   32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+0100 dddd eppp pppa   <long>   imm 32 x 1  ->  1-pin + 1-DAC1    1 out   %00000000_00000000_00000000_aaaaaaaa  
+0101 dddd eppp pp0a   <long>   imm 16 x 2  ->  2-pin + 2-DAC1    2 out   %00000000_00000000_bbbbbbbb_aaaaaaaa  
+0101 dddd eppp pp1a   <long>   imm 16 x 2  ->  2-pin + 1-DAC2    2 out   %00000000_00000000_00000000_babababa  
+0110 dddd eppp p00a   <long>   imm  8 x 4  ->  4-pin + 4-DAC1    4 out   %dddddddd_cccccccc_bbbbbbbb_aaaaaaaa  
+0110 dddd eppp p01a   <long>   imm  8 x 4  ->  4-pin + 2-DAC2    4 out   %00000000_00000000_dcdcdcdc_babababa  
+0110 dddd eppp p10a   <long>   imm  8 x 4  ->  4-pin + 1-DAC4    4 out   %00000000_00000000_00000000_dcbadcba  
+0110 dddd eppp 0110   <long>   imm  4 x 8  ->  8-pin + 4-DAC2    8 out   %hghghghg_fefefefe_dcdcdcdc_babababa  
+0110 dddd eppp 0111   <long>   imm  4 x 8  ->  8-pin + 2-DAC4    8 out   %00000000_00000000_hgfehgfe_dcbadcba  
+0110 dddd eppp 1110   <long>   imm  4 x 8  ->  8-pin + 1-DAC8    8 out   %00000000_00000000_00000000_hgfedcba  
+0110 dddd eppp 1111   <long>   imm  2 x 16 -> 16-pin + 4-DAC4   16 out   %ponmponm_lkjilkji_hgfehgfe_dcbadcba  
+0111 dddd eppp 0000   <long>   imm  2 x 16 -> 16-pin + 2-DAC8   16 out   %00000000_00000000_ponmlkji_hgfedcba  
+0111 dddd eppp 0001   <long>   imm  1 x 32 -> 32-pin + 4-DAC8   32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
 
-                               **RDFAST ⇢ LUT ⇢ Pins/DACs**
+                               RDFAST ⇢ LUT ⇢ Pins/DACs
 
-**0111 dddd eppp 001a   bbbb     RFLONG \-\> 32 x 1-bit LUT         32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0111 dddd eppp 010a   bbbb     RFLONG \-\> 16 x 2-bit LUT         32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0111 dddd eppp 011a   bbbb     RFLONG \-\>  8 x 4-bit LUT         32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**0111 dddd eppp 1000   bbbb     RFLONG \-\>  4 x 8-bit LUT         32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+0111 dddd eppp 001a   bbbb     RFLONG -> 32 x 1-bit LUT         32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0111 dddd eppp 010a   bbbb     RFLONG -> 16 x 2-bit LUT         32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0111 dddd eppp 011a   bbbb     RFLONG ->  8 x 4-bit LUT         32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+0111 dddd eppp 1000   bbbb     RFLONG ->  4 x 8-bit LUT         32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
 
-                               **RDFAST ⇢ Pins/DACs**
+                               RDFAST ⇢ Pins/DACs
 
-**1000 dddd eppp pppa   \-    1/8 RFBYTE \-\>  1-pin \+ 1-DAC1         1 out   %00000000\_00000000\_00000000\_aaaaaaaa**  
-**1001 dddd eppp pp0a   \-    1/4 RFBYTE \-\>  2-pin \+ 2-DAC1         2 out   %00000000\_00000000\_bbbbbbbb\_aaaaaaaa**  
-**1001 dddd eppp pp1a   \-    1/4 RFBYTE \-\>  2-pin \+ 1-DAC2         2 out   %00000000\_00000000\_00000000\_babababa**  
-**1010 dddd eppp p00a   \-    1/2 RFBYTE \-\>  4-pin \+ 4-DAC1         4 out   %dddddddd\_cccccccc\_bbbbbbbb\_aaaaaaaa**  
-**1010 dddd eppp p01a   \-    1/2 RFBYTE \-\>  4-pin \+ 2-DAC2         4 out   %00000000\_00000000\_dcdcdcdc\_babababa**  
-**1010 dddd eppp p10a   \-    1/2 RFBYTE \-\>  4-pin \+ 1-DAC4         4 out   %00000000\_00000000\_00000000\_dcbadcba**  
-**1010 dddd eppp 0110   \-        RFBYTE \-\>  8-pin \+ 4-DAC2         8 out   %hghghghg\_fefefefe\_dcdcdcdc\_babababa**  
-**1010 dddd eppp 0111   \-        RFBYTE \-\>  8-pin \+ 2-DAC4         8 out   %00000000\_00000000\_hgfehgfe\_dcbadcba**  
-**1010 dddd eppp 1110   \-        RFBYTE \-\>  8-pin \+ 1-DAC8         8 out   %00000000\_00000000\_00000000\_hgfedcba**  
-**1010 dddd eppp 1111   \-        RFWORD \-\> 16-pin \+ 4-DAC4        16 out   %ponmponm\_lkjilkji\_hgfehgfe\_dcbadcba**  
-**1011 dddd eppp 0000   \-        RFWORD \-\> 16-pin \+ 2-DAC8        16 out   %00000000\_00000000\_ponmlkji\_hgfedcba**  
-**1011 dddd eppp 0001   \-        RFLONG \-\> 32-pin \+ 4-DAC8        32 out   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+1000 dddd eppp pppa   -    1/8 RFBYTE ->  1-pin + 1-DAC1         1 out   %00000000_00000000_00000000_aaaaaaaa  
+1001 dddd eppp pp0a   -    1/4 RFBYTE ->  2-pin + 2-DAC1         2 out   %00000000_00000000_bbbbbbbb_aaaaaaaa  
+1001 dddd eppp pp1a   -    1/4 RFBYTE ->  2-pin + 1-DAC2         2 out   %00000000_00000000_00000000_babababa  
+1010 dddd eppp p00a   -    1/2 RFBYTE ->  4-pin + 4-DAC1         4 out   %dddddddd_cccccccc_bbbbbbbb_aaaaaaaa  
+1010 dddd eppp p01a   -    1/2 RFBYTE ->  4-pin + 2-DAC2         4 out   %00000000_00000000_dcdcdcdc_babababa  
+1010 dddd eppp p10a   -    1/2 RFBYTE ->  4-pin + 1-DAC4         4 out   %00000000_00000000_00000000_dcbadcba  
+1010 dddd eppp 0110   -        RFBYTE ->  8-pin + 4-DAC2         8 out   %hghghghg_fefefefe_dcdcdcdc_babababa  
+1010 dddd eppp 0111   -        RFBYTE ->  8-pin + 2-DAC4         8 out   %00000000_00000000_hgfehgfe_dcbadcba  
+1010 dddd eppp 1110   -        RFBYTE ->  8-pin + 1-DAC8         8 out   %00000000_00000000_00000000_hgfedcba  
+1010 dddd eppp 1111   -        RFWORD -> 16-pin + 4-DAC4        16 out   %ponmponm_lkjilkji_hgfehgfe_dcbadcba  
+1011 dddd eppp 0000   -        RFWORD -> 16-pin + 2-DAC8        16 out   %00000000_00000000_ponmlkji_hgfedcba  
+1011 dddd eppp 0001   -        RFLONG -> 32-pin + 4-DAC8        32 out   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
 
-                               **RDFAST ⇢ RGB ⇢ Pins/DACs**
+                               RDFAST ⇢ RGB ⇢ Pins/DACs
 
-**1011 dddd eppp 0010   rgb      RFBYTE \-\> 24-pin \+ LUMA8         32 out   %rrrrrrrr\_gggggggg\_bbbbbbbb\_00000000**  
-**1011 dddd eppp 0011   \-        RFBYTE \-\> 24-pin \+ RGBI8         32 out   %rrrrrrrr\_gggggggg\_bbbbbbbb\_00000000**  
-**1011 dddd eppp 0100   \-        RFBYTE \-\> 24-pin \+ RGB8  (3:3:2) 32 out   %rrrrrrrr\_gggggggg\_bbbbbbbb\_00000000**  
-**1011 dddd eppp 0101   \-        RFWORD \-\> 24-pin \+ RGB16 (5:6:5) 32 out   %rrrrrrrr\_gggggggg\_bbbbbbbb\_00000000**  
-**1011 dddd eppp 0110   \-        RFLONG \-\> 24-pin \+ RGB24 (8:8:8) 32 out   %rrrrrrrr\_gggggggg\_bbbbbbbb\_00000000**
+1011 dddd eppp 0010   rgb      RFBYTE -> 24-pin + LUMA8         32 out   %rrrrrrrr_gggggggg_bbbbbbbb_00000000  
+1011 dddd eppp 0011   -        RFBYTE -> 24-pin + RGBI8         32 out   %rrrrrrrr_gggggggg_bbbbbbbb_00000000  
+1011 dddd eppp 0100   -        RFBYTE -> 24-pin + RGB8  (3:3:2) 32 out   %rrrrrrrr_gggggggg_bbbbbbbb_00000000  
+1011 dddd eppp 0101   -        RFWORD -> 24-pin + RGB16 (5:6:5) 32 out   %rrrrrrrr_gggggggg_bbbbbbbb_00000000  
+1011 dddd eppp 0110   -        RFLONG -> 24-pin + RGB24 (8:8:8) 32 out   %rrrrrrrr_gggggggg_bbbbbbbb_00000000
 
-                               **Pins ⇢ DACs/WRFAST**
+                               Pins ⇢ DACs/WRFAST
 
-**1100 dddd wppp pppa   \-         1-pin \-\> 1-DAC1 \+ 1/8 WFBYTE     1 in    %00000000\_00000000\_00000000\_aaaaaaaa**  
-**1101 dddd wppp pp0a   \-         2-pin \-\> 2-DAC1 \+ 1/4 WFBYTE     2 in    %00000000\_00000000\_bbbbbbbb\_aaaaaaaa**  
-**1101 dddd wppp pp1a   \-         2-pin \-\> 1-DAC2 \+ 1/4 WFBYTE     2 in    %00000000\_00000000\_00000000\_babababa**  
-**1110 dddd wppp p00a   \-         4-pin \-\> 4-DAC1 \+ 1/2 WFBYTE     4 in    %dddddddd\_cccccccc\_bbbbbbbb\_aaaaaaaa**  
-**1110 dddd wppp p01a   \-         4-pin \-\> 2-DAC2 \+ 1/2 WFBYTE     4 in    %00000000\_00000000\_dcdcdcdc\_babababa**  
-**1110 dddd wppp p10a   \-         4-pin \-\> 1-DAC4 \+ 1/2 WFBYTE     4 in    %00000000\_00000000\_00000000\_dcbadcba**  
-**1110 dddd wppp 0110   \-         8-pin \-\> 4-DAC2 \+ WFBYTE         8 in    %hghghghg\_fefefefe\_dcdcdcdc\_babababa**  
-**1110 dddd wppp 0111   \-         8-pin \-\> 2-DAC4 \+ WFBYTE         8 in    %00000000\_00000000\_hgfehgfe\_dcbadcba**  
-**1110 dddd wppp 1110   \-         8-pin \-\> 1-DAC8 \+ WFBYTE         8 in    %00000000\_00000000\_00000000\_hgfedcba**  
-**1110 dddd wppp 1111   \-        16-pin \-\> 4-DAC4 \+ WFWORD        16 in    %ponmponm\_lkjilkji\_hgfehgfe\_dcbadcba**  
-**1111 dddd wppp 0000   \-        16-pin \-\> 2-DAC8 \+ WFWORD        16 in    %00000000\_00000000\_ponmlkji\_hgfedcba**  
-**1111 dddd wppp 0001   \-        32-pin \-\> 4-DAC8 \+ WFLONG        32 in    %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
+1100 dddd wppp pppa   -         1-pin -> 1-DAC1 + 1/8 WFBYTE     1 in    %00000000_00000000_00000000_aaaaaaaa  
+1101 dddd wppp pp0a   -         2-pin -> 2-DAC1 + 1/4 WFBYTE     2 in    %00000000_00000000_bbbbbbbb_aaaaaaaa  
+1101 dddd wppp pp1a   -         2-pin -> 1-DAC2 + 1/4 WFBYTE     2 in    %00000000_00000000_00000000_babababa  
+1110 dddd wppp p00a   -         4-pin -> 4-DAC1 + 1/2 WFBYTE     4 in    %dddddddd_cccccccc_bbbbbbbb_aaaaaaaa  
+1110 dddd wppp p01a   -         4-pin -> 2-DAC2 + 1/2 WFBYTE     4 in    %00000000_00000000_dcdcdcdc_babababa  
+1110 dddd wppp p10a   -         4-pin -> 1-DAC4 + 1/2 WFBYTE     4 in    %00000000_00000000_00000000_dcbadcba  
+1110 dddd wppp 0110   -         8-pin -> 4-DAC2 + WFBYTE         8 in    %hghghghg_fefefefe_dcdcdcdc_babababa  
+1110 dddd wppp 0111   -         8-pin -> 2-DAC4 + WFBYTE         8 in    %00000000_00000000_hgfehgfe_dcbadcba  
+1110 dddd wppp 1110   -         8-pin -> 1-DAC8 + WFBYTE         8 in    %00000000_00000000_00000000_hgfedcba  
+1110 dddd wppp 1111   -        16-pin -> 4-DAC4 + WFWORD        16 in    %ponmponm_lkjilkji_hgfehgfe_dcbadcba  
+1111 dddd wppp 0000   -        16-pin -> 2-DAC8 + WFWORD        16 in    %00000000_00000000_ponmlkji_hgfedcba  
+1111 dddd wppp 0001   -        32-pin -> 4-DAC8 + WFLONG        32 in    %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
    
-                               **ADCs/Pins ⇢ DACs/WRFAST**
+                               ADCs/Pins ⇢ DACs/WRFAST
 
-**1111 dddd w--- 0010   ss           1-ADC8 \-\> 1-DAC8 \+ WFBYTE     8 in    %00000000\_00000000\_00000000\_hgfedcba**  
-**1111 dddd wppp 0011   ss   1-ADC8 \+ 8-pin \-\> 2-DAC8 \+ WFWORD    16 in    %00000000\_00000000\_ponmlkji\_hgfedcba**  
-**1111 dddd w--- 0100   s-           2-ADC8 \-\> 2-DAC8 \+ WFWORD    16 in    %00000000\_00000000\_ponmlkji\_hgfedcba**  
-**1111 dddd wppp 0101   s-  2-ADC8 \+ 16-pin \-\> 4-DAC8 \+ WFLONG    32 in    %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**1111 dddd w--- 0110   \--           4-ADC8 \-\> 4-DAC8 \+ WFLONG    32 in    %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+1111 dddd w--- 0010   ss           1-ADC8 -> 1-DAC8 + WFBYTE     8 in    %00000000_00000000_00000000_hgfedcba  
+1111 dddd wppp 0011   ss   1-ADC8 + 8-pin -> 2-DAC8 + WFWORD    16 in    %00000000_00000000_ponmlkji_hgfedcba  
+1111 dddd w--- 0100   s-           2-ADC8 -> 2-DAC8 + WFWORD    16 in    %00000000_00000000_ponmlkji_hgfedcba  
+1111 dddd wppp 0101   s-  2-ADC8 + 16-pin -> 4-DAC8 + WFLONG    32 in    %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+1111 dddd w--- 0110   --           4-ADC8 -> 4-DAC8 + WFLONG    32 in    %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
 
-                               **DDS/Goertzel**
+                               DDS/Goertzel
 
-**1111 dddd 0ppp p111   \<config\>     DDS/Goertzel LUT SINC1 \*   4 in ADC   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**  
-**1111 dddd 1ppp p111   \<config\>     DDS/Goertzel LUT SINC2 \*   4 in ADC   %PONMLKJI\_HGFEDCBA\_ponmlkji\_hgfedcba**
+1111 dddd 0ppp p111   <config>     DDS/Goertzel LUT SINC1 *   4 in ADC   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba  
+1111 dddd 1ppp p111   <config>     DDS/Goertzel LUT SINC2 *   4 in ADC   %PONMLKJI_HGFEDCBA_ponmlkji_hgfedcba
+~~~
 
 Each of these modes requires explanation, but there are some overlapping matters that can be covered first.
 
@@ -1021,25 +1179,27 @@ The streamer has four DAC output channels, X0, X1, X2 and X3, which can selectiv
 
 The %dddd field in D\[27:24\] selects which streamer DAC channels will override which SETDACS values during active streamer operation. In the table below, "--" indicates no-override and "\!" indicates one's-complement:
 
-             **DAC Channel**  
-    **dddd     3   2   1   0      description                                          .**
+~~~
+             DAC Channel  
+    dddd     3   2   1   0      description                                          
 
-    **0000     \--  \--  \--  \--     no streamer DAC output**  
-    **0001     X0  X0  X0  X0     output X0 on all four DAC channels**  
-    **0010     \--  \--  X0  X0     output X0 on DAC channels 1 and 0**  
-    **0011     X0  X0  \--  \--     output X0 on DAC channels 3 and 2**  
-    **0100     \--  \--  \--  X0     output X0 on DAC channel 0**  
-    **0101     \--  \--  X0  \--     output X0 on DAC channel 1**  
-    **0110     \--  X0  \--  \--     output X0 on DAC channel 2**  
-    **0111     X0  \--  \--  \--     output X0 on DAC channel 3**  
-    **1000    \!X0  X0 \!X0  X0     output X0 diff pairs on all four DAC channels**  
-    **1001     \--  \-- \!X0  X0     output X0 diff pairs on DAC channels 1 and 0**  
-    **1010    \!X0  X0  \--  \--     output X0 diff pairs on DAC channels 3 and 2**  
-    **1011     X1  X0  X1  X0     output X1, X0 pairs on all four DAC channels**  
-    **1100     \--  \--  X1  X0     output X1, X0 on DAC channels 1 and 0**  
-    **1101     X1  X0  \--  \--     output X1, X0 on DAC channels 3 and 2**  
-    **1110    \!X1  X1 \!X0  X0     output X1, X0 diff pairs on all four DAC channels**  
-    **1111     X3  X2  X1  X0     output X3, X2, X1, X0 on all four DAC channels**
+    0000     --  --  --  --     no streamer DAC output  
+    0001     X0  X0  X0  X0     output X0 on all four DAC channels  
+    0010     --  --  X0  X0     output X0 on DAC channels 1 and 0  
+    0011     X0  X0  --  --     output X0 on DAC channels 3 and 2  
+    0100     --  --  --  X0     output X0 on DAC channel 0  
+    0101     --  --  X0  --     output X0 on DAC channel 1  
+    0110     --  X0  --  --     output X0 on DAC channel 2  
+    0111     X0  --  --  --     output X0 on DAC channel 3  
+    1000    !X0  X0 !X0  X0     output X0 diff pairs on all four DAC channels  
+    1001     --  -- !X0  X0     output X0 diff pairs on DAC channels 1 and 0  
+    1010    !X0  X0  --  --     output X0 diff pairs on DAC channels 3 and 2  
+    1011     X1  X0  X1  X0     output X1, X0 pairs on all four DAC channels  
+    1100     --  --  X1  X0     output X1, X0 on DAC channels 1 and 0  
+    1101     X1  X0  --  --     output X1, X0 on DAC channels 3 and 2  
+    1110    !X1  X1 !X0  X0     output X1, X0 diff pairs on all four DAC channels  
+    1111     X3  X2  X1  X0     output X3, X2, X1, X0 on all four DAC channels
+~~~
 
 Modes which can output to pins OR the streamer pin-output bus with {OUTB, OUTA} to produce the final 64 pin output states on each clock for the cog. For these modes, %e in D\[23\] must be '1' to enable pin output.
 
@@ -1047,14 +1207,16 @@ Modes which input from pins read {INB, INA} and can optionally write the pin dat
 
 In every mode, the three %ppp bits in D\[22:20\] select the pin group, in 8-pin increments, which will be used as outputs or inputs, for up to 32-pin transfers. The selection wraps around:
 
-	 **%ppp : 000 \= select pins 31..0**  
-	        **001 \= select pins 39..8**  
-	        **010 \= select pins 47..16**  
-	        **011 \= select pins 55..24**  
-	        **100 \= select pins 63..32**  
-	        **101 \= select pins 7..0, 63..40**  
-	        **110 \= select pins 15..0, 63..48**  
-	        **111 \= select pins 23..0, 63..56**
+~~~
+     %ppp : 000 = select pins 31..0  
+            001 = select pins 39..8  
+            010 = select pins 47..16  
+            011 = select pins 55..24  
+            100 = select pins 63..32  
+            101 = select pins 7..0, 63..40  
+            110 = select pins 15..0, 63..48  
+            111 = select pins 23..0, 63..56
+~~~
 
 For modes which involve less than 8 pins, lower-order %p bit(s) in D\[19:19..17\] are used to further resolve the pin number(s).
 
@@ -1162,36 +1324,40 @@ The four-pin input block is selected by the %pppp bits in D/\#\[22:19\], where %
 
 S\[19:0\] supplies a 20-bit value which is used to configure the DDS/Goertzel mode. S\[19:16\] selects which of the four input pins are to be inverted, allowing for both addition and subtraction of particular input channels, while S\[15:12\] selects which of the four pins are to be included in the summation:
 
-	S\[19:12\]		Effect
+~~~
+    S\[19:12\]      Effect
 
-**%xxxx\_xxx0	Base pin \+0 is ignored**  
-**%xxx0\_xxx1	Base pin \+0 is summed                (0 ⇢ \-1, 1 ⇢ \+1)**  
-**%xxx1\_xxx1	Base pin \+0 is inverted and summed   (0 ⇢ \+1, 1 ⇢ \-1)**
+    %xxxx_xxx0      Base pin +0 is ignored  
+    %xxx0_xxx1      Base pin +0 is summed                (0 ⇢ -1, 1 ⇢ +1)  
+    %xxx1_xxx1      Base pin +0 is inverted and summed   (0 ⇢ +1, 1 ⇢ -1)
 
-**%xxxx\_xx0x	Base pin \+1 is ignored**  
-**%xx0x\_xx1x	Base pin \+1 is summed**  
-**%xx1x\_xx1x	Base pin \+1 is inverted and summed**
+    %xxxx_xx0x      Base pin +1 is ignored  
+    %xx0x_xx1x      Base pin +1 is summed  
+    %xx1x_xx1x      Base pin +1 is inverted and summed
 
-**%xxxx\_x0xx	Base pin \+2 is ignored**  
-**%x0xx\_x1xx	Base pin \+2 is summed**  
-**%x1xx\_x1xx	Base pin \+2 is inverted and summed**
+    %xxxx_x0xx      Base pin +2 is ignored  
+    %x0xx_x1xx      Base pin +2 is summed  
+    %x1xx_x1xx      Base pin +2 is inverted and summed
 
-**%xxxx\_0xxx	Base pin \+3 is ignored**  
-**%0xxx\_1xxx	Base pin \+3 is summed**  
-**%1xxx\_1xxx	Base pin \+3 is inverted and summed**
+    %xxxx_0xxx      Base pin +3 is ignored  
+    %0xxx_1xxx      Base pin +3 is summed  
+    %1xxx_1xxx      Base pin +3 is inverted and summed
+~~~
 
 S\[11:0\] selects how much and what part of the lookup RAM will be used, along with an offset:
 
-S\[11:0\]			Loop Size	NCO Bits	LUT Range
+~~~
+    S[11:0]             Loop Size   NCO Bits    LUT Range
 
-**%000\_TTTTTTTTT	512		30..22		%000000000..%111111111**  
-**%001\_ATTTTTTTT	256		30..23		%A00000000..%A11111111**  
-**%010\_AATTTTTTT	128		30..24		%AA0000000..%AA1111111**  
-**%011\_AAATTTTTT	64		30..25		%AAA000000..%AAA111111**  
-**%100\_AAAATTTTT	32		30..26		%AAAA00000..%AAAA11111**  
-**%101\_AAAAATTTT	16		30..27		%AAAAA0000..%AAAAA1111**  
-**%110\_AAAAAATTT	8		30..28		%AAAAAA000..%AAAAAA111**  
-**%111\_AAAAAAATT	4		30..29		%AAAAAAA00..%AAAAAAA11**
+    %000_TTTTTTTTT      512         30..22      %000000000..%111111111  
+    %001_ATTTTTTTT      256         30..23      %A00000000..%A11111111  
+    %010_AATTTTTTT      128         30..24      %AA0000000..%AA1111111  
+    %011_AAATTTTTT      64          30..25      %AAA000000..%AAA111111  
+    %100_AAAATTTTT      32          30..26      %AAAA00000..%AAAA11111  
+    %101_AAAAATTTT      16          30..27      %AAAAA0000..%AAAAA1111  
+    %110_AAAAAATTT      8           30..28      %AAAAAA000..%AAAAAA111  
+    %111_AAAAAAATT      4           30..29      %AAAAAAA00..%AAAAAAA11
+~~~
 
 On each clock, the lookup RAM is read at the 9-bit location bound by the %A bits, with the lower bits being the sum of the %T bits and the topmost NCO bits. This allows you to set bounded areas within the LUT and to shift or modulate the phase of playback.
 
@@ -1411,11 +1577,11 @@ Each cog has a colorspace converter which can perform ongoing matrix transformat
 The colorspace converter is configured via the following instructions:
 
 ~~~
-SETCY   {#}D        - Set colorspace converter CY parameter to D[31:0]  
-SETCI   {#}D        - Set colorspace converter CI parameter to D[31:0]  
-SETCQ   {#}D        - Set colorspace converter CQ parameter to D[31:0]  
-SETCFRQ {#}D        - Set colorspace converter CFRQ parameter to D[31:0]  
-SETCMOD {#}D        - Set colorspace converter CMOD parameter to D[8:0]
+    SETCY   {#}D        - Set colorspace converter CY parameter to D[31:0]  
+    SETCI   {#}D        - Set colorspace converter CI parameter to D[31:0]  
+    SETCQ   {#}D        - Set colorspace converter CQ parameter to D[31:0]  
+    SETCFRQ {#}D        - Set colorspace converter CFRQ parameter to D[31:0]  
+    SETCMOD {#}D        - Set colorspace converter CMOD parameter to D[8:0]
 ~~~
 
 It is intended that DAC3/DAC2/DAC1 serve as R/G/B channels. On each clock, new matrix and modulation calculations are performed through a pipeline. There is a group delay of five clocks from DAC-channel inputs to outputs when the colorspace converter is in use.

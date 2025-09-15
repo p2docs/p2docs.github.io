@@ -1199,19 +1199,12 @@ The 8-bit sine (byte 3\) and cosine (byte 2\) values from the lookup RAM will ea
 
 After some number of complete NCO cycles, both accumulators can be simultaneously captured into holding registers and cleared using the GETXACC instruction. GETXACC writes the captured cosine accumulation into D and places the captured sine accumulation into the next instruction's S value. Subsequent GETXACC instructions will return the same values until a new streamer command executes. 
 
-D\[23\] selects between SINC1 and SINC2 accumulation modes:
+D[23] selects between SINC1 and SINC2 accumulation modes:
 
-D\[23\]	Mode		Accumulations (SIN\_ACC/COS\_ACC are read and cleared by GETXACC)
-
-**%0	SINC1		SIN\_MUL \= bitstream\_sum \* lookup\_sin**  
-			**COS\_MUL \= bitstream\_sum \* lookup\_cos**  
-			**SIN\_ACC \+= SIN\_MUL**  
-			**COS\_ACC \+= COS\_MUL**
-
-**%1	SINC2		SIN\_MUL \+= bitstream\_sum \* lookup\_sin**  
-			**COS\_MUL \+= bitstream\_sum \* lookup\_cos**  
-			**SIN\_ACC \+= SIN\_MUL**  
-			**COS\_ACC \+= COS\_MUL**
+|D[23]	|Mode		|Accumulations (SIN_ACC/COS_ACC are read and cleared by GETXACC)|
+|:------|:----------|:-|
+|%0     |SINC1      |SIN_MUL \= bitstream\_sum \* lookup\_sin<br>COS\_MUL \= bitstream\_sum \* lookup\_cos<br>SIN\_ACC \+= SIN\_MUL<br>COS\_ACC \+= COS\_MUL|
+|%1     |SINC2      |SIN\_MUL \+= bitstream\_sum \* lookup\_sin<br>COS\_MUL \+= bitstream\_sum \* lookup\_cos<br>SIN\_ACC \+= SIN\_MUL<br>COS\_ACC \+= COS\_MUL|
 
 The program below demonstrates both SINC1 and SINC2 modes in a looped Goertzel measurement of 100 cycles of 1MHz, taking 100us per measurement. The 4th line of the program must be changed to "sinc2 \= 1" to select SINC2 mode:
 
@@ -1417,42 +1410,50 @@ Each cog has a colorspace converter which can perform ongoing matrix transformat
 
 The colorspace converter is configured via the following instructions:
 
-**SETCY   {\#}D		\- Set colorspace converter CY parameter to D\[31:0\]**  
-**SETCI   {\#}D		\- Set colorspace converter CI parameter to D\[31:0\]**  
-**SETCQ   {\#}D		\- Set colorspace converter CQ parameter to D\[31:0\]**  
-**SETCFRQ {\#}D		\- Set colorspace converter CFRQ parameter to D\[31:0\]**  
-**SETCMOD {\#}D		\- Set colorspace converter CMOD parameter to D\[8:0\]**
+~~~
+SETCY   {#}D        - Set colorspace converter CY parameter to D[31:0]  
+SETCI   {#}D        - Set colorspace converter CI parameter to D[31:0]  
+SETCQ   {#}D        - Set colorspace converter CQ parameter to D[31:0]  
+SETCFRQ {#}D        - Set colorspace converter CFRQ parameter to D[31:0]  
+SETCMOD {#}D        - Set colorspace converter CMOD parameter to D[8:0]
+~~~
 
 It is intended that DAC3/DAC2/DAC1 serve as R/G/B channels. On each clock, new matrix and modulation calculations are performed through a pipeline. There is a group delay of five clocks from DAC-channel inputs to outputs when the colorspace converter is in use.
 
 For the following signed multiply-accumulate computations, CMOD\[4\] determines whether the CY/CI/CQ terms will be sign-extended (CMOD\[4\] \= 1\) or zero-extended (CMOD\[4\] \= 0). If zero-extended, using 128 for a CY/CI/CQ term will result in no attenuation of the related DAC term:
 
-**Y\[7:0\]		\= (DAC3 \* CY\[31:24\] \+ DAC2 \* CY\[23:16\] \+ DAC1 \* CY\[15:8\]) / 128**  
-**I\[7:0\]		\= (DAC3 \* CI\[31:24\] \+ DAC2 \* CI\[23:16\] \+ DAC1 \* CI\[15:8\]) / 128**  
-**Q\[7:0\]		\= (DAC3 \* CQ\[31:24\] \+ DAC2 \* CQ\[23:16\] \+ DAC1 \* CQ\[15:8\]) / 128**
+~~~
+    Y[7:0]      = (DAC3 * CY[31:24] + DAC2 * CY[23:16] + DAC1 * CY[15:8]) / 128  
+    I[7:0]      = (DAC3 * CI[31:24] + DAC2 * CI[23:16] + DAC1 * CI[15:8]) / 128  
+    Q[7:0]      = (DAC3 * CQ[31:24] + DAC2 * CQ[23:16] + DAC1 * CQ[15:8]) / 128
+~~~
 
 The modulator works by subtracting CFRQ from PHS on each clock cycle, in order to get a clockwise angle rotation in the upper bits of PHS. PHS\[31:24\] is then used to rotate the coordinate pair (I, Q). The rotated Q coordinate becomes IQ. Because a 5-stage CORDIC rotator is used to perform the rotation, IQ gets scaled by 1.646. When using the modulator, this scaling will need to be taken into account when computing your CI/CQ terms, in order to avoid IQ overflow:
 
-**PHS\[31:0\]	\= PHS\[31:0\] \- CFRQ\[31:0\]**  
-**IQ\[7:0\]	\= Q of (I,Q) after being rotated by PHS and multiplied by 1.646**
+~~~
+    PHS[31:0]   = PHS[31:0] - CFRQ[31:0]  
+    IQ[7:0]     = Q of (I,Q) after being rotated by PHS and multiplied by 1.646
+~~~
 
 The formula for computing CFRQ for a desired modulation frequency is: $1\_0000\_0000 \* desired\_frequency / clock\_frequency. For example, if you wanted 3.579545 MHz and your clock frequency was 80 MHz, you would compute: $1\_0000\_0000 \* 3\_579\_545 / 80\_000\_000 \= $0B74\_5CFE, which you would set using the SETCFRQ instruction.
 
 The preliminary output terms are computed as follows:
 
-**FY\[7:0\]	\= CY\[7:0\] \+ (DAC0 & {8{CMOD\[3\]}}) \+ Y\[7:0\]	(VGA R / HDTV Y)**  
-**FI\[7:0\]	\= CI\[7:0\] \+ (DAC0 & {8{CMOD\[2\]}}) \+ I\[7:0\]	(VGA G / HDTV Pb)**  
-**FQ\[7:0\]	\= CQ\[7:0\] \+ (DAC0 & {8{CMOD\[1\]}}) \+ Q\[7:0\]	(VGA B / HDTV Pr)**
+~~~
+    FY[7:0]     = CY[7:0] + (DAC0 & {8{CMOD[3]}}) + Y[7:0]  (VGA R / HDTV Y)
+    FI[7:0]     = CI[7:0] + (DAC0 & {8{CMOD[2]}}) + I[7:0]  (VGA G / HDTV Pb) 
+    FQ[7:0]     = CQ[7:0] + (DAC0 & {8{CMOD[1]}}) + Q[7:0]  (VGA B / HDTV Pr)
 
-**FS\[7:0\]	\= {8{DAC0\[0\] ^ CMOD\[0\]}}				(VGA H-Sync)**
+    FS[7:0]     = {8{DAC0[0] ^ CMOD[0]}}                    (VGA H-Sync)
 
-**FIQ\[7:0\]	\= CQ\[7:0\] \+ IQ\[7:0\]					(Chroma)**
+    FIQ[7:0]    = CQ[7:0] + IQ[7:0]                         (Chroma)
 
-**FYS\[7:0\]	\= DAC0\[1\]	?	8'b0				(1x \= Luma Sync)**  
-		**: DAC0\[0\]	?	CI\[7:0\]			(01 \= Luma Blank/Burst)**  
-				**:	CY\[7:0\] \+ Y\[7:0\]		(00 \= Luma Visible)**
+    FYS[7:0]    = DAC0[1]   ?   8'b0                        (1x = Luma Sync)  
+                : DAC0[0]   ?   CI[7:0]                     (01 = Luma Blank/Burst)  
+                            :   CY[7:0] + Y[7:0]            (00 = Luma Visible)
 
-**FYC\[7:0\]	\= FYS\[7:0\] \+ IQ\[7:0\]				(Composite Luma+Chroma)**
+    FYC[7:0]    = FYS[7:0] + IQ[7:0]                        (Composite Luma+Chroma)
+~~~    
 
 The final output terms are selected by CMOD\[6:5\]:
 
@@ -1467,52 +1468,66 @@ The final output terms are selected by CMOD\[6:5\]:
 
 I/O pins are controlled by cogs via the following cog registers:
 
-	DIRA	\- output enable bits for P0..P31 (active high)  
-	DIRB	\- output enable bits for P32..P63 (active high)  
-	OUTA	\- output state bits for P0..P31 (corresponding DIRA bit must be high to enable output)  
-	OUTB	\- output state bits for P32..P63 (corresponding DIRB bit must be high to enable output)
+~~~
+    DIRA    - output enable bits for P0..P31 (active high)  
+    DIRB    - output enable bits for P32..P63 (active high)  
+    OUTA    - output state bits for P0..P31 (corresponding DIRA bit must be high to enable output)  
+    OUTB    - output state bits for P32..P63 (corresponding DIRB bit must be high to enable output)
+~~~
 
 I/O pins are read by cogs via the following cog registers:
 
-	INA	\- input state bits for P0..P31  
-	INB	\- input state bits for P32..P63
+~~~
+    INA - input state bits for P0..P31  
+    INB - input state bits for P32..P63
+~~~
 
 Aside from general-purpose instructions which may operate on DIRA/DIRB/OUTA/OUTB, there are special pin instructions which operate on singular bits within these registers:
 
-	DIRL/DIRH/DIRC/DIRNC/DIRZ/DIRNZ/DIRRND/DIRNOT {\#}D		\- affect pin D bit in DIRx  
-	OUTL/OUTH/OUTC/OUTNC/OUTZ/OUTNZ/OUTRND/OUTNOT {\#}D	\- affect pin D bit in OUTx  
-	FLTL/FLTH/FLTC/FLTNC/FLTZ/FLTNZ/FLTRND/FLTNOT {\#}D		\- affect pin D bit in OUTx, clear bit in DIRx  
-	DRVL/DRVH/DRVC/DRVNC/DRVZ/DRVNZ/DRVRND/DRVNOT {\#}D	\- affect pin D bit in OUTx, set bit in DIRx
+~~~
+    DIRL/DIRH/DIRC/DIRNC/DIRZ/DIRNZ/DIRRND/DIRNOT {#}D  - affect pin D bit in DIRx  
+    OUTL/OUTH/OUTC/OUTNC/OUTZ/OUTNZ/OUTRND/OUTNOT {#}D  - affect pin D bit in OUTx  
+    FLTL/FLTH/FLTC/FLTNC/FLTZ/FLTNZ/FLTRND/FLTNOT {#}D  - affect pin D bit in OUTx, clear bit in DIRx  
+    DRVL/DRVH/DRVC/DRVNC/DRVZ/DRVNZ/DRVRND/DRVNOT {#}D  - affect pin D bit in OUTx, set bit in DIRx
+~~~
 
 As well, aside from general-purpose instructions which may read INA/INB, there are special pin instructions which can read singular bits within these registers:
 
-	TESTP {\#}D WC/WZ/ANDC/ANDZ/ORC/ORZ/XORC/XORZ		\- read pin D bit in INx and affect C or Z  
-	TESTPN {\#}D WC/WZ/ANDC/ANDZ/ORC/ORZ/XORC/XORZ		\- read pin D bit in \!INx and affect C or Z
+~~~
+	TESTP {#}D WC/WZ/ANDC/ANDZ/ORC/ORZ/XORC/XORZ		- read pin D bit in INx and affect C or Z  
+	TESTPN {#}D WC/WZ/ANDC/ANDZ/ORC/ORZ/XORC/XORZ		- read pin D bit in !INx and affect C or Z
+~~~
 
 When a DIRx/OUTx bit is changed by any instruction, it takes THREE additional clocks after the instruction before the pin starts transitioning to the new state. Here this delay is demonstrated using DRVH:
 
-                 \_\_\_\_0     \_\_\_\_1     \_\_\_\_2     \_\_\_\_3     \_\_\_\_4     \_\_\_\_5       
-Clock:          /    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/  
-DIRA:           |         |  DIRA--\>|   REG--\>|   REG--\>|   REG--\>| P0 DRIV |  
-OUTA:           |         |  OUTA--\>|   REG--\>|   REG--\>|   REG--\>| P0 HIGH |  
+~~~
+                 ____0     ____1     ____2     ____3     ____4     ____5       
+Clock:          /    \____/    \____/    \____/    \____/    \____/    \____/  
+DIRA:           |         |  DIRA-->|   REG-->|   REG-->|   REG-->| P0 DRIV |  
+OUTA:           |         |  OUTA-->|   REG-->|   REG-->|   REG-->| P0 HIGH |  
                 |                   |  
-Instruction:    | DRVH \#0           |                                        
+Instruction:    | DRVH #0           |                                        
+~~~
 
 When an INx register is read by an instruction, it will reflect the state of the pins registered THREE clocks before the start of the instruction. Here this delay is demonstrated using TESTB:
 
-                 \_\_\_\_0     \_\_\_\_1     \_\_\_\_2     \_\_\_\_3     \_\_\_\_4     \_\_\_\_5       
-Clock:          /    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/  
-INA:            | P0 IN--\>|   REG--\>|   REG--\>|   REG--\>|   ALU--\>|   C/Z--\>|  
+~~~
+                 ____0     ____1     ____2     ____3     ____4     ____5       
+Clock:          /    \____/    \____/    \____/    \____/    \____/    \____/  
+INA:            | P0 IN-->|   REG-->|   REG-->|   REG-->|   ALU-->|   C/Z-->|  
                                                         |                   |  
-Instruction:                                            | TESTB INA,\#0      |
+Instruction:                                            | TESTB INA,#0      |
+~~~
 
 When a TESTP/TESTPN instruction is used to read a pin, the value read will reflect the state of the pin registered TWO clocks before the start of the instruction. So, TESTP/TESTPN get fresher INx data than is available via the INx registers:
 
-                 \_\_\_\_0     \_\_\_\_1     \_\_\_\_2     \_\_\_\_3     \_\_\_\_4       
-Clock:          /    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/    \\\_\_\_\_/  
-INA:            | P0 IN--\>|   REG--\>|   REG--\>|   REG--\>|   C/Z--\>|  
+~~~
+                 ____0     ____1     ____2     ____3     ____4       
+Clock:          /    \____/    \____/    \____/    \____/    \____/  
+INA:            | P0 IN-->|   REG-->|   REG-->|   REG-->|   C/Z-->|  
                                               |                   |  
-Instruction:                                  | TESTP \#0          |
+Instruction:                                  | TESTP #0          |
+~~~
 
 ## COG ATTENTION
 

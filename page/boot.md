@@ -29,7 +29,7 @@ hyperjump:
 
 ---
 # Boot Process
-{:no_toc}
+{:.no_toc}
 
 Since the Propeller 2 contains no internal flash storage, it always needs to boot from an external source, which can either be an SPI flash chip, an SD card or [the serial interface](#serial-boot). This is handled by a 16K built-in mask ROM, which is open-source and [may be found on Github](https://github.com/parallaxinc/propeller/blob/master/resources/FPGA%20Examples/ROM_Booter_v33k.spin2).
 

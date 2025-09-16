@@ -5,6 +5,7 @@ hyperjump:
 ---
 
 # Official P2 Silicon Doc Mirror
+{:.no_toc}
 
 **NOTICE: This Document is imported from the official Google Docs version and has been reformatted to fit your screen. We hope no errors have occured during this process. This version of the document should load quickly and be free of in-line Vandalism.**
 
@@ -21,7 +22,7 @@ hyperjump:
 
 **(not yet updated: Boot ROM)**
 
-# Design Status
+## Design Status
 
 | Date | Progress |
 | :---- | :---- |
@@ -42,7 +43,7 @@ hyperjump:
 | 2020\_02\_24 | Received 10 Rev C chips which fix the adjacent-pin ADC crosstalk problem on prior revisions. Smart pin mode %100010\_OHHHLLL no longer connects the ADC to the adjacent pin, but floats the ADC input. This mode is now useful for determining the floating bias point of the ADC. Several thousand Rev C chips will be arriving from ON Semi over the next two months. |
 | 2020\_06\_01 | Received 7,000 Rev C chips from ON Semi. |
 
-## KNOWN SILICON BUGS
+### KNOWN SILICON BUGS
 
 (Editor's Note: Our list is more comprehensive: [Hardware Bugs & Errata](../errata.html))
 
@@ -62,7 +63,7 @@ Intervening ALTx instructions with an immediate \#S operand, between AUGS and th
     ADD     0-0,#$123   '#$123 will be augmented by the AUGS and cancel the AUGS.
 ~~~
 
-# OVERVIEW
+## OVERVIEW
 
 The Propeller 2 is a microcontroller architecture consisting of 1, 2, 4, 8, or 16 identical 32-bit processors (called cogs), each with their own RAM, which connect to a common hub. The hub provides up to 1 MB of shared RAM, a CORDIC math solver, and housekeeping facilities. The architecture supports up to 64 smart I/O pins, each capable of many autonomous analog and digital functions.
 
@@ -154,7 +155,7 @@ Six different clock modes, all under software control with glitch-free switching
 ![](pinlayout.png){:.dark-invert}
 
 
-# PIN DESCRIPTIONS
+## PIN DESCRIPTIONS
 
 | Pin Name | Direction | V(typ) | Description |
 | :---- | :---: | :---: | :---- |
@@ -168,7 +169,7 @@ Six different clock modes, all under software control with glitch-free switching
 | XO | O | \- | Crystal Output. Provides feedback for an external crystal, or may be left disconnected depending on CLK Register settings. No external resistors or capacitors are required. |
 | RESn | I | 0 | Reset (active low). When low, resets the Propeller chip: all cogs disabled and I/O pins floating. Propeller restarts 3 ms after RESn transitions from low to high. |
 
-# MEMORIES
+## MEMORIES
 
 There are three memory regions: cog RAM, lookup RAM, and hub RAM.  Each cog has its own cog RAM and lookup RAM, while the hub RAM is shared by all cogs.
 
@@ -180,7 +181,7 @@ There are three memory regions: cog RAM, lookup RAM, and hub RAM.  Each cog has 
 
 (\*) 1,048,576 bytes is the maximum size supported.  However, some variants may have less available.  See the Hub Memory section below for more details.
 
-# COGS
+## COGS
 
 The Propeller contains multiple processors, called "cogs".  Each cog  has its own RAM and can start, stop, and execute instructions independently of one another.  All active cogs share the same system clock, Hub RAM, and I/O pins.
 
@@ -205,7 +206,7 @@ The available instruction set can be found at [Parallax Propeller 2 Instruction 
 | **cccc** | conditional test used to update C (%0000=clear, %1111=set, all others per EEEE) |
 | **zzzz** | conditional test used to update Z (%0000=clear, %1111=set, all others per EEEE) |
 
-## INSTRUCTION MODES
+### INSTRUCTION MODES
 
 Cogs use 20-bit addresses for program counters (PC). This affords an execution space of up to 1MB.  Depending on the value of a cog's PC, an instruction will be fetched from either its register RAM, its lookup RAM, or the hub RAM.
 
@@ -215,15 +216,15 @@ Cogs use 20-bit addresses for program counters (PC). This affords an execution s
 | $00200..$003FF | cog lookup RAM | 32 bits | 1 |
 | $00400..$FFFFF | hub RAM | 8 bits | 4 |
 
-### REGISTER EXECUTION
+#### REGISTER EXECUTION
 
 When the PC is in the range of $00000 and $001FF, the cog is fetching instructions from cog register RAM.  This is commonly referred to as "cog execution mode."  There is no special consideration when taking branches to a cog register address.
 
-### LOOKUP EXECUTION
+#### LOOKUP EXECUTION
 
 When the PC is in the range of $00200 and $003FF, the cog is fetching instructions from cog lookup RAM.  This is commonly referred to as "LUT execution mode."  There is no special consideration when taking branches to a cog lookup address,
 
-### HUB EXECUTION
+#### HUB EXECUTION
 
 When the PC is in the range of $00400 and $FFFFF, the cog is fetching instructions from hub RAM.  This is commonly referred to as "hub execution mode."  When executing from hub RAM, the cog employs the FIFO hardware to spool up instructions so that a stream of instructions will be available for continuous execution. Branching to a hub address takes a minimum of 13 clock cycles.  If the instruction being branched to is not long-aligned, one additional clock cycle is required. A branch must occur to get from cog to hub, since rolling from $3FF to $400 will not initiate hub execution.
 
@@ -238,7 +239,7 @@ While in hub execution mode, the FIFO cannot be used for anything else. So, duri
 
 It is usually not possible to execute code from hub addresses $00000 through $003FF, as the cog will instead read instructions from the cog register or lookup RAM as indicated above.
 
-## STARTING AND STOPPING COGS
+### STARTING AND STOPPING COGS
 
 Any cog can start or stop any other cog, or restart or stop itself. Each of the eight cogs has a unique three-bit ID which can be used to start or stop it. It's also possible to start free (stopped or never started) cogs, without needing to know their ID's. This way, entire applications can be written which simply start free cogs, as needed, and as those cogs retire by stopping themselves or getting stopped by others, they return to the pool of free cogs and become available, again, for restarting.
 
@@ -306,18 +307,18 @@ If COGID is used with WC, it will not overwrite D, but will return the status of
     COGID   ThatCog  WC     'C=1 if ThatCog is busy
 ~~~
 
-## COG RAM
+### COG RAM
 
 Each cog has a primary 512 x 32-bit dual-port RAM, which can be used in multiple ways:
 
 * Direct/Register access  
 * As a source of program instructions (see [COGS \> INSTRUCTION MODES \> REGISTER EXECUTION](#register-execution))
 
-### GENERAL PURPOSE REGISTERS
+#### GENERAL PURPOSE REGISTERS
 
 RAM registers $000 through $1EF are general-purpose registers for code and data usage.
 
-### DUAL-PURPOSE REGISTERS
+#### DUAL-PURPOSE REGISTERS
 
 RAM registers $1F0 through $1F7 may either be used as general-purpose registers, or may be used as special-purpose registers if their associated functions are enabled.
 
@@ -332,7 +333,7 @@ $1F6        RAM / PA        CALLD-imm return, CALLPA parameter, or LOC address
 $1F7        RAM / PB        CALLD-imm return, CALLPB parameter, or LOC address
 ~~~
 
-### SPECIAL-PURPOSE REGISTERS
+#### SPECIAL-PURPOSE REGISTERS
 
 Each cog contains 8 special-purpose registers that are mapped into the RAM register address space from $1F8 to $1FF.  In general, when specifying an address between $1F8 and $1FF, the instruction is accessing a special-purpose register, *not* just the underlying RAM.
 
@@ -350,7 +351,7 @@ $1FF        INB **          input states for P63..P32
 ** also debug interrupt return address
 ~~~
 
-## LOOKUP RAM
+### LOOKUP RAM
 
 Each cog has a secondary 512 x 32-bit dual-port RAM, which can be used in multiple  ways:
 
@@ -363,7 +364,7 @@ Each cog has a secondary 512 x 32-bit dual-port RAM, which can be used in multip
 
   NOTE: The term "lookup" (and "LUT", which is short for "look-up table") is due to historical usage in the original Propeller microcontroller.  This RAM can still be used in a "lookup" context, but can also be used for many other purposes, as indicated above.
 
-### LOAD/STORE ACCESS
+#### LOAD/STORE ACCESS
 
 Unlike cog RAM, the cog cannot directly use the lookup RAM in the majority of its instructions. 
 
@@ -371,15 +372,15 @@ So please tell me which instructions can use Lookup RAM.  I do not want to dig t
 And some palces you call it LUTRAM, other places lookup ram.  Please be consistent.   
  Instead, lookup RAM must be read into cog RAM using the RDLUT instruction and cog RAM must be written into the lookup RAM using the WRLUT instruction.  In other hardware architectures, these instructions would be synonymous with "LOAD" and "STORE" instructions, respectively.  When using the RDLUT and WRLUT instructions, the 32-bit words are addressible from $000 to $1FF.
 
-### STREAMER ACCESS
+#### STREAMER ACCESS
 
 (to be completed.)
 
-### BYTECODE EXECUTION LOOKUP TABLE
+#### BYTECODE EXECUTION LOOKUP TABLE
 
 (to be completed.)
 
-### RAM SHARING BETWEEN PAIRED COGS
+#### RAM SHARING BETWEEN PAIRED COGS
 
 Adjacent cogs whose ID numbers differ by only the LSB (cogs 0 and 1, 2 and 3, 4 and 5, etc.) can each allow their lookup RAMs to be written by the other cog via its local lookup RAM writes. This allows adjacent cogs to share data very quickly through their lookup RAMs.
 
@@ -396,7 +397,7 @@ In order to find and start two adjacent cogs with which this write-sharing schem
 
 To facilitate handshaking between cogs sharing lookup RAM, the SETSE1...4 instructions can be used to set up lookup RAM read and write events.
 
-## REGISTER INDIRECTION
+### REGISTER INDIRECTION
 
 Cog registers can be accessed indirectly most easily by using the ALTS/ALTD/ALTR instructions. These instructions sum their D\[8:0\] and S/\#\[8:0\] values to compute an address that is directly substituted into the next instruction's S field, D field, or result register address (normally, this is the same as the D field). This all happens within the pipeline and does not affect the actual program code. The idea is that S/\# can serve as a register base address and D can be used as an index.
 
@@ -550,7 +551,7 @@ SETS/SETD/SETR can also be used in self-modifying cog-register code. After modif
 inst    MOV     x,y             'operate on x using y, MOV can become AND/OR/XOR/etc.
 ~~~
 
-## BRANCH ADDRESSING
+### BRANCH ADDRESSING
 
 The following are branch instructions which use D\[19:0\] as an absolute address:
 
@@ -636,7 +637,7 @@ hub     JMP     #cog    '$FD800000      hub to cog, always absolute
         JMP     #\@hub  '$FD802000      hub to hub, force absolute
 ~~~
 
-## INSTRUCTION REPEATING
+### INSTRUCTION REPEATING
 
 Single or multiple instructions can be repeated without branching delays in cog/LUT memory using the REP instruction:
 
@@ -666,7 +667,7 @@ REP works in hub memory, as well, but executes a hidden jump to get back to the 
 
 Any branch within the repeating instruction block will cancel REP activity. Interrupts will be ignored during REP looping.
 
-## INSTRUCTION SKIPPING
+### INSTRUCTION SKIPPING
 
 Cogs can initiate skipping sequences to selectively skip any of the next 32 instructions encountered. Skipping is accomplished by either canceling instructions as they come through the pipeline from hub or cog/LUT memory (effectively turning them into 2-clock NOP instructions) or by leaping over them in cog/LUT memory (no clock penalty). Skipping only works outside of interrupt service routines; i.e. in main code.
 
@@ -783,13 +784,13 @@ SKIP is fully compatible with REP, since SKIP only cancels instructions, allowin
 
 SKIPF would only work with REP if all SKIPF patterns resulted in the same instruction counts, which REP would have to be initiated with, as opposed to just length-of-code.
 
-### Special SKIPF Branching Rules
+#### Special SKIPF Branching Rules
 
 Within SKIPF sequences where CALL/CALLPA/CALLPB are used to execute subroutines in which skipping will be suspended until after RET, all CALL/CALLPA/CALLPB immediate (\#) branch addresses must be absolute in cases where the instruction after the CALL/CALLPA/CALLPB might be skipped. This is not possible for CALLPA/CALLPB but CALL can use '\#\\address' syntax to achieve absolute immediate addressing. CALL/CALLPA/CALLPB can all use registers as branch addresses, since they are absolute.
 
 For non-CALL\\CALLPA\\CALLPB branches within SKIPF sequences, SKIPF will work through all immediate-relative branches, which are the default for immediate branches within cog/LUT memory. If an absolute-address branch is being used (\#\\label, register, or RET, for example), you must not skip the first instruction after the branch. This is not a problem with immediate-relative branches, however, since the variable PC stepping works to advantage, by landing the PC at the first instruction of interest at, or beyond, the branch address.
 
-## BYTECODE EXECUTION (XBYTE)
+### BYTECODE EXECUTION (XBYTE)
 
 Cogs can execute custom bytecodes from hub RAM using XBYTE. XBYTE is like a phantom instruction and it executes on a hardware stack return (RET/\_RET\_) to $1FF. Such a return does not pop the stack, so that each additional RET/\_RET\_ causes another bytecode to be fetched and executed. This process has a total overhead of only 6 clocks, excluding the bytecode routine. The bytecode routine could be as short as a single 2-clock instruction with a \_RET\_ prefix, making the total XBYTE loop take only 8 clocks.
 
@@ -955,7 +956,7 @@ byteloop  nop                     '21-NOP landing strip for any trailing skip pa
 
 ~~~
 
-## SETQ CONSIDERATIONS
+### SETQ CONSIDERATIONS
 
 The SETQ and SETQ2 instructions write to the Q register and are intended to precede a companion instruction. The value written to the Q register by SETQ/SETQ2 will persist until any of these events occur:
 
@@ -976,7 +977,7 @@ It is possible to retrieve the current Q value by the following sequence:
 
 SETQ/SETQ2 shields the next instruction from interruption to prevent an interrupt service routine from inadvertently altering Q before the intended instruction can utilize its value.
 
-## PIXEL OPERATIONS
+### PIXEL OPERATIONS
 
 Each cog has a pixel mixer which can combine one pixel with another pixel in many different ways. A pixel consists of four byte fields within a 32-bit cog register. Pixel operations occur between each pair of D and S bytes, and they take seven clock cycles to complete:
 
@@ -1012,7 +1013,7 @@ Here are the DMIX and SMIX terms, according to each instruction:
 | BLNPIX | \!V | V |
 | MIXPIX |M\[5:3\] \= %000 → $00<br>M\[5:3\] \= %001 → $FF<br>M\[5:3\] \= %010 → V<br>M\[5:3\] \= %011 → \!V<br>M\[5:3\] \= %100 → S\[byte\]<br>M\[5:3\] \= %101 → \!S\[byte\]<br>M\[5:3\] \= %110 → D\[byte\]<br>M\[5:3\] \= %111 → \!D\[byte\] |M\[2:0\] \= %000 → $00<br>M\[2:0\] \= %001 → $FF<br>M\[2:0\] \= %010 → V<br>M\[2:0\] \= %011 → \!V<br>M\[2:0\] \= %100 → S\[byte\]<br>M\[2:0\] \= %101 → \!S\[byte\]<br>M\[2:0\] \= %110 → D\[byte\]<br>M\[2:0\] \= %111 → \!D\[byte\] |
 
-## DACs
+### DACs
 
 Each cog outputs four 8-bit DAC channels that can directly drive the DACs within the pins. For this to work, the pins of interest will need to be configured for DAC-channel output.
 
@@ -1031,7 +1032,7 @@ The background state of these four 8-bit channels can be established by SETDACS:
 
 The DAC values established by SETDACS will be constantly output, except at times when the streamer and/or colorspace converter override them.
 
-## STREAMER
+### STREAMER
 
 Each cog has a streamer which can automatically output timed state sequences to pins and DACs. It can also capture pin and ADC readings to hub RAM and perform Goertzel computations from smart pins configured as ADC's.
 
@@ -1226,23 +1227,23 @@ For RDFAST modes, it is necessary to do a RDFAST sometime beforehand, to ensure 
 
 For WRFAST modes, it is necessary to do a WRFAST sometime beforehand, to ensure that the hub RAM FIFO is ready to receive data.
 
-### Immediate ⇢ LUT ⇢ Pins/DACs
+#### Immediate ⇢ LUT ⇢ Pins/DACs
 
 S/\# supplies 32 bits of data which form a set of 1/2/4/8-bit values that are shifted by 1/2/4/8 bits on each subsequent NCO rollover, with the last value repeating. Each value gets used as an offset address into lookup RAM, with the %bbbb bits in D\[19:16\] furnishing the base address of %bbbb00000. The resulting 32 bits of data read from lookup RAM (at %bbbb00000 \+ 1/2/4/8-bit value) are output.
 
-### Immediate ⇢ Pins/DACs
+#### Immediate ⇢ Pins/DACs
 
 S/\# supplies 32 bits of data which form a set of 1/2/4/8/16-bit values that are shifted by 1/2/4/8/16/32 bits on each subsequent NCO rollover, with the last value repeating. Each value is output in sequence.
 
-### RDFAST ⇢ LUT ⇢ Pins/DACs
+#### RDFAST ⇢ LUT ⇢ Pins/DACs
 
 Automatic RFLONG operations are done to read 32 bits at a time from hub RAM. The data are treated as a set of 1/2/4/8-bit values that are shifted by 1/2/4/8 bits on each subsequent NCO rollover, with the last value triggering a new RFLONG. Each value gets used as an offset address into lookup RAM, with the %bbbb bits in S\[3:0\] furnishing the base address of %bbbb00000. The resultant 32 bits of data read from lookup RAM (at %bbbb00000 \+ 1/2/4/8-bit value) are output.
 
-### RDFAST ⇢ Pins/DACs
+#### RDFAST ⇢ Pins/DACs
 
 Automatic RFBYTE/RFWORD/RFLONG operations are done to read 8/16/32 bits at a time from hub RAM. The data are treated as a set of 1/2/4/8/16/32-bit values that are shifted by 1/2/4/8/16/32 bits on each subsequent NCO rollover, with the last value triggering a new RFBYTE/RFWORD/RFLONG. Each value is output in sequence.
 
-### RDFAST ⇢ RGB ⇢ Pins/DACs
+#### RDFAST ⇢ RGB ⇢ Pins/DACs
 
 RFBYTE/RFWORD/RFLONG operations, done initially and on each subsequent NCO rollover, read 8/16/32-bit pixel values from hub RAM. The pixel values P\[31/15/7:0\] are translated into {R\[7:0\], G\[7:0\], B\[7:0\], 8'b0} values and output to X3, X2, X1, and X0.
 
@@ -1290,11 +1291,11 @@ RGB24 mode uses the top three bytes of the 32-bit pixel values for red, green, a
 | :---: | :---: | :---: | :---: |
 | P\[31:24\] | P\[23:16\] | P\[15:8\] | $00 |
 
-### Pins ⇢ DACs/WRFAST
+#### Pins ⇢ DACs/WRFAST
 
 Initially, and on each subsequent NCO rollover, 1/2/4/8/16/32 pins are read from {INB, INA} and X3, X2, X1, and X0 are updated using the read data. If the %w bit in D\[23\] is high, WFBYTE/WFWORD/WFLONG operations will be done automatically to record the pin data. In the case of 1/2/4-pin modes, a WFBYTE will be done each time 8 bits of pin data accrue.
 
-### ADCs/Pins ⇢ DACs/WRFAST
+#### ADCs/Pins ⇢ DACs/WRFAST
 
 This mode captures SCOPE channel data, along with optional pin data from {INB, INA}.
 
@@ -1310,7 +1311,7 @@ For modes which also capture pin data, the lower 8 or 16 pins of the 32 pins sel
 
 Initially, and on each subsequent NCO rollover, SCOPE channel data and optional pin data are read and X3, X2, X1, and X0 are updated. If the %w bit in D\[23\] is high, WFBYTE/WFWORD/WFLONG operations will be done automatically to record the ADC and optional pin data.
 
-### DDS/Goertzel
+#### DDS/Goertzel
 
 This mode is unique, in that it outputs and inputs on every clock in which the command is active. Its purpose is to perform direct digital synthesis (DDS) on up to four DAC channels and/or to perform simultaneous Goertzel analysis on up to four ADC bit streams summed together.
 
@@ -1456,7 +1457,7 @@ You can see that SINC2 mode has a higher Q than SINC1 mode. Due to rapid (X,Y) a
 NOTE ABOUT GOERTZEL SINC2 MODE (2024.12.16)  
 It has just been discovered that the Goertzel SINC2 mode generates periodic problematic GETXACC readings when the number of iterations in a Goertzel cycle varies, due to SETXFREQ's D being a non-power-of-two value. The example code above was modified so that the clock frequency is now 256 MHz, instead of 250 MHz, so that the 1MHz being listened to will always take 256 clocks per Goertzel cycle. This causes the double-integrating accumulators in SINC2 mode to always have the same number of iterations before a GETXACC instruction executes and captures the double accumulations. Being off by a single clock cycle will corrupt the current and next samples.
 
-### Digital Video Output (DVI/HDMI)
+#### Digital Video Output (DVI/HDMI)
 
 The streamer can serialize its internal 32 pin output data P\[31:0\] into 8-pin/10-bit digital video format, where the 32-pin output becomes $000000xx with $xx being a reversible pattern of RED, GRN, BLU, and CLK differential pairs.
 
@@ -1570,7 +1571,7 @@ hsync1          res     1
                 file    "birds_16bpp.bmp"       'rayman's picture (640 x 350)
 ~~~
 
-## COLORSPACE CONVERTER
+### COLORSPACE CONVERTER
 
 Each cog has a colorspace converter which can perform ongoing matrix transformations and modulation of the cog's 8-bit DAC channels. The colorspace converter is intended primarily for baseband video modulation, but it can also be used as a general-purpose RF modulator.
 
@@ -1630,7 +1631,7 @@ The final output terms are selected by CMOD\[6:5\]:
 | 10 | NTSC/PAL Composite \+ S-Video | FYC(Composite) | FYC(Composite) | FIQ (Chroma) | FYS (Luma) |
 | 11 | NTSC/PAL Composite | FYC(Composite) | FYC(Composite) | FYC(Composite) | FYC(Composite) |
 
-## I/O PIN TIMING
+### I/O PIN TIMING
 
 I/O pins are controlled by cogs via the following cog registers:
 
@@ -1695,7 +1696,7 @@ INA:            | P0 IN-->|   REG-->|   REG-->|   REG-->|   C/Z-->|
 Instruction:                                  | TESTP #0          |
 ~~~
 
-## COG ATTENTION
+### COG ATTENTION
 
 Each cog can request the attention of other cogs by using the COGATN instruction:
 
@@ -1719,7 +1720,7 @@ The D/\# operand supplies a 16-bit value in which bits 0..15 represent cogs 0..1
 
 In cases where multiple cogs may be requesting the attention of a single cog, some messaging structure may need to be implemented in hub RAM, in order to differentiate requests. In the main intended use case, the cog that is receiving an attention request knows which other cog is strobing it and how it is to respond.
 
-## EVENTS
+### EVENTS
 
 Cogs monitor and track 16 different background events, numbered 0..15:
 
@@ -1902,7 +1903,7 @@ POLLQMT event flag
 
 It doesn't matter what register is used to keep track of the CT1 target. Whenever ADDCT1 executes, S/\# is added into D, and the result gets copied into a dedicated CT1 target register that is compared to CT on every clock. When CT passes the CT1 target, the event flag is set. ADDCT1 clears the CT-passed-CT1 event flag to help with initialization and cycling.
 
-### Selectable Events
+#### Selectable Events
 
 Each cog can track up to four selectable pin, LUT, or hub lock events.  This is accomplished by using the SETSEn instruction, where "n" is 1, 2, 3, or 4\.  In order for user code to detect the occurrence of the selected event, the following options are available:
 
@@ -1937,7 +1938,7 @@ SETSEn D/\# accepts the following configuration values:
     %11x_PPPPPP = INA/INB bit of pin %PPPPPP is high
 ~~~
 
-## INTERRUPTS
+### INTERRUPTS
 
 Each cog has three interrupts: INT1, INT2, and INT3.
 
@@ -2074,7 +2075,7 @@ isr1    drvnot  #1               'toggle p1
 ct1     res                      'reserve long for ct1
 ~~~
 
-## DEBUG INTERRUPT
+### DEBUG INTERRUPT
 
 In addition to the three visible interrupts, there is a fourth "hidden" interrupt that has priority over all the others. It is the debug interrupt, and it is inaccessible to normal cog programs.
 
@@ -2243,9 +2244,9 @@ GETBRK with WZ always returns the following:
   D = 32-bit SKIP/SKIPF/EXECF/XBYTE pattern, used LSB-first to skip instructions in main code
 ~~~
 
-# HUB
+## HUB
 
-## Configuration
+### Configuration
 
 The hub contains several global circuits which are configured using the HUBSET instruction. HUBSET uses a single D operand to both select the circuit to be configured and to provide the configuration data:
 
@@ -2259,7 +2260,7 @@ The hub contains several global circuits which are configured using the HUBSET i
         %1DDD_DDDD_DDDD_DDDD_DDDD_DDDD_DDDD_DDDD     Seed Xoroshiro128** PRNG with D
 ~~~
 
-### Configuring the Clock Generator
+#### Configuring the Clock Generator
 
 The Prop2 can generate its system clock in several different ways.
 
@@ -2300,7 +2301,7 @@ The tables below explain the various bit fields within the HUBSET operand:
 
 **WARNING:** Incorrectly switching *away* from the PLL setting (%SS \= %11 and %CC \<\> %00) with %PPPP \= %1111 can cause a clock glitch which will hang the P2 chip until a reset occurs.  In order to safely switch away, always start by switching to an internal RC oscillator (%SS \= %00 or %01), while maintaining the %PPPP \= %1111 and %CC settings.
 
-#### PLL Example
+##### PLL Example
 
 The PLL's VCO is designed to run between 100 MHz and 200 MHz and should be kept within that range.
 
@@ -2318,7 +2319,7 @@ Let's say you have a 20 MHz crystal attached to XI and XO and you want to run th
 
 The clock selector controlled by the %SS bits has a deglitching circuit which waits for a positive edge on the old clock source before disengaging, holding its output high, and then waiting for a positive edge on the new clock source before switching over to it. It is necessary to select mode %00 or %01 while waiting for the crystal and/or PLL to settle into operation, before switching over to either.
 
-### Write-Protecting the Last 16KB of Hub RAM and Enabling Debug Interrupts
+#### Write-Protecting the Last 16KB of Hub RAM and Enabling Debug Interrupts
 
 ~~~
         HUBSET  {#}D	            'set write-protect and enable debug interrupts
@@ -2355,7 +2356,7 @@ Examples:
 
 See the [DEBUG INTERRUPT](#bookmark=id.50s1x9yoca0r) section to learn how debug interrupts work.
 
-### Configuring the Digital Filters for Smart Pins
+#### Configuring the Digital Filters for Smart Pins
 
 There are four global digital filter settings which can be used by each smart pin to low-pass filter its incoming pin states.
 
@@ -2383,7 +2384,7 @@ The filters are set to the following defaults on reset:
 | filt2 | 19 (512K:1) | %10 (5 flipflops) | 6.25ns \* 512K \* 5 \= **16.4ms** |
 | filt3 | 22 (4M:1) | %11 (8 flipflops) | 6.25ns \* 4M \* 8 \= **210ms** |
 
-### Seeding the Xoroshiro128\*\* PRNG
+#### Seeding the Xoroshiro128\*\* PRNG
 
 To seed 32 bits of state data into the 128-bit PRNG, use HUBSET with the MSB of D set. This will write {1'b1, D\[30:0\]} into 32 bits of the PRNG, affecting 1/4th of its total state. The 1'b1 bit ensures that the overall state will not go to zero. Because the PRNG's 128 state bits rotate, shift, and XOR against each other, they are thoroughly spread around within a few clocks, so seeding from a fixed set of 32 bits should not pose a limitation on seeding quality.
 
@@ -2396,7 +2397,7 @@ After reset, the boot ROM uses HUBSET to seed the Xoroshiro128\*\* PRNG fifty ti
 
 The Xoroshiro128\*\* PRNG iterates on every clock, generating 64 fresh bits which get spread among all cogs and smart pins. Each cog receives a unique set of 32 different bits, in a scrambled arrangement with some bits inverted, from the 64-bit pool. Each smart pin receives a similarly-unique set of 8 different bits. Cogs can sample these bits using the GETRND instruction and directly apply them using the BITRND and DRVRND instructions. Smart pins utilize their 8 bits as noise sources for DAC dithering and noise output.
 
-## Rebooting the Chip
+### Rebooting the Chip
 
 HUBSET can be used to reset and reboot the chip:
 
@@ -2404,7 +2405,7 @@ HUBSET can be used to reset and reboot the chip:
         HUBSET  ##$1000_0000    'generate an internal reset pulse to reboot
 ~~~
 
-## HUB RAM
+### HUB RAM
 
 The globally-accessible hub RAM can be read and written as bytes, words, and longs, in little-endian format. Hub addresses are always byte-oriented. There are no special alignment rules for words and longs in hub RAM. Cogs can read and write bytes, words, and longs at any hub address, as well as execute instruction longs from any hub address starting at $400  (see [COGS \> INSTRUCTION MODES \> HUB EXECUTION](#hub-execution)).
 
@@ -2426,7 +2427,7 @@ Here are the hub memory maps for the various FPGA boards currently being support
 | Prop123-A9 BeMicro-A9 | 1024KB | 16 | 0<br>1 | $00000..$FFFFF | none, full map | $FC000..$FFFFF, R/W<br>$FC000..$FFFFF, Read |
 | **P2X8C4M64PES \<silicon\>** | **512KB** | **8** | **0<br>1** | **$00000..$7FFFF<br>$00000..$7BFFF** | **$80000..$FBFFF<br>$7C000..$FBFFF** | **$FC000..$FFFFF, R/W<br>$FC000..$FFFFF, Read** |
 
-### THE COG \-to- HUB RAM INTERFACE
+#### THE COG \-to- HUB RAM INTERFACE
 
 Hub RAM is comprised of 32-bit-wide single-port RAMs with byte-level write controls. For each cog, there is one of these RAMs, but it is multiplexed among all cogs. Let's call these separate RAMs "slices". Each RAM slice holds every single/2nd/4th/8th/16th (depending on number of cogs) set of 4 bytes in the composite hub RAM. At every clock, each cog can access the "next" RAM slice, allowing for continuously-ascending bidirectional streaming of 32 bits per clock between the composite hub RAM and each cog.  
 
@@ -2448,7 +2449,7 @@ For streamer or software usage, FIFO operation must be established by a RDFAST o
 
 The FIFO contains (cogs+11) stages. When in read mode, the FIFO loads continuously whenever less than (cogs+7) stages are filled, after which point, up to 5 more longs may stream in, potentially filling all (cogs+11) stages. These metrics ensure that the FIFO never underflows, under all potential reading scenarios.
 
-### FAST SEQUENTIAL FIFO INTERFACE
+#### FAST SEQUENTIAL FIFO INTERFACE
 
 To configure the hub FIFO interface for streamer or software usage, use the RDFAST and WRFAST instructions. These instructions establish read or write operation, the hub start address, and the block count. The block count determines how many 64-byte blocks will be read or written before wrapping to the original start address and reloading the original block count. If you intend to use wrapping, your hub start address must be long-aligned (address ends in %00), since there won't be an extra cycle in which to read/write a portion of a long in an extra hub RAM slice. In cases where you don't want wrapping, just use 0 for the block count, so that wrapping won't occur until the entire 1MB hub map is sequenced through.
 
@@ -2519,7 +2520,7 @@ These instructions all take 2 clocks and write byte, word, or long data in D int
 
 If a cog has been writing to the hub via WRFAST, and it wants to immediately COGSTOP itself, a 'WAITX \#20' should be executed first, in order to allow time for any lingering FIFO data to be written to the hub.
 
-### RANDOM ACCESS INTERFACE
+#### RANDOM ACCESS INTERFACE
 
 Here are the random-access hub RAM read instructions:
 
@@ -2676,7 +2677,7 @@ If "\#\#" is used before the index value in a PTRx expression, the assembler wil
     1111 1010110 001 DDDDDDDDD 101000101     RDBYTE  D,#$00E12345 & $1FF
 ~~~
 
-### FAST BLOCK MOVES
+#### FAST BLOCK MOVES
 
 By preceding RDLONG with either SETQ or SETQ2, multiple hub RAM longs can be read into either cog register RAM or cog lookup RAM. This transfer happens at the rate of one long per clock, assuming the hub FIFO interface is not accessing the same hub RAM slice as RDLONG, on the same cycle, in which case the FIFO gets priority access and the block move must wait for the hub RAM slice to come around again. If WC/WZ/WCZ are used with RDLONG, the flags will be set according to the last long read in the sequence.
 
@@ -2733,7 +2734,7 @@ For fast block moves, PTRx expressions cannot have arbitrary index values, since
 
 Because these fast block moves yield to the hub FIFO interface, they can be used during hub execution.
 
-## CORDIC Solver
+### CORDIC Solver
 
 In the hub, there is a 54-stage pipelined CORDIC solver that can compute the following functions for all cogs:
 
@@ -2748,7 +2749,7 @@ In the hub, there is a 54-stage pipelined CORDIC solver that can compute the fol
 
 When a cog issues a CORDIC instruction, it must wait for its hub slot, which is zero to (cogs-1) clocks away, in order to hand off the command to the CORDIC solver. Fifty-five clocks later, results will be available via the GETQX and GETQY instructions, which will wait for the results, in case they haven't arrived yet.
 
-### MULTIPLY
+#### MULTIPLY
 
 To multiply two unsigned 32-bit numbers together, use the QMUL instruction (CORDIC instructions wait for the hub slot):
 
@@ -2763,7 +2764,7 @@ To get the results (these instructions wait for the CORDIC results):
         GETQY   upper_long
 ~~~
 
-### DIVIDE
+#### DIVIDE
 
 For convenience, two different divide instructions exist, each with an optional SETQ prefix instruction which establishes a non-0 value for one 32-bit part of the 64-bit numerator:
 
@@ -2786,7 +2787,7 @@ To get the results:
         GETQY   remainder
 ~~~
 
-### SQUARE ROOT
+#### SQUARE ROOT
 
 To get the square root of a 64-bit integer:
 
@@ -2800,7 +2801,7 @@ To get the result:
         GETQX   root
 ~~~
 
-### (X,Y) ROTATION
+#### (X,Y) ROTATION
 
 The rotation function inputs three terms: 32-bit signed X and Y values, and an unsigned 32-bit angle, where $00000000..$FFFFFFFF \= 0..359.9999999 degrees. The Y term, if non-zero, is supplied via an optional SETQ prefix instruction:
 
@@ -2820,7 +2821,7 @@ To get the results:
         GETQY   Y
 ~~~
 
-### (X,Y) VECTORING
+#### (X,Y) VECTORING
 
 The vectoring function converts (X,Y) cartesian coordinates into (length,angle) polar coordinates:
 
@@ -2835,7 +2836,7 @@ To get the results:
         GETQY   angle
 ~~~
 
-### LOGARITHM
+#### LOGARITHM
 
 To convert an unsigned 32-bit integer into a 5:27-bit logarithm, where the top 5 bits hold the whole part of the power-of-2 exponent and the bottom 27 bits hold the fractional part:
 
@@ -2849,7 +2850,7 @@ To convert an unsigned 32-bit integer into a 5:27-bit logarithm, where the top 5
         GETQX   logarithm
 ~~~
 
-### EXPONENT
+#### EXPONENT
 
 To convert a 5:27-bit logarithm into a 32-bit unsigned integer:
 
@@ -2863,7 +2864,7 @@ To get the result:
         GETQX   integer
 ~~~
 
-### OVERLAPPING CORDIC COMMANDS
+#### OVERLAPPING CORDIC COMMANDS
 
 Because each cog's hub slot comes around every 1/2/4/8/16 clocks (8 clocks for the current P2X8C4M64P, since it has 8 cogs) and the pipeline is 54 clocks long, it is possible to overlap CORDIC commands, where several commands are initially given to the CORDIC solver, and then results are read and another command is given, indefinitely, until, at the end, the trailing results are read. You must not have interrupts enabled during such a juggle, or enough clocks could be stolen by the interrupt service routine that one or more of your results could be overwritten before you can read them. If you ever attempt to read results when none are available and none are in progress, GETQX/GETQY will only take two clocks and the QMT (CORDIC empty) event flag will be set.
 
@@ -3122,7 +3123,7 @@ a       long    100*f,101*f,102*f,103*f,104*f,105*f,106*f,107*f         'ascendi
         long    124*f,125*f,126*f,127*f,128*f,129*f,130*f,131*f
 ~~~
 
-## LOCKS
+### LOCKS
 
 The hub contains a pool of 16 semaphore bits, called locks.  Locks can be used by cogs to coordinate exclusive access of a shared resource.  In order to use a lock, one cog must first allocate a lock with LOCKNEW.  Once allocated, cooperative cogs use LOCKTRY and LOCKREL to respectively take or release the allocated lock.  When the lock is no longer needed, it may be returned to the unallocated lock pool by executing LOCKRET.
 
@@ -3136,13 +3137,13 @@ The LOCK instructions are:
 
 What a lock represents is completely up to the application using it. locks are just a means of allowing one cog at a time the exclusive status of 'owner'. All participant cogs must agree on a lock's number and its purpose for a lock to be useful.
 
-### Allocating Locks
+#### Allocating Locks
 
 LOCKNEW is used to *allocate* a lock from the hub lock pool.  If an unallocated lock is available, that lock's number will be stored in the D register.  If WC is set on the instruction, the C flag will indicate whether a lock was allocated.  Zero (0) indicates success, while one (1) indicates that all locks are already allocated.  A cog may allocate more than one lock.  Once a lock has been allocated, the lock number may be shared with other cogs so that they can use LOCKTRY/LOCKREL.
 
 LOCKRET is used to *return* an allocated lock to the lock pool.  Any cog can return an allocated lock, even if it wasn't the cog that allocated it with LOCKNEW.
 
-### Using Locks
+#### Using Locks
 
 A cog may attempt to *take* an allocated lock by executing LOCKTRY with the lock number.  If WC is used with the instruction, the C flag will indicate afterwards whether the lock was successfully taken.  Zero (0) indicates that the lock was not taken because either another cog is holding it or the lock is not allocated, while one (1) indicates that the lock was successfully taken (or is now "held" by this cog).  While the lock is held, no other cog can take the lock until the cog that's holding the lock either executes LOCKREL with the lock number or it is stopped via COGSTOP or restarted via COGINIT.
 
@@ -3160,7 +3161,7 @@ NOTE: A lock will also be implicitly released if the cog that's holding the lock
 
 LOCKREL can also be used to query the current lock status.  When LOCKREL is executed with WC, the C flag will indicate whether the lock is currently taken.  Additionally, if the D field references a register (not an immediate value), the register will be written with the cog ID of the current owner (if held) or last owner (if released).  If the cog executing LOCKREL is also the cog that is holding the lock, the normal LOCKREL behavior will still be performed (i.e. the lock will be released).
 
-# SMART PINS
+## SMART PINS
 
 Each I/O pin has a 'smart pin' circuit which, when enabled, performs some autonomous function on the pin. Smart pins free the cogs from needing to micro-manage many I/O operations by providing high-bandwidth concurrent hardware functions which cogs could not perform as well on their own by manipulating I/O pins via instructions.
 
@@ -3328,7 +3329,7 @@ A smart pin can be reset at any time, without the need to reconfigure it, by cle
 
 To return a pin to normal mode, do a 'WRPIN \#0,pin'.
 
-## PIN CONFIGURATION MODES
+### PIN CONFIGURATION MODES
 
 Each I/O pin has 13 configuration bits which determine the operation of its 3.3V circuit. The M.\[12..0\] bits within the WRPIN instruction's D.\[20..8\] operand go directly to these bits. In some smart pin modes, these bits are partially overwritten to set things like DAC values.
 
@@ -3336,7 +3337,7 @@ Below is a diagram of a single I/O pin circuit. It is powered from its local 3.3
 
 ![](pinconfig2.png){:.dark-invert}
 
-## Equivalent Schematics for Each Unique I/O Pin Configuration
+### Equivalent Schematics for Each Unique I/O Pin Configuration
 
 ![](../pinschematic/logic.png){:.dark-invert}
 ![](../pinschematic/logic_sync.png){:.dark-invert}
@@ -3363,15 +3364,15 @@ Below is a diagram of a single I/O pin circuit. It is powered from its local 3.3
 ![](../pinschematic/levelcomp_adjfb.png){:.dark-invert}
 ![](../pinschematic/levelcomp_adjfb_sync.png){:.dark-invert}
 
-## SMART PIN MODES
+### SMART PIN MODES
 
 Below is a list of all smart pin modes. These are set by the %SSSSS bits within the D.\[5..1\] operand of the WRPIN instruction.
 
-### %00000 \= normal mode
+#### %00000 \= normal mode
 
 This mode is for normal operation, without any smart pin functionality.
 
-### %00001..%00011 and not DAC\_MODE \= long repository
+#### %00001..%00011 and not DAC\_MODE \= long repository
 
 This mode turns the smart pin into a long repository, where WXPIN writes the long and RDPIN/RQPIN can read the long.
 
@@ -3379,7 +3380,7 @@ When active (DIR=1), WXPIN updates the long and raises IN.
 
 During reset (DIR=0), WXPIN instructions are ignored and IN is low.
 
-### %00001 and DAC\_MODE \= DAC noise
+#### %00001 and DAC\_MODE \= DAC noise
 
 This mode overrides M.\[7..0\] to feed the pin's 8-bit DAC pseudo-random data on every clock. M.\[12..10\] must be set to %101 to configure the low-level pin for DAC output. Each pin in this mode receives a unique data pattern.
 
@@ -3389,7 +3390,7 @@ RDPIN/RQPIN can be used to retrieve the 16-bit ADC accumulation from the last sa
 
 During reset (DIR=0), IN is low.
 
-### %00010 and DAC\_MODE \= DAC 16-bit with pseudo-random dither
+#### %00010 and DAC\_MODE \= DAC 16-bit with pseudo-random dither
 
 This mode overrides M.\[7..0\] to feed the pin's 8-bit DAC with pseudo-randomly-dithered data on every clock. M.\[12..10\] must be set to %101 to configure the low-level pin for DAC output.
 
@@ -3405,7 +3406,7 @@ If OUT is high, the ADC will be enabled and RDPIN/RQPIN can be used to retrieve 
 
 During reset (DIR=0), IN is low and Y.\[15..0\] is captured.
 
-### %00011 and DAC\_MODE \= DAC 16-bit with PWM dither
+#### %00011 and DAC\_MODE \= DAC 16-bit with PWM dither
 
 This mode overrides M.\[7..0\] to feed the pin's 8-bit DAC with PWM-dithered data on every clock. M.\[12..10\] must be set to %101 to configure the low-level pin for DAC output.
 
@@ -3421,7 +3422,7 @@ If OUT is high, the ADC will be enabled and RDPIN/RQPIN can be used to retrieve 
 
 During reset (DIR=0), IN is low and Y.\[15..0\] is captured.
 
-### %00100 \= pulse/cycle output
+#### %00100 \= pulse/cycle output
 
 This mode overrides OUT to control the pin output state.
 
@@ -3441,7 +3442,7 @@ IN will be raised and the pin will revert to low output when the pulse or cycles
 
 During reset (DIR=0), IN is low, the output is low, and Y is set to zero.
 
-### %00101 \= transition output
+#### %00101 \= transition output
 
 This mode overrides OUT to control the pin output state.
 
@@ -3453,7 +3454,7 @@ IN will be raised when the transitions complete, with the pin remaining in its c
 
 During reset (DIR=0), IN is low, the output is low, and Y is set to zero.
 
-### %00110 \= NCO frequency
+#### %00110 \= NCO frequency
 
 This mode overrides OUT to control the pin output state.
 
@@ -3469,7 +3470,7 @@ IN will be raised whenever Z overflows.
 
 During reset (DIR=0), IN is low, the output is low, and Z\[15:0\] is set to zero.
 
-### %00111 \= NCO duty
+#### %00111 \= NCO duty
 
 This mode overrides OUT to control the pin output state.
 
@@ -3485,7 +3486,7 @@ IN will be raised whenever Z overflows.
 
 During reset (DIR=0), IN is low, the output is low, and Z is set to zero.
 
-### %01000 \= PWM triangle
+#### %01000 \= PWM triangle
 
 This mode overrides OUT to control the pin output state.
 
@@ -3503,7 +3504,7 @@ At each base period, the captured output value is compared to the counter. If it
 
 During reset (DIR=0), IN is low, the output is low, and Y.\[15..0\] is captured.
 
-### %01001 \= PWM sawtooth
+#### %01001 \= PWM sawtooth
 
 This mode overrides OUT to control the pin output state.
 
@@ -3519,7 +3520,7 @@ At each base period, the captured output value is compared to the counter. If it
 
 During reset (DIR=0), IN is low, the output is low, and Y.\[15..0\] is captured.
 
-### %01010 \= PWM switch-mode power supply with voltage and current feedback
+#### %01010 \= PWM switch-mode power supply with voltage and current feedback
 
 This mode overrides OUT to control the pin output state.
 
@@ -3545,7 +3546,7 @@ The "A" input is the voltage detector for the SMPS output. This could be an adja
 
 The "B" input is the over-current detector which, if ever high during the PWM cycle, immediately forces the output low for the rest of that PWM cycle. This could be an adjacent pin using the internal-DAC-comparison mode to observe a shunt resistor between GND and the FET source. When the shunt voltage gets too high, too much current is flowing (or the desired amount of current is flowing), so the output goes low to turn off the FET and allow the inductor connected to its drain to shoot high, creating a power pulse to be captured by a diode and dumped into a cap, which is the SMPS final output.
 
-### %01011 \= A/B-input quadrature encoder
+#### %01011 \= A/B-input quadrature encoder
 
 X.\[31..0\] establishes a measurement period in clock cycles.
 
@@ -3559,7 +3560,7 @@ The quadrature encoder can be "zeroed" by pulsing DIR low at any time. There is 
 
 During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
 
-### %01100 \= Count A-input positive edges when B-input is high
+#### %01100 \= Count A-input positive edges when B-input is high
 
 X.\[31..0\] establishes a measurement period in clock cycles.
 
@@ -3569,7 +3570,7 @@ If a non-zero value is used for the period, events will be counted for that many
 
 During reset (DIR=0), IN is low and Z is set to the adder value (0/1).
 
-### %01101 \= Accumulate A-input positive edges with B-input supplying increment (B=1) or decrement (B=0)
+#### %01101 \= Accumulate A-input positive edges with B-input supplying increment (B=1) or decrement (B=0)
 
 X.\[31..0\] establishes a measurement period in clock cycles.
 
@@ -3579,9 +3580,9 @@ If a non-zero value is used for the period, events will be counted for that many
 
 During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
 
-### %01110 AND \!Y.\[0\] \= Count A-input positive edges
+#### %01110 AND \!Y.\[0\] \= Count A-input positive edges
 
-### %01110 AND Y.\[0\] \= Increment on A-input positive edge and decrement on B-input positive edge
+#### %01110 AND Y.\[0\] \= Increment on A-input positive edge and decrement on B-input positive edge
 
 X.\[31..0\] establishes a measurement period in clock cycles. Y.\[0\] establishes whether to just count A-input positive edges (=0), or to increment on A-input positive edge and decrement on B-input positive edge (=1).
 
@@ -3591,9 +3592,9 @@ If a non-zero value is used for the period, events will be counted for that many
 
 During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
 
-### %01111 AND \!Y.\[0\] \= Count A-input highs
+#### %01111 AND \!Y.\[0\] \= Count A-input highs
 
-### %01111 AND Y.\[0\] \= Increment on A-input high and decrement on B-input high
+#### %01111 AND Y.\[0\] \= Increment on A-input high and decrement on B-input high
 
 X.\[31..0\] establishes a measurement period in clock cycles. Y.\[0\] establishes whether to just count A-input highs (Y.\[0\]=0), or to increment on A-input high and decrement on B-input high (Y.\[0\]=1).
 
@@ -3603,7 +3604,7 @@ If a non-zero value is used for the period, events will be counted for that many
 
 During reset (DIR=0), IN is low and Z is set to the adder value (0/1/-1).
 
-### %10000 \= Time A-input states
+#### %10000 \= Time A-input states
 
 Continuous states are counted in clock cycles.
 
@@ -3613,7 +3614,7 @@ If states change faster than the cog is able to retrieve measurements, the measu
 
 During reset (DIR=0), IN is low and Z is set to $00000001.
 
-### %10001 \= Time A-input high states
+#### %10001 \= Time A-input high states
 
 Continuous high states are counted in clock cycles.
 
@@ -3621,7 +3622,7 @@ Upon each high-to-low transition, the previous high duration count is placed in 
 
 During reset (DIR=0), IN is low and Z is set to $00000001.
 
-### %10010 AND \!Y.\[2\] \= Time X A-input highs/rises/edges
+#### %10010 AND \!Y.\[2\] \= Time X A-input highs/rises/edges
 
 Time is measured until X A-input highs/rises/edges are accumulated.
 
@@ -3637,7 +3638,7 @@ Time is measured in clock cycles until X highs/rises/edges are accumulated from 
 
 During reset (DIR=0), IN is low and Z is set to $00000001.
 
-### %10010 AND Y.\[2\] \= Timeout on X clocks of missing A-input high/rise/edge
+#### %10010 AND Y.\[2\] \= Timeout on X clocks of missing A-input high/rise/edge
 
 If no A-input high/rise/edge occurs within X clocks, IN is raised, a new timeout period of X clocks begins, and Z maintains a running count of how many clocks have elapsed since the last A-input high/rise/edge.  Z will be limited to $80000000 and can be read any time via RDPIN/RQPIN.
 
@@ -3653,9 +3654,9 @@ Y.\[1..0\] establishes A-input high/rise/edge sensitivity:
 
 During reset (DIR=0), IN is low and Z is set to $00000001.
 
-### %10011 \= For X periods, count time
+#### %10011 \= For X periods, count time
 
-### %10100 \= For X periods, count states
+#### %10100 \= For X periods, count states
 
 X.\[31..0\] establishes how many A-input rise/edge to B-input rise/edge periods are to be measured.
 
@@ -3674,11 +3675,11 @@ The first mode is intended to be used as an oversampling period measurement, whi
 
 During reset (DIR=0), IN is low and Z is set to $00000000.
 
-### %10101 \= For periods in X+ clock cycles, count time
+#### %10101 \= For periods in X+ clock cycles, count time
 
-### %10110 \= For periods in X+ clock cycles, count states
+#### %10110 \= For periods in X+ clock cycles, count states
 
-### %10111 \= For periods in X+ clock cycles, count periods
+#### %10111 \= For periods in X+ clock cycles, count periods
 
 X.\[31..0\] establishes the minimum number of clock cycles to track periods for. Periods are A-input rise/edge to B-input rise/edge.
 
@@ -3703,9 +3704,9 @@ Knowing how many clock cycles some number of complete periods took, and what the
 
 During reset (DIR=0), IN is low and Z is set to $00000000.
 
-### %11000 \= ADC sample/filter/capture, internally clocked
+#### %11000 \= ADC sample/filter/capture, internally clocked
 
-### %11001 \= ADC sample/filter/capture, externally clocked
+#### %11001 \= ADC sample/filter/capture, externally clocked
 
 These modes facilitate sampling, SINC filtering, and raw capturing of ADC bitstream data.
 
@@ -3739,7 +3740,7 @@ For modes other than SINC2 Sampling (X.\[5..4\]  \> %00), WYPIN may be used afte
 
 Upon completion of each sample period, the measurement is placed in Z, IN is raised, and a new measurement begins. RDPIN/RQPIN can then be used to retrieve the completed measurement.
 
-#### About SINC2 and SINC3 filtering
+##### About SINC2 and SINC3 filtering
 
 SINC2 filtering works by summing the input bit into an accumulator on each clock which, in turn, is summed into another accumulator, to create a double integration. At the end of each sampling period, the difference between the new and previous second accumulator's value is the conversion sample, and the 'previous' value is updated. This process has the pleasant effect of returning an extra bit of resolution over simple bit-summing, as well as filtering away rectangular-sampling-window effects. SINC2 filtering is best for DC measurements, where precision is important. Practical measurements of 14-bit resolution can be made every 8,192 clocks using SINC2 filtering. After starting SINC2 filtering, the filter will become accurate starting on the third sample.
 
@@ -3765,7 +3766,7 @@ Or you can post-trim them to 27-bit values:
        ZEROX   x,#26                  'trim to 27-bit
 ~~~
 
-#### SINC2 Sampling Mode (%00)
+##### SINC2 Sampling Mode (%00)
 
 This mode performs complete SINC2 conversions, updating the ADC output sample at the end of each period. Once this mode is enabled, it is only necessary to do a RDPIN/RQPIN to acquire the latest ADC sample. The limitation of this mode is that it only works at power-of-2 sample periods, since that stricture afforded efficient implementation within the smart pin, making complete conversions possible without software. There is an additional SINC2 filtering mode (%01) which allows non-power-of-2 sample periods, but you must perform the difference computation in software.
 
@@ -3817,7 +3818,7 @@ diff   RES     1                                      'diff value
 
 Note that it is necessary to shift the computed sample right by some number of bits to leave the ENOBs intact. For SINC2 filtering, you must shift right by LOG2(clocks per period)-1, which in this case is LOG2(128)-1 \= 6\.
 
-#### SINC3 Filtering Mode (%10)
+##### SINC3 Filtering Mode (%10)
 
 This mode performs SINC3 filtering, which requires some software interaction in order to realize ADC samples.
 
@@ -3853,7 +3854,7 @@ diff2  RES     1                                      'diff2 value
 
 Note that it is necessary to shift the computed sample right by some number of bits to leave the ENOBs intact. For SINC3 filtering, you must shift right by LOG2(clocks per period), which in this case is LOG2(128) \= 7\.
 
-#### Bitstream Capturing Mode (%11)
+##### Bitstream Capturing Mode (%11)
 
 This mode captures the raw bitstream coming from the ADC. It buffers 32 bits and is meant to be read once every 32 clocks, in order to get contiguous snapshots of the ADC bitstream. RDPIN/RQPIN is used to read the snapshots. Bit 31 of the data will be the most recent ADC bit, while bit 0 will be from 31 clocks earlier.
 
@@ -3873,7 +3874,7 @@ To get a snapshot of the latest 32 bits of the ADC bitstream, just do a RDPIN/RQ
 
 This mode can be used for purposes other than capturing ADC bitstreams. It's really just capturing the A-input without regard to pin configuration.
 
-### %11010 \= ADC Scope with Trigger
+#### %11010 \= ADC Scope with Trigger
 
 This mode calculates an 8-bit ADC sample and checks for hysteretic triggering on every clock, providing the basis of oscilloscope functionality. Samples from blocks of up to four pins can be grouped into a 32-bit data pipe for recording by the streamer or reading by the GETSCP instruction (see 'SCOPE Data Pipe' below).
 
@@ -3900,7 +3901,7 @@ RDPIN/RQPIN always returns the 8-bit sample, along with the 'armed' state in the
 
 When 'armed' and then 'triggered', IN is raised and the 'armed' state is canceled.
 
-#### SCOPE Data Pipe
+##### SCOPE Data Pipe
 
 Each cog has a 32-bit SCOPE data pipe which is intended to be used with smart pins configured to the 'scope' mode. The SCOPE data pipe continuously aggregates the lower bytes of RDPIN values from a 4-pin block, so that the streamer can record up to four time-aligned 8-bit ADC samples per clock. They can also be read at once via the GETSCP instruction.
 
@@ -3931,7 +3932,7 @@ If the SCOPE data pipe didn't exist, the closest you could come to the GETSCP in
 
 The SCOPE data pipe is generic in function and may find other uses than carrying just 'scope' data.
 
-### %11011 \= USB host or device, full-speed (12Mbps) or low-speed (1.5Mbps)
+#### %11011 \= USB host or device, full-speed (12Mbps) or low-speed (1.5Mbps)
 
 This mode requires that two adjacent pins be configured together to form a USB pair, whose OUTs and %HHH\_LLL drive modes will be overridden to control their output states. These pins must be an even/odd pair, having only the LSB of their pin numbers different. For example: pins 0 and 1, pins 2 and 3, and pins 4 and 5 can form USB pairs. The lower pin in the pair is DM, while the upper pin is DP, per USB naming convention. They can both be configured via a single WRPIN with D data of %1\_11011\_0. Using D data of %0\_11011\_0 will disable the output drive and effectively create a USB 'sniffer'. **NOTE: In Propeller 2 emulation on an FPGA, there are no built-in 1.5k and 15k resistors, like the ASIC smart pins have, so it is up to you to install these yourself on the DP and DM lines.**
 
@@ -3995,7 +3996,7 @@ The result of a RDPIN/RQPIN can be bit-tested for events of interest. It can als
 IF_C   <use byte in D>          'if new byte, do something with it
 ~~~
 
-### %11100 \= synchronous serial transmit
+#### %11100 \= synchronous serial transmit
 
 This mode overrides OUT to control the pin output state.
 
@@ -4017,7 +4018,7 @@ If you intend to send MSB-first data, you must first shift and then reverse it. 
 
 During reset (DIR=0) the output is held low. Upon release of reset, the output will reflect the LSB of the output word written by any WYPIN during reset.
 
-### %11101 \= synchronous serial receive
+#### %11101 \= synchronous serial receive
 
 Words of 1 to 32 bits are shifted in by sampling the A input around the positive edge of the B input. For negative-edge clocking, the B input may be inverted by setting B.\[3\] in WRPIN's D value.
 
@@ -4037,7 +4038,7 @@ If you received LSB-first data, it will require right-shifting, unless the word 
 
 If you received MSB-first data, it will need to be reversed and possibly masked, unless the word size was 32 bits. For example, if you received a 9-bit word, you would do 'REV D' \+ 'ZEROX D,\#8' to get the data LSB-justified.
 
-### %11110 \= asynchronous serial transmit
+#### %11110 \= asynchronous serial transmit
 
 This mode overrides OUT to control the pin output state.
 
@@ -4071,7 +4072,7 @@ IF_C   JMP     #wait           'loop until C = 0
 
 During reset (DIR=0) the output is held high.
 
-### %11111 \= asynchronous serial receive
+#### %11111 \= asynchronous serial receive
 
 Words from 1 to 32 bits are serially received on the A input at a programmable baud rate.
 
@@ -4094,7 +4095,7 @@ Here is the internal state sequence:
 
 RDPIN/RQPIN is used to read the received word. The word must be shifted right by 32 minus the word size. For example, to LSB-justify an 8-bit word received, you would do a 'SHR D,\#32-8'.
 
-# BOOT PROCESS
+## BOOT PROCESS
 **(needs more editing)**
 
 | Boot Pattern Set By Resistors | P61 | P60 | P59 |
@@ -4135,7 +4136,7 @@ After a hardware reset, cog 0 loads and executes a booter program from an intern
       1) Execute 'COGINIT \#0,\#0' to relaunch cog 0 from $00000. Done.  
    2) Slow clock to 20kHz and stop cog 0\. Done.
 
-## SERIAL LOADING PROTOCOL
+### SERIAL LOADING PROTOCOL
 
 The built-in serial loader allows Propeller 2 chips to be loaded via 8-N-1 asynchronous serial into P63, where START=low and STOP=high, at any rate the sender uses, between 9,600 baud and 2,000,000 baud.
 
@@ -4177,14 +4178,14 @@ Each command keyword is followed by four 32-bit hex values which allow selection
 
 If, at any time, a character is received which does not comport with expectations (i.e. an "x" is received when hex digits are expected), the loader aborts the current command and waits for a new command.
 
-### Prop\_Chk
+#### Prop\_Chk
 
 The Prop\_Chk command returns CR+LF+"Prop\_Ver"+SP+VerChr+CR+LF. VerChr is "A".."Z" and indicates the version of Propeller chip. The Rev B/C silicon responds with "G":
 
 | Sender:	"\> Prop\_Chk 0 0 0 0"+CR Loader:	CR+LF+"Prop\_Ver G"+CR+LF |
 | :---- |
 
-### Prop\_Clk
+#### Prop\_Clk
 
 The Prop\_Clk command is used to update the chip's clock source, as if a HUBSET \#\#$0xxxxxxx instruction were being executed. For details (and caveats), see [Configuring the Clock Generator](#configuring-the-clock-generator). Upon receiving a valid Prop\_Clk command, the loader immediately echoes a "." character and then performs the following steps:
 
@@ -4203,7 +4204,7 @@ The Prop\_Clk command is used to update the chip's clock source, as if a HUBSET 
 
    **NOTE TO FPGA USERS:** The only supported clock-setting values are $00 for 20MHz and $FF for 80MHz.  This value would be used instead of the 25-bit value for the regular instruction.  Wait \~10ms before sending "\> ".
 
-#### PLL Example
+##### PLL Example
 
 To update the clock source per [PLL Example](#pll-example):
 
@@ -4212,14 +4213,14 @@ To update the clock source per [PLL Example](#pll-example):
 
 **NOTE:** An initial "**Prop\_Clk 0 0 0 0 F0**" is not required since the clock circuit starts up in this mode.
 
-#### Reset to Boot Clock Configuration
+##### Reset to Boot Clock Configuration
 
 To return to the clock configuration on bootup:
 
 | Sender:	"\> Prop\_Clk 0 0 0 0 F0"+CR Loader:	"." |
 | :---- |
 
-### Prop\_Hex
+#### Prop\_Hex
 
 The Prop\_Hex command is used to load byte data into the hub, starting at $00000, and then execute them. Hex bytes must be separated by whitespaces. Only the bottom 8 bits of hex values are used as data.
 
@@ -4249,7 +4250,7 @@ In the case of our assembled program, there are 5 little-endian longs which sum 
 
 It's a good idea to start each hex data line with a  "\>" character, to keep the baud rate tightly calibrated.
 
-### Prop\_Txt
+#### Prop\_Txt
 
 The Prop\_Txt command is like Prop\_Hex, but with one difference: Instead of hex bytes separated by whitespaces, it takes in Base64 data, which are text characters that convey six bits, each, and get assembled into bytes as they are received. This format is 2.25x denser than hex, and so minimizes transmission size and time.
 
@@ -4275,13 +4276,13 @@ To add the embedded checksum:
 
 It's a good idea to start each Base64 data line with a "\>" character, to keep the baud rate tightly calibrated.
 
-### SUMMARY
+#### SUMMARY
 
 It is possible to uniquely load many Propeller chips from the same serial signal by giving them each a different INA/INB signature and not connecting SPI memory chips or SD cards to P61..P58.
 
 To try out the serial loader, just open a terminal program on your PC with the Propeller 2 connected and type: "\> Prop\_Chk 0 0 0 0"+CR. You can also cut and paste those Prop\_Hex and Prop\_Txt example lines to load the blinker program. A simple Propeller 2 development tool needs no special serial signalling, just simple text output that needn't worry about PC/Mac/Unix new-line differences, whitespace conventions, or generating non-standard characters.
 
-# Assembly Language
+## Assembly Language
 
 For a detailed list of assembly-language instructions, see this document: [(Link Replaced with local one)](../p2_optable.html)
 
@@ -4928,7 +4929,7 @@ The following assembler directives exist:
 
 ~~~
 
-# Boot ROM / Debug ROM
+## Boot ROM / Debug ROM
 
 ~~~
 wire [15:0][31:0] booti = {
@@ -4971,7 +4972,7 @@ wire [7:0][31:0] debugi = {
 
 (Editor's Note: This was originally a screenshot, transcription may not be 100% accurate)
 
-# Packaging
+## Packaging
 
 ![](packaging.png)
 

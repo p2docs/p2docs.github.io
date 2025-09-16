@@ -8,7 +8,7 @@ inline-css: |
     }
 ---
 # Optimization and Coding for Speed
-{:no_toc}
+{:.no_toc}
 
 <img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
 

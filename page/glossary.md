@@ -57,19 +57,39 @@ The Cog CPU's timing is fully deterministic and suitable for implementing hard r
 ### Cog RAM
 {:.anchor}
 
+Cog RAM (also sometimes referred to as "register RAM") is the main local memory area in each Cog. It is addressed as 512 x 32-bit longwords. The last 8 locations are used as I/O registers and another 8 are used as special-purpose locations (Interrupt vectors and returns, etc), leaving 496 regular Cog RAM locations.
+
+Cog RAM locations can be used directly as D/S operands for instructions. Code can also be stored in Cog RAM.
+
 ### COGEXEC
 {:.anchor}
 
+A Cog is in COGEXEC mode when it is executing code from [Cog RAM](#cog-ram) or [LUT RAM](#lut), as opposed to [HUBEXEC](#hubexec). This is generally the faster and more flexible execution mode, but code size is limited.
+
+A Cog can freely switch between COGEXEC and HUBEXEC using regular branch instructions.
+
 ## Colorspace Converter
 {:.anchor}
+
+The colorspace converter is a hardware unit in each [Cog](#cog) that is designed to encode raw RGB data from the [Streamer](#streamer) into various common video formats, including VGA, NTSC/PAL composite video, YPbPr, HDMI and more.
+
+See also: [CSC documentation](colorspace.html)
 
 ## FastSpin
 {:.anchor}
 
 Historical name of [FlexSpin](#flexspin) before version 5.0.0
 
+## FCACHE
+
+FCACHE is a technique employed by high-level language compilers (notably [FlexSpin](#flexspin)) to combine the benefits of [COGEXEC](#cogexec) and [HUBEXEC](#hubexec)/[LMM](#lmm) modes by dynamically copying code loops from [Hub RAM](#hub-ram) to [Cog RAM](#cog-ram) for faster execution.
+
 ## FIFO
 {:.anchor}
+
+**TODO**
+
+See also: [FIFO documentation](fifo.html)
 
 ## FlexSpin
 {:.anchor}
@@ -96,17 +116,42 @@ Check out the [forum thread](https://forums.parallax.com/discussion/170730/flexp
 ## Hub
 {:.anchor}
 
+The Hub refers to all the resources that are shared between all cogs.
+
+The Propeller 2's Hub contains:
+ - 512 KiB of [Hub RAM](#hub-ram)
+ - 16 lock bits
+ - a 64-bit global cycle counter
+ - a free-running PRNG (see: [GETRND](misc.html#getrnd))
+ - The clock/PLL unit
+
+(The [Smart Pins](#smart-pin) are generally not consided part of the Hub, even though they are shared as well).
+
+Generally when referring to doing something "in Hub", the Hub RAM is what's being referred to.
+
 ### Hub RAM
 {:.anchor}
 
+**TODO**
+
 ### HUBEXEC
 {:.anchor}
+
+A Cog is in HUBEXEC mode when it is executing code from [Hub RAM](#hub-ram), as opposed to [COGEXEC](#cogexec). This mode allows larger code size, but disables certain features (most notably the [FIFO](#fifo)) and branches execute very slowly.
+
+A Cog can freely switch between COGEXEC and HUBEXEC using regular branch instructions.
 
 ## loadp2
 {:.anchor}
 
 ## LUT
 {:.anchor}
+
+## LMM
+{:.anchor}
+
+LMM means "Large Memory Model". This is a technique used on the Propeller 1 to achieve something similar to [HUBEXEC](#hubexec) (which does not exist on the P1).
+On the P2 native HUBEXEC is available and the memory model is always "large".
 
 ## OBEX
 {:.anchor}
@@ -225,6 +270,10 @@ Read [our mirror](mirror/p2silicon.html) or [the originals](documents.html#chips
 
 ## Streamer
 {:.anchor}
+
+**TODO**
+
+See also: [Streamer documentation](streamer.html)
 
 ## TAQOZ
 {:.anchor}

@@ -147,6 +147,16 @@ A Cog can freely switch between COGEXEC and HUBEXEC using regular branch instruc
 ## LUT
 {:.anchor}
 
+LUT is short for "Look-up Table". On the Propeller 2, each [Cog](#cog) has a block of "LUT RAM".
+This memory is organized as 512 x 32 bit longwords, similar to [Cog RAM](#cog-ram).
+
+LUT RAM can be used in multiple ways:
+
+ - As a lookup table for [XBYTE](#xbyte).
+ - As a lookup table for certain [Streamer](#streamer) modes.
+ - As additional [COGEXEC](#cogexec)-mode code storage. (this is most common)
+ - Manually using [RDLUT](lutmem.html#rdlut) and [WRLUT](lutmem.html#wrlut) instructions.
+
 ## LMM
 {:.anchor}
 
@@ -155,6 +165,10 @@ On the P2 native HUBEXEC is available and the memory model is always "large".
 
 ## OBEX
 {:.anchor}
+
+**TODO**
+
+[OBEX](https://obex.parallax.com)
 
 ## P2 / P1
 {:.anchor}
@@ -174,7 +188,7 @@ Early P2 board by Peter Jakacki. No longer in production.
 This very webpage (currently hosted at `p2docs.github.io`) that you are reading right now. It is written and maintained by community member Wuerfel_21 and placed under the watchful guard of the bootleg [Reimu](reimu.html) plushie.
 
 P2docs is open to your contributions [on GitHub](https://github.com/p2docs/p2docs.github.io)! Feel free to raise issues or contribute content!  
-(Imagine here, a standard-issue disclaimer here about how GitHub is owned by thee generally odious, nasty and dispicable MicroSoft and our usage of the GitHub service is not an endorsement thereof)
+(Imagine here, a standard-issue disclaimer here about how GitHub is owned by the generally odious, nasty and dispicable MicroSoft and our usage of the GitHub service is not an endorsement thereof)
 
 ## P2 EDGE
 {:.anchor}
@@ -281,4 +295,12 @@ See also: [Streamer documentation](streamer.html)
 TAQOZ is a FORTH interpreter by Peter Jakacki that has been included into the [Boot ROM](#boot-rom).
 
 **TODO:** Link to TAQOZ docs.
+
+## XBYTE
+
+**TODO**
+
+See also: [XBYTE documentation](xbyte.html)
+
+
 

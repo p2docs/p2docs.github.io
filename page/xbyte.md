@@ -15,14 +15,14 @@ XBYTE performs the following steps to make a complete bytecode executor:
 
 |Cycle|Phase|XBYTE activity                              |Description                                |
 |:---:|:---:|--------------------------------------------|-------------------------------------------|
-|1    |go   |RFBYTE bytecode<br>SKIPF #0                 |_Last clock of the RET/_RET_ to $1FF_<br>**Fetch bytecode from FIFO (initialized via prior RDFAST).**<br>**Cancel any SKIPF pattern in progress (from prior bytecode).**|
+|1    |go   |RFBYTE bytecode<br>SKIPF #0                 |_Last clock of the RET/\_RET\_ to $1FF_<br>**Fetch bytecode from FIFO (initialized via prior RDFAST).**<br>**Cancel any SKIPF pattern in progress (from prior bytecode).**|
 |2    |get  |MOV PA,bytecode<br>RDLUT (computed address) |_1st clock of 1st canceled instruction_<br>**Write bytecode to PA ($1F6).**<br>**Read lookup-table RAM according to bytecode and mode.**|
 |3    |go   |RDLUT (data -> D)                           |_2nd clock of 1st canceled instruction_<br>**Get lookup RAM long into D for EXECF.**|
 |4    |get  |EXECF D (begin)                             |_1st clock of 2nd canceled instruction_<br>**Execute EXECF.**|
 |5    |go   |GETPTR PB<br>(Set flags)<br>EXECF D (branch)|_2nd clock of 2nd canceled instruction_<br>**Write FIFO pointer to PB ($1F7).**<br>**Write C,Z with bit1,bit0 of RDLUT address, if enabled.**<br>**Do EXECF branch.**|
 |6    |get  |(Flush pipeline)                            |_1st clock of 3rd canceled instruction_|
 |7    |go   |(Reload pipeline)                           |_2nd clock of 3rd canceled instruction_|
-|8    |get  |(done)                                      |_1st clock of 1st instruction of bytecode routine_<br>**Loop to clock 1 if _RET_ or RET.**|
+|8    |get  |(done)                                      |_1st clock of 1st instruction of bytecode routine_<br>**Loop to clock 1 if \_RET\_ or RET.**|
 
 The bytecode translation table in LUT memory must consist of long data which [EXECF](branch.html#execf) would use, where the 10 LSBs are an address to jump to in cog/LUT RAM and the 22 MSBs are a [SKIPF](branch.html#skipf) pattern to be applied.
 

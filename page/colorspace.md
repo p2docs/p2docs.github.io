@@ -46,7 +46,7 @@ Important: **Other than being configured through the CMOD register, the TMDS enc
 
 ### Simultaneous TMDS + analog RGBHV
 
-It is possible to generate a VGA-compatible at the same time as a DVI/HDMI signal - this would be required to supply a proper DVI-I connector. **TODO**
+It is possible to generate a VGA-compatible signal at the same time as a DVI/HDMI signal - this would be required to supply a proper DVI-I connector. **TODO**
 
 ## Instructions
 

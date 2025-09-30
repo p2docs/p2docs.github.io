@@ -31,6 +31,10 @@ This contains:
 ## Catalina
 {:.anchor}
 
+Catalina is an ANSI C compiler (and much more) for the Propeller 1 and 2 by Ross Higson. It features limited self-hosting capability on the Propeller 2.
+
+Check it out at its [Forum thread](https://forums.parallax.com/discussion/174158/catalina-ansi-c-and-lua-for-the-propeller-1-2/p1). 
+
 ## Cog
 {:.anchor}
 
@@ -70,7 +74,12 @@ Historical name of [FlexSpin](#flexspin) before version 5.0.0
 ## FlexSpin
 {:.anchor}
 
-**TODO:** URL
+FlexSpin is a Spin1/Spin2/C/BASIC multi-language compiler by Eric Smith for Propeller 1 and 2. It features a best-in-class optimizing PASM backend, multi-language interactions (e.g. call Spin code from C and vice versa) and many useful language extensions.
+
+Check out the [forum thread](https://forums.parallax.com/discussion/164187/flexspin-compiler-for-p2-assembly-spin-basic-and-c-in-one-compiler/p1) and [GitHub](https://github.com/totalspectrum/spin2cpp).
+
+(It shares most of it's codebase with [spin2cpp](#spin2cpp), which came first, so that's what the Git repo is called)
+
 
 ### FlexC
 {:.anchor}
@@ -82,7 +91,7 @@ The C dialect used by FlexSpin is sometimes called "FlexC". There also exists a 
 
 FlexProp is the official GUI IDE for [FlexSpin](#flexspin). However, you can also use the compiler as a standalone CLI tool.
 
-**TODO:** URL
+Check out the [forum thread](https://forums.parallax.com/discussion/170730/flexprop-a-complete-programming-system-for-p2-and-p1/p1) and [GitHub](https://github.com/totalspectrum/flexprop).
 
 ## Hub
 {:.anchor}
@@ -139,7 +148,7 @@ The EVAL board... TODO
 ## P2Hot
 {:.anchor}
 
-Retronym for an early Propeller 2 design that was ultimately scrapped due to having unacceptably high power draw and heat dissapation. **TODO: _When_ was this?**
+Retronym for an early Propeller 2 design that was ultimately scrapped due to having unacceptably high power draw and heat dissapation. This was around April 2014, so any Propeller 2 discussions prior to that most likely refer to this scrapped design.
 
 Approximately no one calls the actual [Propeller 2](#propeller-2) "P2Cool", though it is very (figuratively) cool.
 
@@ -219,4 +228,8 @@ Read [our mirror](mirror/p2silicon.html) or [the originals](documents.html#chips
 
 ## TAQOZ
 {:.anchor}
+
+TAQOZ is a FORTH interpreter by Peter Jakacki that has been included into the [Boot ROM](#boot-rom).
+
+**TODO:** Link to TAQOZ docs.
 

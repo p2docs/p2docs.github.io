@@ -10,13 +10,13 @@ This contains useful information, too.
 
 ## Formatting
 
-This webpage uses _SiteGen!_ which in turn uses [Kramdown](https://kramdown.gettalong.org/index.html) to render markdown documents. Kramdown's native syntax is slightly different to GFM - most notably, code blocks are fenced with triple tildes instead of triple backticks and in most cases have to be preceded by a blank line to render correctly
+This webpage uses _SiteGen!_ which in turn uses [Kramdown](https://kramdown.gettalong.org/index.html) to render markdown documents. Kramdown's native syntax is slightly different to GFM, which you may be more familiar with - most notably, code blocks are fenced with triple tildes instead of triple backticks and in most cases have to be preceded by a blank line to render correctly
 
 ### ERB and templating
 
 The Markdown syntax has been extended with ERB templating. A tag of the form `<%=foobar%>` will insert the result of the Ruby expression `foobar` into _the HTML output_ (there is no Markdown parsing for template content).
 
-Template functions are automatically loaded from the `template` directory, but regular Ruby functions can be used as well.
+Template functions are automatically loaded from the `template` directory (themselves being HTML/ERB documents), but regular Ruby functions and operators can be used as well.
 
 ### Make sure your change renders correctly
 

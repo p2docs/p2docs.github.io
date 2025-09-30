@@ -144,6 +144,10 @@ A Cog can freely switch between COGEXEC and HUBEXEC using regular branch instruc
 ## loadp2
 {:.anchor}
 
+loadp2 is a command line tool for loading and flashing P2 code. **TODO**
+
+The most updated version can be found on [totalspectrum GitHub](https://github.com/totalspectrum/loadp2).
+
 ## LUT
 {:.anchor}
 
@@ -166,9 +170,11 @@ On the P2 native HUBEXEC is available and the memory model is always "large".
 ## OBEX
 {:.anchor}
 
-**TODO**
+OBEX stands for "Object Exchange" and refers to a code sharing platform operated by Parallax.
 
-[OBEX](https://obex.parallax.com)
+[Current OBEX](https://obex.parallax.com)  
+[Previous Git-OBEX](https://github.com/parallaxinc/propeller)  
+[Ancient OBEX](https://web.archive.org/web/20190212085838/http://obex.parallax.com/)  
 
 ## P2 / P1
 {:.anchor}

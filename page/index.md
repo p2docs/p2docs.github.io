@@ -42,6 +42,7 @@ Short specs:
  - [Assembly Symbol List](asm_index.html)
  - [Instruction Table](p2_optable.html)
  - [Opcode Matrix](p2_opmatrix.html)
+ - [Glossary of Terms](glossary.html) (WIP)
  - [Sitemap](sitemap.html)
 
 ## Pages

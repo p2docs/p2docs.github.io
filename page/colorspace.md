@@ -13,6 +13,8 @@ Try the rainbow, taste the rainbow!
 
 <img src="/common/construction.gif" alt="This subpage is under construction." class="dark-invert">
 
+The Colorspace Converter is a unit that can be used to modify the DAC channel data (from [SETDACS](pin.html#setdacs) or the [Streamer](streamer.html)) before it is sent to the pins.
+
 ## TMDS Encoder
 {:.anchor}
 

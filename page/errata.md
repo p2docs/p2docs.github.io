@@ -66,6 +66,11 @@ In particular, this simultaneous read+write conditon is created in Cog RAM by se
 
 This pattern is _very common_ in P1 code, so take care when porting!
 
+## BRK ignores condition code
+
+The [BRK](irq.html#brk) instruction always triggers an interrupt, regardless of any condition code applied to it.
+If the condition code is false however, the break code in **D**estination is NOT latched and the previous value is retained.
+Other cases where a BRK instruction is cancelled in the pipeline, such as a set [SKIP](branch.html#skip) bit or being placed after a taken branch do correctly avoid triggering the interrupt.
 
 ## Composite video encoder design flaws
 

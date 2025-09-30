@@ -5,7 +5,7 @@ hyperjump:
 ---
 
 # Hardware Bugs & Errata
-{:no_toc}
+{:.no_toc}
 
 This is a list of known hardware bugs in the current Propeller 2 Hardware (P2X8C4M64P Rev. C)
 All titles/headings are tenative.

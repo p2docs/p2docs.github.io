@@ -34,7 +34,7 @@ Short specs:
     - Fast transfer between Hub and Cog/Lookup RAM
  - 64 "Smart Pins" with individual DAC, ADC, pullup, pulldown, schmitt trigger, comparator, logic and much more
  - Fast streaming DMA between Hub memory and pins/DACs/ADCs
- - Built-in video signal encoders for TMDS (DVI/HDMI) and analog VGA, YPbPr, NTSC/PAL composite/s-video
+ - Built-in video signal encoders for TMDS (DVI/HDMI) and analog VGA, YPbPr, NTSC/PAL Composite/S-Video
 
 
 ## Overview

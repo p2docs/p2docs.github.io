@@ -133,7 +133,9 @@ Generally when referring to doing something "in Hub", the Hub RAM is what's bein
 ### Hub RAM
 {:.anchor}
 
-**TODO**
+Hub RAM is the large memory that is shared between all cogs. On the Propeller 2, there are 512KiB of Hub RAM, of which the last 16KiB are used as [Boot ROM](#boot-rom) or for the debugger. If neither of these is needed, the full 512KiB can be used by user code.
+
+Unlike [Cog RAM](#cog-ram) and [LUT RAM](#lut), Hub RAM is addressed as 8-bit bytes. On the Propeller 2, unaligned read/write is fully supported.
 
 ### HUBEXEC
 {:.anchor}
@@ -221,13 +223,21 @@ Approximately no one calls the actual [Propeller 2](#propeller-2) "P2Cool", thou
 ## P2STAMP
 {:.anchor}
 
+**TODO**
+
 ### P2SwAP
 {:.anchor}
+
+**TODO**
 
 ## PNut
 {:.anchor}
 
-**TODO:** URL
+PNut is the official Spin2 reference compiler and assembler by Chip Gracey.
+
+Check it out at its [Forum thread](https://forums.parallax.com/discussion/171196/pnut-spin2-latest-version-v51-new-pow-log2-exp2-log10-exp10-log-exp-floating-point-ops/p1). 
+
+
 
 ## Propeller 1
 {:.anchor}
@@ -256,8 +266,14 @@ There exist 3 revisions of the Propeller 2 chip:
 ## PSRAM
 {:.anchor}
 
+PSRAM stands for "Pseudo-Static RAM", a type of DRAM that contains self-refresh circuitry.
+
+There exists a version of the [P2 EDGE](#p2-edge) featuring 4 APMemory QPI PSRAM chips. Other Propeller 2 boards are also equipped with these chips. "PSRAM" usally refers to these QPI parts specifically.
+
 ### HyperRAM
 {:.anchor}
+
+HyperRAM is another type of PSRAM found on some Propeller 2 boards.
 
 ## Silicon Doc
 {:.anchor}
@@ -270,14 +286,22 @@ Read [our mirror](mirror/p2silicon.html) or [the originals](documents.html#chips
 ## Smart Pin
 {:.anchor}
 
+**TODO**
+
 ## Spin
 {:.anchor}
+
+**TODO**
 
 ### Spin 1
 {:.anchor}
 
+**TODO**
+
 ### Spin 2
 {:.anchor}
+
+**TODO**
 
 ## Spin Tools
 {:.anchor}

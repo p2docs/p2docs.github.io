@@ -20,6 +20,7 @@ hyperjump:
 The 16 KiB of mask ROM in the Propeller 2. This is not directly accessible, but when the chip starts up, it is copied into the last 16K of Hub RAM.
 
 This contains:
+
  - The serial boot loader
  - The stage-0 flash boot loader
  - The SD card boot loader

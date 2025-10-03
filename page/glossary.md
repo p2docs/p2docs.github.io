@@ -202,16 +202,18 @@ P2docs is open to your contributions [on GitHub](https://github.com/p2docs/p2doc
 ## P2 EDGE
 {:.anchor}
 
-Also known by it's part number "P2EC", **TODO**
+Also known by it's part number "P2EC", the P2 EDGE is a small Propeller 2 board, exposing the I/O pins on its namesake card edge connector.
 
 **TODO:** maybe put a picure
 
 ## P2 EVAL
 {:.anchor}
 
-The EVAL board... TODO
+The original Propeller 2 evaluation board. Though now discontinued, it remains popular as a development board.
 
-**TODO:** maybe put a picure
+Rare early versions may contain a buggy/incomplete Rev.A P2 chip.
+
+**TODO:** maybe put a picure and more text
 
 ## P2Hot
 {:.anchor}
@@ -306,7 +308,9 @@ Read [our mirror](mirror/p2silicon.html) or [the originals](documents.html#chips
 ## Spin Tools
 {:.anchor}
 
-**TODO:** URL
+Spin Tools is a Spin IDE developed by Marco Maccaferri. It is roughly mimics the design and operation of [Propeller Tool](#propeller-tool)
+
+Check it out at its [Forum thread](https://forums.parallax.com/discussion/174436/spin-tools-ide/p1) and [GitHub](https://github.com/maccasoft/spin-tools). 
 
 ## spin2cpp
 {:.anchor}
@@ -329,7 +333,7 @@ TAQOZ is a FORTH interpreter by Peter Jakacki that has been included into the [B
 
 ## XBYTE
 
-**TODO**
+XBYTE is a feature of the Propeller 2 that enables hardware-accelerated bytecode interpreters.
 
 See also: [XBYTE documentation](xbyte.html)
 

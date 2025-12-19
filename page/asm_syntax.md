@@ -2,12 +2,16 @@
 title: Assembler Syntax
 hyperjump:
     -   type: Topic
+        hidden: syntax
     -   id: condition-codes
         name: Condition Codes
         type: Topic
         hidden: IF_
     -   id: operators
         name: Operators
+        type: Syntax Element
+    -   id: labels
+        name: Labels
         type: Syntax Element
 ---
 # Assembler Syntax
@@ -20,6 +24,56 @@ TODO.
 The Spin2/PASM2 syntax is completely case-insensitive. That means not only that `addpix`, `AddPix` and `ADDPIX` are all valid spellings of the [ADDPIX](mixpix.html#addpix) instruction, but also that user defined labels and constants can be used with different casing than their definition.
 
 For readability, documentation uses all-uppercase for any keywords, but any sane programmer uses all-lowercase in actual source files.
+
+## Labels
+{:.anchor}
+
+Any (not already used) symbol placed into the first column of a DAT block becomes a **global label**.  
+If a dot is placed in front, it becomes a **local label**, whose scope is bounded by the global labels surrounding it. This allows re-using common names such as "loop".
+
+A label may be alone on its line or followed by instructions or data.
+
+
+In the following example, two local labels `.lol` are defined, one under `foo` and another under `bar`:
+
+~~~
+DAT
+
+foo
+        if_z  jmp #.lol
+              wrlong #0,#123
+.lol    _ret_ rdlong pa,#123
+
+bar
+              mov pa,#123
+.lol
+              cogatn #123
+              djnz pa,#.lol
+
+~~~
+
+Note: In P1 assembly, a colon was used instead of a dot to indicate a local label.
+
+### Accessing local labels from outside their scope
+
+Some assemblers (notably flexspin) allow accessing local labels defined under a certain global from outside their scope. Referencing the example above,you might access either `foo:lol` or `bar:lol`.
+
+### Hub vs Cog labels
+
+Labels are treated differently depending on wether they are defined in "Cog mode" (following ORG) or "Hub mode" (following ORGH). This affects the value the label evaluates to without the use of the `@` operator:
+
+|          |Label in Cog Mode                       |Label in Hub Mode                       |
+|----------|----------------------------------------|----------------------------------------|
+|`label`   |Cog address<br>(relative to ORG)        |Hub address<br>(relative to object base)|
+|`@label`  |Hub address<br>(relative to object base)|Hub address<br>(relative to object base)|
+|`@@@label`|Hub address<br>(absolute)               |Hub address<br>(absolute)               |
+
+
+**Note:** In a plain assembly program, the object base is zero, so all hub addresses are truly absolute. The difference only comes into play when using assembly in a high-level program.
+
+**Note 2:** The triple `@@@` operator is an extension not supported by all compilers.
+
+
 
 ## Operators
 {:.anchor}

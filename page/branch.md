@@ -29,7 +29,7 @@ The skipped instructions are treated similarly to ones whose `if_*` condition ch
 
 A call (or [interrupt](irq.html)) suspends skipping until after the corresponding return. Nested calls are allowed up to a depth of eight (matching the size of the internal stack). Skipping continues after a jump and any remaining skip bits apply whether or not a conditional jump is made.
 
-Skipping cannot be nested; SKIP ends any active or suspended skip sequence and starts a new one. `SKIP #0` can be used to end skipping earlier than normal. SKIP does not work inside interrupt service routines (**TODO CONFIRM**).
+Skipping cannot be nested; SKIP ends any active or suspended skip sequence and starts a new one. `SKIP #0` can be used to end skipping earlier than normal. SKIP does not work correctly inside interrupt service routines.
 
 Note that **AUGS and AUGD are separate instructions**, e.g. `WRLONG ##1234, ##4568` consumes three skip bits. A subroutine call consumes only one skip bit for the entire routine.
 

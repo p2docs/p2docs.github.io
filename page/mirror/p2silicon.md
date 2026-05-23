@@ -2085,12 +2085,23 @@ The last 16KB of hub RAM, which is also mapped to $FC000..$FFFFF, gets partially
 
 Each cog has an execute-only ROM in cog registers $1F8..$1FF which contains special debug-ISR-entry and \-exit routines. These tiny routines perform seamless register-load and register-restore operations for your debugger program, which must be realized entirely within debug ISR's.
 
-| Execute-only ROM in cog registers $1F8..$1FF (%cccc \= \!CogNumber) |
-| ----- |
-| **Debug ISR Entry \- IJMP0 is initialized to $1F8 on COGINIT** |
-| **$1F8 \-  SETQ    \#$0F    'save registers $000..$00F $1F9 \-  WRLONG  0,\*     '\* \= %1111\_1111\_1ccc\_c000\_0000 $1FA \-  SETQ    \#$0F    'load program into $000..$00F $1FB \-  RDLONG  0,\*     '\* \= %1111\_1111\_1ccc\_c100\_0000 $1FC \-  JMP     \#0      'jump to loaded program** |
-| **Debug ISR Exit \- Jump here to exit your debug ISR** |
-| **$1FD \-  SETQ    \#$0F    'restore registers $000..$00F $1FE \-  RDLONG  0,\*     '\* \= %1111\_1111\_1ccc\_c000\_0000 $1FF \-  RETI0           'CALLD IRET0,IRET0 WCZ** |
+**Execute-only ROM in cog registers $1F8..$1FF (%cccc \= \!CogNumber)**
+
+~~~
+Debug ISR Entry - IJMP0 is initialized to $1F8 on COGINIT
+---
+$1F8 -  SETQ    #$0F    'save registers $000..$00F
+$1F9 -  WRLONG  0,*     '* = %1111_1111_1ccc_c000_0000
+$1FA -  SETQ    #$0F    'load program into $000..$00F
+$1FB -  RDLONG  0,*     '* = %1111_1111_1ccc_c100_0000
+$1FC -  JMP     #0      'jump to loaded program
+
+Debug ISR Exit - Jump here to exit your debug ISR
+---
+$1FD -  SETQ    #$0F    'restore registers $000..$00F
+$1FE -  RDLONG  0,*     '* = %1111_1111_1ccc_c000_0000
+$1FF -  RETI0           'CALLD IRET0,IRET0 WCZ
+~~~
 
 During a debug ISR, INA and INB, normally read-only input-pin registers, become readable/writable RAM registers named IJMP0 and IRET0, and are used by the debug interrupt as jump and return addresses. On COGINIT, IJMP0 is initialized to $1F8 which is the debug-ISR-entry routine's address.
 

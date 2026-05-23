@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    csv (3.3.5)
     ffi (1.16.3)
     front_matter_parser (1.0.1)
     htmlcompressor (0.4.0)
@@ -21,6 +22,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  csv
   front_matter_parser
   htmlcompressor
   kramdown

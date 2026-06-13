@@ -2251,7 +2251,7 @@ GETBRK with WC always returns the following:
 GETBRK with WZ always returns the following:
 
 ~~~
-  Z = 1 if no SKIP/SKIPF/EXECF/XBYTE pattern queued (D = 0) or 1 if pattern queued (D <> 0)
+  Z = 1 if no SKIP/SKIPF/EXECF/XBYTE pattern queued (D = 0) or 0 if pattern queued (D <> 0)
   D = 32-bit SKIP/SKIPF/EXECF/XBYTE pattern, used LSB-first to skip instructions in main code
 ~~~
 

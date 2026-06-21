@@ -447,7 +447,7 @@ non-zero.
 <%=p2instrinfo('sar')%>
 SAR shifts **D**estination's binary value right by **S**ource places (0–31 bits) and sets the new MSBs to that of the original
 **D**estination[31]; preserving the sign of a signed integer. This is useful for bit stream manipulation and for swift division -
-it is similar to [SHR](#shr) for swift division by a power-of-two, but is safe for both signed and unsigned integers. (Note that the rounding behaviour for negative numbers is different to a real division - **TODO: Describe this better**)
+it is similar to [SHR](#shr) for swift division by a power-of-two, but is safe for both signed integers. (Note that unlike an actual division, SAR always rounds _down_, towards negative, rather than toward zero).
 
 If the **WC** or **WCZ** effect is specified, the C flag is updated to the value of the last bit shifted out (effectively C =
 result bit "-1") if **S**ource is 1–31, or to **D**estination[0] if **S**ource is 0.

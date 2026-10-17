@@ -23,6 +23,12 @@ Here are collected various PDF documents that may or may not be helpful to P2 pr
 
 Datasheet for the PSRAM chips used on P2-EC32MB: [Download](common/download/APM_PSRAM_QSPI_APS6404L_3SQR_v2_3_PKG-1954826.pdf)
 
+## HyperRAM Datasheet
+{:.anchor}
+
+Datasheet for the HyperRAM chip used on the _64004-ES HyperRAM/HyperFlash Add-on_: [Download](common/download/IS66WVH16M8BLL.pdf)
+
+
 ## Accessory Boards Product Guide
 {:.anchor}
 

@@ -32,6 +32,7 @@ To facilitate the sharing of the memory, a round-robin access scheme is used. On
 The hub memory map of the current 512k Propeller 2 is as follows:
 
 |From  |To    |Size   |Description|
+|------|------|------:|-----------|
 |$00000|$003FF|1 kiB  |Normal RAM (Not executable)|
 |$00400|$7BFFF|495 kiB|Normal RAM                 |
 |$7C000|$7FFFF|16 kiB |Normal RAM, becomes unmapped if debugging enabled|

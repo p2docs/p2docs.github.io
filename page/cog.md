@@ -9,7 +9,7 @@ hyperjump:
     -   id: cog-memory
         name: Cog Memory
         type: Topic
-        hidden: Cog RAM Registers
+        hidden: Map Cog RAM Registers
 ---
 # Cog Resources
 

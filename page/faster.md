@@ -199,3 +199,21 @@ This trick has proven itself to be essential to super-heavy random read use-case
 When you do need to use the random Hub RAM access instructions, it is possible to minimize wait cycles by spacing the instructions appropriately according to the relative slice alignment of the addresses accessed.
 
 **TODO: [finally figure this out](hubmem.html#hub-timing)**
+
+### Fast cog / LUT memory clear
+
+Due to unmapped areas in the [Memory Map](hubmem.html#memory-map) reading zero bytes, cog memory can be quickly cleared using a [Block Transfer](hubmem.html#block-transfers):
+
+~~~
+        ' quickly clear 128 longs at "buffer"
+        SETQ #127
+        RDLONG buffer,##$80000
+~~~
+
+This also works for LUT RAM:
+
+~~~
+        ' quickly clear entire LUT
+        SETQ2 #511
+        RDLONG 0,##$80000
+~~~

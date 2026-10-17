@@ -64,7 +64,7 @@ In particular, this simultaneous read+write conditon is created in Cog RAM by se
 .x      ADD 0-0,#1 ' <-----/
 ~~~
 
-This pattern is _very common_ in P1 code, so take care when porting!
+This pattern is _very common_ in Propeller 1 code, so take care when porting!
 
 ## BRK ignores condition code
 

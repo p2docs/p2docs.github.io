@@ -3,6 +3,9 @@ title: Hub Memory
 hyperjump:
     -   type: Topic
         hidden: Hub RAM
+    -   id: memory-map
+        name: Hub Memory Map
+        type: Topic
     -   id: hub-timing
         name: Hub Memory Timing
         type: Topic
@@ -21,9 +24,24 @@ hyperjump:
 
 The Propeller 2 features 512 kiB of "Hub RAM" that is shared between all cogs. The architecture allows for up to 1024 kiB, but this additional space is unused in the current chip. Hub RAM is addressed in bytes, but an entire long (4 aligned bytes) can be read or written at once. All larger-than-byte memory operations are little-endian.
 
-To facilitate the sharing of the memory, a round-robin access scheme is used. On each cycle, each cog has the potential to access a different "slice" of memory, consisting of all addresses where `(A>>2)&7 == N`. On the following cycle, the access windows "rotate" and each cog has access to the logically following slice.
+To facilitate the sharing of the memory, a round-robin access scheme is used. On each cycle, each cog has the potential to access a different "slice" of memory, consisting of all addresses where `(A>>2)&7 == N`. On the following cycle, the access windows "rotate" and each cog has access to the logically following slice. (see accompanying figure)
 
-**TODO: I suck at writing these**
+## Memory map
+{:.anchor}
+
+The hub memory map of the current 512k Propeller 2 is as follows:
+
+|From  |To    |Size   |Description|
+|$00000|$003FF|1 kiB  |Normal RAM (Not executable)|
+|$00400|$7BFFF|495 kiB|Normal RAM                 |
+|$7C000|$7FFFF|16 kiB |Normal RAM, becomes unmapped if debugging enabled|
+|$80000|$FBFFF|496 kiB|Unmapped (always reads zeroes)|
+|$FC000|$FFFFF|16 kiB |Debug RAM, mirror of `$7BFFF` that can be made read-only|
+
+There are only 20 valid address bits, any upper bits are ignored.
+The first 1024 bytes of memory can not be executed directly, because addresses in that range are interpreted as [cog RAM](cog.html) or [LUT RAM](lutmem.html) addresses instead.
+
+The last 16 kiB of hub memory have a special purpose related to debugging. This gives it some special properties: The same block of memory is mirrored at `$7C000` and `$FC000`. Using [HUBSET](http://127.0.0.1:8008/hubctrl.html#debug-irq-enable-and-hub-write-protection), this memory can be write-protected, in which case the `$7C000` mirror also disappears (reads as zeroes).
 
 ## Block Transfers
 {:.anchor}
